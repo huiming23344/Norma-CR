@@ -7,74 +7,16 @@ from __future__ import annotations
 
 import os
 
-from langchain_core.tools import BaseTool
-from langchain.tools import tool
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Optional, Tuple
 
 from git import Repo
+from langchain.tools import tool
 
-from agent import AgentState
+from nova_cr_agent.models import AgentState, CommitDiff, FileContentRef, FileDiff
 
 # === 按需读取的大小上限：1MB（写死） ===
 MAX_FILE_BYTES = 1_000_000
-
-
-@dataclass(frozen=True)
-class FileContentRef:
-    """
-    文件内容“地址”（可延迟加载）
-    - repo_path: 仓库路径
-    - commit_sha: 哪个 commit 下的版本
-    - path: 该 commit 的树中相对路径
-    - blob_sha/size/mode: 可选的校验/辅助信息
-    """
-    repo_path: str
-    commit_sha: str
-    path: str
-    blob_sha: Optional[str] = None
-    size: Optional[int] = None
-    mode: Optional[int] = None
-
-
-@dataclass(frozen=True)
-class FileDiff:
-    change_type: str
-    a_path: Optional[str]
-    b_path: Optional[str]
-    is_new_file: bool
-    is_deleted_file: bool
-    is_renamed_file: bool
-    rename_from: Optional[str]
-    rename_to: Optional[str]
-    a_blob_sha: Optional[str]
-    b_blob_sha: Optional[str]
-    a_mode: Optional[int]
-    b_mode: Optional[int]
-    is_binary: bool
-    patch: str
-    added_lines: int
-    deleted_lines: int
-
-    # 关键：用于“按需拿完整内容”
-    before_ref: Optional[FileContentRef]  # parent commit 版本
-    after_ref: Optional[FileContentRef]   # current commit 版本
-
-
-@dataclass(frozen=True)
-class CommitDiff:
-    repo_path: str
-    commit_sha: str
-    parent_sha: Optional[str]
-    author_name: str
-    author_email: str
-    committed_datetime_iso: str
-    message: str
-    context_lines: int
-    is_initial_commit: bool
-    note: Optional[str] = None
-    files: List[FileDiff] = field(default_factory=list)
 
 
 @tool
@@ -161,14 +103,16 @@ def get_last_commit_diff(state: AgentState):
         )
 
         if not last_commit.parents:
-            return CommitDiff(
-                **{**base.__dict__, "note": "Initial commit (no parent to compare with)"}  # type: ignore[arg-type]
-            )
+            return {
+                "commit_diff": CommitDiff(
+                    **{**base.__dict__, "note": "Initial commit (no parent to compare with)"}  # type: ignore[arg-type]
+                )
+            }
 
         parent = last_commit.parents[0]
 
-        diff_index = last_commit.diff(
-            parent,
+        diff_index = parent.diff(
+            last_commit,
             create_patch=True,
             unified=ctx,
         )
@@ -238,24 +182,11 @@ def get_last_commit_diff(state: AgentState):
 
         return {
             "commit_diff": CommitDiff(
-            **{**base.__dict__, "files": files}  # type: ignore[arg-type]
-          )
+                **{**base.__dict__, "files": files}  # type: ignore[arg-type]
+            )
         }
         
 
 
     except Exception as e:
         raise Exception(f"获取Git差异信息失败: {str(e)}") from e
-
-# 使用示例
-if __name__ == "__main__":
-    # 测试函数
-    try:
-        # 使用当前目录作为示
-        
-        # 测试新增的diff函数
-        print("\n最后一次提交的差异信息：")
-        diff_info = get_last_commit_diff(".")
-        print(diff_info.files[-2])
-    except Exception as e:
-        print(f"错误: {e}")
