@@ -39,6 +39,11 @@ env/
 # macOS
 .DS_Store
 
+# 工具生成
+.comate/
+.baidu-cc/
+.ipynb_checkpoints/
+
 # 测试和覆盖率
 .pytest_cache/
 .coverage
