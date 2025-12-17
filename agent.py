@@ -10,7 +10,7 @@ from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, StateGraph
 from pydantic import ValidationError
 
-from cr_agent.config import load_openai_config
+from cr_agent.config import load_openai_config, load_repo_path
 from cr_agent.models import AgentState, FileCRResult
 from tools.git_tools import get_last_commit_diff
 
@@ -156,8 +156,8 @@ review_agent = build_review_agent()
 
 
 def run_default_repo():
-    #repo_root = "/Users/luo/baidu/bcc/nova-go"
-    repo_root = str(Path(__file__).resolve().parent)
+    default_repo_root = Path(__file__).resolve().parent
+    repo_root = str(load_repo_path(default=str(default_repo_root)))
     return asyncio.run(review_agent.ainvoke({"repo_path": repo_root}))
 
 

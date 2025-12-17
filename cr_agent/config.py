@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
@@ -44,3 +45,13 @@ def load_openai_config(
         temperature=temperature,
         timeout=timeout,
     )
+
+
+def load_repo_path(*, default: Optional[str] = None) -> Path:
+    """Return the code-review repository path configured via CR_REPO_PATH."""
+    value = os.getenv("CR_REPO_PATH")
+    if value:
+        return Path(value).expanduser().resolve()
+    if default is not None:
+        return Path(default).expanduser().resolve()
+    raise ValueError("CR_REPO_PATH 未配置，请在 .env 中设置仓库路径")
