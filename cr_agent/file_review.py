@@ -22,11 +22,12 @@ from cr_agent.models import (
     TagCRLLMResult,
     TagCRResult,
 )
+from cr_agent.rules import RULE_DOMAINS
 
 __all__ = ["FileReviewEngine"]
 
 
-TAGS: tuple[Tag, ...] = ("STYLE", "ERROR", "API", "CONC", "PERF", "SEC", "TEST", "CONFIG")
+TAGS: tuple[Tag, ...] = RULE_DOMAINS  # type: ignore[assignment]
 
 TAG_DESCRIPTIONS: dict[Tag, str] = {
     "STYLE": "风格/可读性（命名、结构、注释、可维护性）",

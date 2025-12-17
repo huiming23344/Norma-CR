@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import fnmatch
 import json
+from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
@@ -10,6 +11,9 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 class RulesConfigError(ValueError):
     pass
 
+RULE_DOMAINS: Tuple[str, ...] = ("STYLE", "ERROR", "API", "CONC", "PERF", "SEC", "TEST", "CONFIG")
+SUPPORTED_LANGUAGES: Tuple[str, ...] = ("go", "python")
+
 
 @dataclass(frozen=True)
 class RuleMeta:
@@ -17,9 +21,8 @@ class RuleMeta:
     title: str = ""
     language: str = ""
     severity: Optional[str] = None
+    domains: Tuple[str, ...] = tuple()
     prompt_hint: Optional[str] = None
-    applies: Dict[str, Any] = field(default_factory=dict)
-    signals: Dict[str, Any] = field(default_factory=dict)
     doc_path: Optional[Path] = None
     raw: Dict[str, Any] = field(default_factory=dict)
 
@@ -27,11 +30,19 @@ class RuleMeta:
 RuleIndex = Dict[str, RuleMeta]
 
 
-def load_rules_index(
+@dataclass(frozen=True)
+class RulesCatalog:
+    by_id: RuleIndex
+    by_language: Dict[str, List[RuleMeta]]
+    by_domain: Dict[str, List[RuleMeta]]
+    by_language_domain: Dict[str, Dict[str, List[RuleMeta]]]
+
+
+def load_rules_catalog(
     *,
     registry_path: Path,
     profile_path: Path,
-) -> RuleIndex:
+) -> RulesCatalog:
     """Load rule metadata from registry + profile and return enabled RuleIndex.
 
     - registry.yaml: defines all rules and their metadata.
@@ -63,7 +74,20 @@ def load_rules_index(
             meta = _apply_overrides(meta, overrides[rule_id])
         rules_index[rule_id] = meta
 
-    return rules_index
+    by_language = _aggregate_by_language(rules_index)
+    by_domain = _aggregate_by_domain(rules_index)
+    by_language_domain = _aggregate_by_language_domain(rules_index)
+    return RulesCatalog(
+        by_id=rules_index,
+        by_language=by_language,
+        by_domain=by_domain,
+        by_language_domain=by_language_domain,
+    )
+
+
+def load_rules_index(*, registry_path: Path, profile_path: Path) -> RuleIndex:
+    """Backwards compatible helper returning only the id->RuleMeta mapping."""
+    return load_rules_catalog(registry_path=registry_path, profile_path=profile_path).by_id
 
 
 @dataclass(frozen=True)
@@ -134,6 +158,36 @@ def _apply_enable_disable(
     return sorted(enabled)
 
 
+def _aggregate_by_language(rules_index: RuleIndex) -> Dict[str, List[RuleMeta]]:
+    grouped: Dict[str, List[RuleMeta]] = defaultdict(list)
+    for meta in sorted(rules_index.values(), key=lambda m: (m.language or "", m.rule_id)):
+        if not meta.language:
+            continue
+        grouped[meta.language].append(meta)
+    return {language: grouped[language] for language in sorted(grouped)}
+
+
+def _aggregate_by_domain(rules_index: RuleIndex) -> Dict[str, List[RuleMeta]]:
+    grouped: Dict[str, List[RuleMeta]] = defaultdict(list)
+    for meta in sorted(rules_index.values(), key=lambda m: m.rule_id):
+        for domain in meta.domains:
+            grouped[domain].append(meta)
+    return {domain: grouped[domain] for domain in sorted(grouped)}
+
+
+def _aggregate_by_language_domain(rules_index: RuleIndex) -> Dict[str, Dict[str, List[RuleMeta]]]:
+    grouped: Dict[str, Dict[str, List[RuleMeta]]] = defaultdict(lambda: defaultdict(list))
+    for meta in sorted(rules_index.values(), key=lambda m: (m.language or "", m.rule_id)):
+        if not meta.language:
+            continue
+        for domain in meta.domains:
+            grouped[meta.language][domain].append(meta)
+    return {
+        language: {domain: grouped[language][domain] for domain in sorted(grouped[language])}
+        for language in sorted(grouped)
+    }
+
+
 def _pattern_matches_rule(pattern: str, meta: RuleMeta) -> bool:
     pattern = str(pattern).strip()
     if not pattern:
@@ -155,23 +209,16 @@ def _apply_overrides(meta: RuleMeta, override: Dict[str, Any]) -> RuleMeta:
         else meta.language
     )
     severity = str(override.get("severity", meta.severity)) if override.get("severity") is not None else meta.severity
+    domains = meta.domains
+    if override.get("domains") is not None:
+        domains = _normalize_domains(override.get("domains"))
+    elif override.get("domain") is not None:
+        domains = _normalize_domains(override.get("domain"))
     prompt_hint = (
         str(override.get("prompt_hint", meta.prompt_hint))
         if override.get("prompt_hint") is not None
         else meta.prompt_hint
     )
-
-    applies = dict(meta.applies)
-    if isinstance(override.get("applies"), dict):
-        applies.update(override["applies"])
-    elif override.get("applies") is not None:
-        raise RulesConfigError(f"{meta.rule_id}: overrides.applies 必须是 dict")
-
-    signals = dict(meta.signals)
-    if isinstance(override.get("signals"), dict):
-        signals.update(override["signals"])
-    elif override.get("signals") is not None:
-        raise RulesConfigError(f"{meta.rule_id}: overrides.signals 必须是 dict")
 
     doc_path = meta.doc_path
     if override.get("path") is not None:
@@ -182,9 +229,8 @@ def _apply_overrides(meta: RuleMeta, override: Dict[str, Any]) -> RuleMeta:
         title=title,
         language=language,
         severity=severity,
+        domains=domains,
         prompt_hint=prompt_hint,
-        applies=applies,
-        signals=signals,
         doc_path=doc_path,
         raw=raw,
     )
@@ -224,17 +270,12 @@ def _parse_registry_rules(
         rule_id = str(rule_id)
 
         language = str(item.get("language") or _infer_language(rule_id) or "")
+        if language and language not in SUPPORTED_LANGUAGES:
+            raise RulesConfigError(f"{rule_id}: 不支持的 language='{language}'，允许 {SUPPORTED_LANGUAGES}")
         title = str(item.get("title") or "")
         severity = str(item.get("severity")) if item.get("severity") is not None else None
+        domains = _normalize_domains(item.get("domains"), fallback=item.get("domain"))
         prompt_hint = str(item.get("prompt_hint")) if item.get("prompt_hint") is not None else None
-
-        applies: Dict[str, Any] = {}
-        if isinstance(item.get("applies"), dict):
-            applies = dict(item["applies"])
-
-        signals: Dict[str, Any] = {}
-        if isinstance(item.get("signals"), dict):
-            signals = dict(item["signals"])
 
         doc_path = None
         path_value = item.get("path") or item.get("doc")
@@ -249,14 +290,37 @@ def _parse_registry_rules(
             title=title,
             language=language,
             severity=severity,
+            domains=domains,
             prompt_hint=prompt_hint,
-            applies=applies,
-            signals=signals,
             doc_path=doc_path,
             raw=dict(item),
         )
 
     return index
+
+
+def _normalize_domains(domains_value: Any, fallback: Any = None) -> Tuple[str, ...]:
+    values: List[str] = []
+    raw_values: List[Any] = []
+
+    if isinstance(domains_value, (list, tuple, set)):
+        raw_values.extend(domains_value)
+    elif domains_value is not None:
+        raw_values.append(domains_value)
+    elif fallback is not None:
+        raw_values.append(fallback)
+
+    for value in raw_values:
+        if value is None:
+            continue
+        text = str(value).strip()
+        if not text:
+            continue
+        if text not in RULE_DOMAINS:
+            raise RulesConfigError(f"domain '{text}' 不受支持，必须属于 {RULE_DOMAINS}")
+        if text not in values:
+            values.append(text)
+    return tuple(values)
 
 
 def _infer_language(rule_id: str) -> Optional[str]:

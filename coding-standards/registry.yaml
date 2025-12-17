@@ -1,26 +1,10 @@
-version: 1
-
-defaults:
-  severity: "warning"
-  applies:
-    diff_only: true
-  selection:
-    max_rules_per_file: 8
-
 rules:
   - id: GO-ERROR-002
     title: "不要丢弃 error，必须处理或显式忽略"
     language: go
-    domain: ERROR
-    path: "coding-standards/rules/go/GO-ERROR-002.md"
     severity: error
-    tags: ["error-handling", "reliability"]
-    applies:
-      file_globs: ["**/*.go"]
-      exclude_globs: ["**/vendor/**", "**/generated/**"]
-      diff_only: true
-    signals:
-      lexical_any: ["_, _ :=", " _ :=", "io.Copy(", "os.Open(", "json.Unmarshal("]
+    domains: [ERROR]
+    path: "coding-standards/rules/go/GO-ERROR-002.md"
     prompt_hint: >
       对所有返回 error 的调用必须处理或显式忽略（_ = 并注明原因）。
       发现丢弃 error 时给出具体位置、影响、修复建议。
@@ -28,36 +12,37 @@ rules:
   - id: GO-CONC-001
     title: "启动 goroutine 必须可控：避免泄漏与无收敛"
     language: go
-    domain: CONC
-    path: "coding-standards/rules/go/GO-CONC-001.md"
     severity: warning
-    tags: ["concurrency", "leak"]
-    applies:
-      file_globs: ["**/*.go"]
-      exclude_globs: ["**/vendor/**"]
-      diff_only: true
-    signals:
-      lexical_any: ["go func(", "WaitGroup", "context.", "select {"]
-      regex_any:
-        - "\\bgo\\s+func\\s*\\("
+    domains: [CONC, PERF]
+    path: "coding-standards/rules/go/GO-CONC-001.md"
     prompt_hint: >
       新增 goroutine 需要有退出条件（context/close channel），避免泄漏；
       如涉及 WaitGroup，确保 Add/Done/Wait 配对且异常路径不丢 Done。
 
+  - id: GO-SEC-001
+    title: "敏感配置和凭证必须加密管理"
+    language: go
+    severity: warning
+    domains: [SEC, CONFIG]
+    path: "coding-standards/rules/go/GO-SEC-001.md"
+    prompt_hint: >
+      新增或修改的配置项不得明文存储敏感凭证，必须使用 KMS/环境变量注入；
+      请检查是否有日志打印密钥或将密钥写入版本库。
+
   - id: PY-UNICODE-002
     title: "文本 IO 必须显式指定编码"
     language: python
-    domain: UNICODE
-    path: "coding-standards/rules/python/PY-UNICODE-002.md"
     severity: warning
-    tags: ["unicode", "i18n", "reliability"]
-    applies:
-      file_globs: ["**/*.py"]
-      exclude_globs: ["**/venv/**", "**/.venv/**", "**/__pycache__/**"]
-      diff_only: true
-    signals:
-      lexical_any: ["open(", "Path(", "read_text(", "write_text("]
-      regex_any:
-        - "\\bopen\\s*\\("
+    domains: [STYLE, ERROR]
+    path: "coding-standards/rules/python/PY-UNICODE-002.md"
     prompt_hint: >
-      读取/写入文本文件时应显式指定 encoding（建议 utf-8），避免在不同系统默认编码下产生乱码或解析失败。
+      读取/写入文本文件时应显式指定 encoding（建议 utf-8），避免跨平台乱码。
+
+  - id: PY-TEST-001
+    title: "新增逻辑必须配套测试覆盖"
+    language: python
+    severity: info
+    domains: [TEST, STYLE]
+    path: "coding-standards/rules/python/PY-TEST-001.md"
+    prompt_hint: >
+      新增模块/函数需要添加单元或集成测试，描述覆盖的正/负路径。
