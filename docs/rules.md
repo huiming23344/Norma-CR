@@ -1,83 +1,32 @@
 # Coding Standards
 
-在 Coding Standards 目录下集中管理代码规范，包括规范注册表、运行 profile 以及具体规则描述。结构如下：
+集中管理代码规范的注册表与文档。规则数据会自动注入审查 prompt，并可通过工具读取 Markdown 文档。
 
-- `registry.yaml`：记录当前支持的规则集合，以及各语言、Profile 的映射。
-- `rules/<lang>/`：具体规则详情文档，按语言组织。
-
-添加新规则时，建议同步更新 `registry.yaml` 并在相应语言目录下创建 Markdown 说明文件。
-
-简要流程梳理：获取`registry.yaml`注册的所有rule，作为prompt，大模型自行决定是否调用tool获取md文档进行判断
+## 目录结构
+- `registry.yaml`：规则注册表（语言 + 域 + 文档路径 + prompt_hint 等）。
+- `rules/<lang>/`：规则说明文档（Markdown）。
 
 ## registry 字段说明
 ```yaml
-    # id: 作为唯一标识，废弃了也不建议更换
-  - id: GO-STYLE-001
-
-    # 可选，废弃的字段不会添加进大模型传入
-    deprecated: false
-    
-    title: "导出符号必须提供注释，保持可读性" 
-
-    language: go 
-
-    # severity: 可选，当前并没有使用，会作为模型传入的一部分，建议留空，此处占位为了后续拓展
-    severity: info  
-
-    # domains: 列表，标识在哪些 domain agent 中进行检查，其中的值必须是下面domain中的一种
-    # "STYLE": "风格/可读性（命名、结构、注释、可维护性）",
-    # "ERROR": "错误处理（边界、异常、返回值、降级、日志）",
-    # "API": "接口设计（对外契约、兼容性、参数与返回、文档）",
-    # "CONC": "并发（线程安全、竞态、锁、异步、资源释放）",
-    # "PERF": "性能（复杂度、IO、缓存、分配、热点）",
-    # "SEC": "安全（鉴权、输入校验、注入、敏感信息、权限）",
-    # "TEST": "测试（覆盖率、用例质量、回归、稳定性）",
-    # "CONFIG": "配置/依赖（配置项、环境变量、依赖版本、部署影响）",
-    domains: [STYLE] 
-
-    # path: 可选，文件路径，对于简单规则，可以不整理文档
-    path: "coding-standards/rules/go/GO-STYLE-001.md" 
-
-    # prompt_hint: 可选，但强烈建议添加，规范的详细说明
-    prompt_hint: >  
-      检查新增/修改的导出类型、函数、常量和接口是否带有 Go 风格注释（以名称开头）。
-      确保注释解释用途、关键约束以及并发/性能注意事项，避免信息缺失。
+- id: GO-STYLE-001          # 唯一标识
+  deprecated: false         # 可选，true 则不会作为模型输入
+  title: "导出符号必须提供注释，保持可读性"
+  language: go              # 仅支持 go/python
+  severity: info            # 可选，占位供后续拓展
+  domains: [STYLE]          # 适用的 domain 列表
+  path: "coding-standards/rules/go/GO-STYLE-001.md"  # 可选，规则文档
+  prompt_hint: >            # 可选，强烈建议填写，供模型优先参考
+    检查新增/修改的导出类型、函数、常量和接口是否带有 Go 风格注释（以名称开头）。
+    确保注释解释用途、关键约束以及并发/性能注意事项，避免信息缺失。
 ```
-id, title, severity, prompt_hint 四个字段会被直接作为输入传入到模型中
+`id/title/severity/prompt_hint` 会直接作为模型输入；如有 `path`，agent 可调用 `code_standard_doc(rule_id)` 读取全文；`deprecated:true` 的规则会在注入时被过滤。
 
-## 创建rule
+## 规则在审查流程中的使用
+1. 规则加载：`cr_agent/rules/loader.py` 解析 `registry.yaml`，过滤 `deprecated`，按语言+domain 聚合为 `RulesCatalog`。
+2. Prompt 注入：`cr_agent/file_review.py` 在每个标签 agent prompt 中注入适用规则（语言+domain），并提示可调用 `code_standard_doc(rule_id)` 获取文档。
+3. 报告输出：`cr_agent/reporting.py` 会在带 rule_id 的问题里展示 rule title/prompt_hint 等说明。
 
-prompt：
-> ```yaml
->     # id: 作为唯一标识
->  - id: GO-STYLE-001
->   
->    title: "导出符号必须提供注释，保持可读性" 
->
->    language: go 
->
->    # severity: 可选
->    severity: info  
->
->    # domains: 列表，标识在哪些 domain agent 中进行检查，其中的值必须是下面domain中的一种
->    # "STYLE": "风格/可读性（命名、结构、注释、可维护性）",
->    # "ERROR": "错误处理（边界、异常、返回值、降级、日志）",
->    # "API": "接口设计（对外契约、兼容性、参数与返回、文档）",
->    # "CONC": "并发（线程安全、竞态、锁、异步、资源释放）",
->    # "PERF": "性能（复杂度、IO、缓存、分配、热点）",
->    # "SEC": "安全（鉴权、输入校验、注入、敏感信息、权限）",
->    # "TEST": "测试（覆盖率、用例质量、回归、稳定性）",
->    # "CONFIG": "配置/依赖（配置项、环境变量、依赖版本、部署影响）",
->    domains: [STYLE] 
->
->    # path: 可选，文件路径，对于简单规则，也可以不整理文档
->    path: "coding-standards/rules/go/GO-STYLE-001.md" 
->
->    # 规范的详细说明
->    prompt_hint: >  
->      检查新增/修改的导出类型、函数、常量和接口是否带有 Go 风格注释（以名称开头）。
->      确保注释解释用途、关键约束以及并发/性能注意事项，避免信息缺失。
->```
-> 
->请你参照以上代码，给出在go语言中以下规范的yaml配置，不要保留任何注释：
-> 
+## 创建新规则
+1. 在 `coding-standards/rules/<lang>/` 下添加 Markdown 文档（可选）。
+2. 在 `registry.yaml` 增加一条规则记录，填入 `id/title/domains`，视需要添加 `prompt_hint` 和 `path`。
+3. 如规则已废弃，设置 `deprecated: true`，即保留记录但不再注入模型。
