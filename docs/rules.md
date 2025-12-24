@@ -30,3 +30,4 @@
 1. 在 `coding-standards/rules/<lang>/` 下添加 Markdown 文档（可选）。
 2. 在 `registry.yaml` 增加一条规则记录，填入 `id/title/domains`，视需要添加 `prompt_hint` 和 `path`。
 3. 如规则已废弃，设置 `deprecated: true`，即保留记录但不再注入模型。
+4. 可以运行tool文件夹中的list_rules.py来检查已经导入的rules
