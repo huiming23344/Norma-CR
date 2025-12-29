@@ -100,7 +100,7 @@ rules:
     title: "日志字段 Key 命名必须全小写并使用下划线分隔"
     language: go
     severity: info
-    domains: [STYLE, OBSERVABILITY]
+    domains: [STYLE]
     path: "coding-standards/rules/go/GO-STYLE-008.md"
     prompt_hint: >
       检查使用 logit.String / logit.Error / logit.Reflect 等方式为日志添加 Field 的场景：
@@ -115,7 +115,7 @@ rules:
     title: "函数内重复打印同一日志字段时应复用上下文，避免重复添加 Field"
     language: go
     severity: info
-    domains: [STYLE, PERF, OBSERVABILITY]
+    domains: [STYLE]
     path: "coding-standards/rules/go/GO-STYLE-009.md"
     prompt_hint: >
       检查在同一函数作用域内多条日志都需要输出相同 Field 的场景：
@@ -131,7 +131,7 @@ rules:
     title: "代码注释中禁止使用中文标点符号"
     language: go
     severity: info
-    domains: [STYLE, READABILITY]
+    domains: [STYLE]
     path: "coding-standards/rules/go/GO-STYLE-010.md"
     prompt_hint: >
       检查代码中的注释内容（行注释、块注释、文档注释）：
