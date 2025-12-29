@@ -130,6 +130,35 @@ class TagCRLLMResult(BaseModel):
     meta: Dict[str, Any] = Field(default_factory=dict)
 
 
+class TagCRLLMResultFallback(BaseModel):
+    """Lenient parsing for tag-specific review output; fills defaults later."""
+
+    summary: Optional[str] = None
+    overall_severity: Optional[str] = None
+    approved: Optional[bool] = None
+    issues: List[CRIssue] = Field(default_factory=list)
+    needs_human_review: Optional[bool] = False
+    meta: Dict[str, Any] = Field(default_factory=dict)
+
+    def to_strict(self) -> TagCRLLMResult:
+        summary = (self.summary or "").strip() or "未发现需要专项审查的问题。"
+        severity = (
+            self.overall_severity
+            if self.overall_severity in ("info", "minor", "major", "critical")
+            else "info"
+        )
+        approved = self.approved if isinstance(self.approved, bool) else True
+        needs_human_review = bool(self.needs_human_review)
+        return TagCRLLMResult(
+            summary=summary,
+            overall_severity=severity,  # type: ignore[arg-type]
+            approved=approved,
+            issues=self.issues or [],
+            needs_human_review=needs_human_review,
+            meta=self.meta or {},
+        )
+
+
 class TagCRResult(BaseModel):
     """Review result for one (file, tag) dimension."""
 

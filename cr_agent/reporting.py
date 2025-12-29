@@ -94,6 +94,40 @@ class _MarkdownReportRenderer:
             f"- 变更摘要：{commit_title or '（无提交信息）'}",
             f"- 文件数：{files_count}（通过 {approvals}，需人工 {needs_review}）",
         ]
+        breakdown = self._render_file_issue_breakdown(results)
+        if breakdown:
+            lines.append("")
+            lines.append(breakdown)
+        return "\n".join(lines)
+
+    def _render_file_issue_breakdown(self, results: List[FileCRResult]) -> str:
+        with_rule: Dict[str, int] = {}
+        no_rule: Dict[str, int] = {}
+
+        for fr in results:
+            for issue in fr.issues:
+                file_path = issue.file_path or fr.file_path or "<unknown>"
+                rule_id = self._extract_rule_id(issue, fr)
+                if rule_id:
+                    with_rule[file_path] = with_rule.get(file_path, 0) + 1
+                else:
+                    no_rule[file_path] = no_rule.get(file_path, 0) + 1
+
+        sections = [
+            "### 文件问题分布（含 rule_id）",
+            self._render_issue_count_table(with_rule) or "_无带 rule_id 的问题。_",
+            "### 文件问题分布（无 rule_id）",
+            self._render_issue_count_table(no_rule) or "_无未关联 rule 的问题。_",
+        ]
+        return "\n\n".join(sections)
+
+    @staticmethod
+    def _render_issue_count_table(counts: Dict[str, int]) -> Optional[str]:
+        if not counts:
+            return None
+        rows = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+        lines = ["| 文件 | Issue 数 |", "| --- | --- |"]
+        lines.extend(f"| {path} | {count} |" for path, count in rows)
         return "\n".join(lines)
 
     def _render_issues(self, results: List[FileCRResult]) -> Tuple[str, str]:

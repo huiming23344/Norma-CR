@@ -6,7 +6,7 @@
 - **规则注入**：`coding-standards/registry.yaml` 中的规则按语言+domain 自动注入到 prompt，且可通过工具读取 Markdown 规则文档。
 - **并行与限速**：使用 asyncio 一个 diff 内的文件审查并行进行；支持通过环境变量配置 QPS 限制。
 - **可配置域/黑名单**：通过 profile YAML 为不同仓库指定 domains、文件黑名单、basename 黑名单，提供默认兜底配置。
-- **报告生成**：LangGraph 末端节点生成 Markdown 报告，并写入 `code_review_report.md`。
+- **报告生成**：LangGraph 末端节点生成 Markdown 报告，并写入 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.md`。
 
 ## 快速开始
 1) 安装依赖
@@ -38,7 +38,7 @@ python agent.py \
 ```
 参数优先级：命令行 > 环境变量 > `.env`。`CR_MAX_QPS` 可选，用于限速。
 
-输出：终端概览 + 生成 `code_review_report.md`（默认写到仓库根目录，或通过 `CR_REPORT_DIR` 覆盖）。
+输出：终端概览 + 生成 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.md`（默认写到仓库根目录，或通过 `CR_REPORT_DIR` 覆盖）。
 
 ## 目录速览
 - `agent.py`：主入口，组装 LangGraph 流程（获取 commit diff -> 文件审查 -> 报告生成）。
@@ -60,4 +60,3 @@ python agent.py \
 - [产品设计](docs/product.md)
 - [规则体系与编写](docs/rules.md)
 - [使用说明](docs/usage.md)
-

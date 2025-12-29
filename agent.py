@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import asyncio
 import os
+import re
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -12,7 +14,7 @@ from langgraph.graph import END, START, StateGraph
 
 from cr_agent.config import load_openai_config
 from cr_agent.file_review import AsyncRateLimiter, FileReviewEngine
-from cr_agent.models import AgentState
+from cr_agent.models import AgentState, CommitDiff
 from cr_agent.rate_limiter import RateLimitedLLM
 from cr_agent.reporting import render_markdown_report, render_ndjson_report, summarize_to_cli, write_markdown_report
 from cr_agent.profile import ProfileConfig, RepoProfile, load_profile
@@ -40,6 +42,41 @@ def _resolve_repo_path(arg_repo: Optional[str]) -> str:
 
 def _select_profile(profile_cfg: ProfileConfig, repo_path: str) -> RepoProfile:
     return profile_cfg.match_repo(repo_path)
+
+
+def _format_commit_timestamp(commit_diff: Optional[CommitDiff]) -> str:
+    if not commit_diff or not getattr(commit_diff, "committed_datetime_iso", None):
+        return "unknown_time"
+    iso_value = str(getattr(commit_diff, "committed_datetime_iso", "") or "").strip()
+    if not iso_value:
+        return "unknown_time"
+    normalized = iso_value.replace("Z", "+00:00") if iso_value.endswith("Z") else iso_value
+    try:
+        dt = datetime.fromisoformat(normalized)
+        return dt.strftime("%Y%m%d_%H%M%S")
+    except ValueError:
+        digits = re.sub(r"[^0-9]", "", iso_value)
+        if len(digits) >= 14:
+            return f"{digits[:8]}_{digits[8:14]}"
+        return digits[:14] or "unknown_time"
+
+
+def _safe_filename_fragment(text: str, *, max_len: int = 50) -> str:
+    value = (text or "").strip()
+    if not value:
+        return "no_message"
+    value = value.replace(os.sep, "-")
+    if os.altsep:
+        value = value.replace(os.altsep, "-")
+    value = re.sub(r"\s+", "-", value)
+    value = re.sub(r"[^\w\-.]", "", value)
+    value = re.sub(r"-{2,}", "-", value)
+    value = value.strip("._-")
+    if not value:
+        return "no_message"
+    if len(value) > max_len:
+        value = value[:max_len].rstrip("._-")
+    return value
 
 
 def _build_review_agent(file_reviewer: FileReviewEngine):
@@ -138,7 +175,10 @@ def main():
         )
 
     short_sha = (commit_diff.commit_sha[:7] if commit_diff and commit_diff.commit_sha else "latest")
-    base_name = f"cr_report_{short_sha}.md"
+    timestamp = _format_commit_timestamp(commit_diff)
+    commit_title = (commit_diff.message or "").strip().splitlines()[0] if commit_diff else ""
+    message_slug = _safe_filename_fragment(commit_title)
+    base_name = f"cr_report_{timestamp}_{short_sha}_{message_slug}.md"
     report_dir_override = os.getenv("CR_REPORT_DIR")
     report_path, ndjson_path = write_markdown_report(
         repo_path=repo_path,

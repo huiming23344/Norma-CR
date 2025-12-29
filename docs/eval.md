@@ -44,7 +44,7 @@ python tools/eval_rules.py \
 - `--out`：汇总结果输出（NDJSON，每行一个 case 结果）。
 
 ## NDJSON 输出（测试模式）
-评测运行时 `CR_EVAL_MODE=1`，`agent.py` 会在生成 Markdown 报告的同时输出 NDJSON（文件名形如 `cr_report_<short_sha>.ndjson`），示例行：
+评测运行时 `CR_EVAL_MODE=1`，`agent.py` 会在生成 Markdown 报告的同时输出 NDJSON（文件名形如 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.ndjson`），示例行：
 ```json
 {"rule_id": "GO-ERROR-002", "file": "pkg/foo/service.go", "line_start": 12, "line_end": 18, "hit": true, "severity": "error", "message": "...", "path_line": "pkg/foo/service.go:12-18", "approved": false}
 ```

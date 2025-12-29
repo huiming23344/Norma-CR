@@ -16,7 +16,7 @@ python agent.py \
 
 Rate limit：`CR_MAX_QPS`（可选，正数/小数）用于限制标签审查的 QPS；不配置则无限速。
 
-报告输出：`code_review_report.md` 写入仓库根目录，或通过 `CR_REPORT_DIR` 覆盖目录。
+报告输出：`cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.md` 写入仓库根目录，或通过 `CR_REPORT_DIR` 覆盖目录。`commit_title` 会做文件名安全处理（空格替换、非法字符移除、过长截断）。
 
 ## Profile 示例
 ```yaml

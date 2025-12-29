@@ -23,6 +23,7 @@ from cr_agent.models import (
     FileTaggingResult,
     Tag,
     TagCRLLMResult,
+    TagCRLLMResultFallback,
     TagCRResult,
 )
 from cr_agent.rules import RULE_DOMAINS, RuleMeta, get_rules_catalog
@@ -88,6 +89,7 @@ class FileReviewEngine:
         self.tagger_prompt = self._build_tagger_prompt()
         self.tagger_chain = self._build_tagger_chain()
         self.tag_agents = self._build_tag_agents()
+        self.tag_agents_lenient: dict[Tag, ReactDomainAgent] = {}
         self.file_graph = self._build_file_review_graph()
 
     async def review_file(self, file_diff: FileDiff) -> FileCRResult:
@@ -188,6 +190,8 @@ class FileReviewEngine:
             "\n"
             "输出要求（必须严格满足）：\n"
             "- 最终只输出一次，且必须符合 TagCRLLMResult 结构化模式。\n"
+            "- 必须输出字段：summary、overall_severity、approved、issues、needs_human_review、meta。\n"
+            "- 即使未发现问题，也必须给出：summary（说明未发现问题）、overall_severity=info、approved=true、issues=[]、needs_human_review=false、meta={}\n"
             "- 所有文字使用中文。\n"
             "- issue.rule_ids 必须准确列出对应 rule_id；若未引用任何规范则输出 []。\n"
             "- 在给出结构化输出前，如需要可多次调用工具收集规则原文信息。\n"
@@ -213,6 +217,22 @@ class FileReviewEngine:
                 rate_limiter=self.rate_limiter,
             )
         return agents
+
+    def _get_tag_agent_lenient(self, tag: Tag) -> ReactDomainAgent:
+        agent = self.tag_agents_lenient.get(tag)
+        if agent is None:
+            prompt_builder = StaticPromptBuilder(self._build_tag_agent_prompt(tag))
+            tools = self._tools_for_tag(tag)
+            agent = ReactDomainAgent(
+                llm=self.llm,
+                prompt_builder=prompt_builder,
+                tools=tools,
+                response_format=TagCRLLMResultFallback,
+                name=f"tag-{tag}-lenient",
+                rate_limiter=self.rate_limiter,
+            )
+            self.tag_agents_lenient[tag] = agent
+        return agent
 
     def _build_file_review_graph(self):
 
@@ -352,11 +372,17 @@ class FileReviewEngine:
             f"{payload_json}"
         )
         agent = self.tag_agents[tag]
-        agent_state = await agent.ainvoke({"messages": [{"role": "user", "content": user_message}]})
-
-        structured = agent_state.get("structured_response")
-        if structured is None:
-            raise ValueError(f"Tag agent for {tag} 未返回结构化结果")
+        try:
+            agent_state = await agent.ainvoke({"messages": [{"role": "user", "content": user_message}]})
+            structured = agent_state.get("structured_response")
+            if structured is None:
+                raise ValueError(f"Tag agent for {tag} 未返回结构化结果")
+        except ValidationError:
+            structured = await self._review_tag_lenient(tag, user_message, reason="validation_error")
+        except ValueError:
+            structured = await self._review_tag_lenient(tag, user_message, reason="missing_structured_response")
+        except Exception as exc:
+            structured = await self._review_tag_no_tools(tag, user_message, reason=type(exc).__name__)
         rule_ids = sorted(
             {
                 rid
@@ -375,6 +401,83 @@ class FileReviewEngine:
             needs_human_review=structured.needs_human_review,
             rule_ids=rule_ids,
             meta=structured.meta,
+        )
+
+    async def _review_tag_lenient(self, tag: Tag, user_message: str, *, reason: str) -> TagCRLLMResult:
+        agent = self._get_tag_agent_lenient(tag)
+        try:
+            agent_state = await agent.ainvoke({"messages": [{"role": "user", "content": user_message}]})
+            structured = agent_state.get("structured_response")
+            if structured is None:
+                raise ValueError("Tag agent lenient 未返回结构化结果")
+            return structured.to_strict()
+        except Exception:
+            return self._default_tag_llm_result(f"lenient_failed:{reason}")
+
+    async def _review_tag_no_tools(self, tag: Tag, user_message: str, *, reason: str) -> TagCRLLMResult:
+        prompt = self._build_tag_agent_prompt_no_tools(tag)
+        chain = ChatPromptTemplate.from_messages(
+            [
+                ("system", prompt),
+                ("human", "{input}"),
+            ]
+        ) | self.llm
+        try:
+            response = await chain.ainvoke({"input": user_message})
+        except Exception:
+            return self._default_tag_llm_result(f"no_tools_failed:{reason}")
+
+        content = getattr(response, "content", "")
+        if not isinstance(content, str):
+            content = str(content)
+        parsed = self._parse_tag_response_text(content)
+        if parsed is None:
+            return self._default_tag_llm_result(f"no_tools_parse_failed:{reason}")
+        try:
+            return parsed.to_strict()
+        except Exception:
+            return self._default_tag_llm_result(f"no_tools_to_strict_failed:{reason}")
+
+    def _build_tag_agent_prompt_no_tools(self, tag: Tag) -> str:
+        base = self._build_tag_agent_prompt(tag)
+        return f"{base}\n\n注意：当前运行环境无法正确使用工具调用，请勿调用任何工具，直接基于 standards 输出结构化结果。"
+
+    @staticmethod
+    def _parse_tag_response_text(text: str) -> Optional[TagCRLLMResultFallback]:
+        if not text:
+            return None
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            payload = FileReviewEngine._extract_json_payload(text)
+            if not payload:
+                return None
+            try:
+                data = json.loads(payload)
+            except json.JSONDecodeError:
+                return None
+        try:
+            return TagCRLLMResultFallback.model_validate(data)
+        except ValidationError:
+            return None
+
+    @staticmethod
+    def _extract_json_payload(text: str) -> Optional[str]:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start == -1 or end == -1 or end <= start:
+            return None
+        return text[start : end + 1]
+
+    @staticmethod
+    def _default_tag_llm_result(reason: str) -> TagCRLLMResult:
+        return TagCRLLMResult(
+            summary="未发现需要专项审查的问题。",
+            overall_severity="info",
+            approved=True,
+            issues=[],
+            needs_human_review=False,
+            meta={"fallback_reason": reason},
         )
 
     def _merge_file_results(
