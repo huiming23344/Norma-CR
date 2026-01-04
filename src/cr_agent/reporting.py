@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -19,6 +20,20 @@ def render_markdown_report(
     return renderer.render(list(file_results))
 
 
+def render_html_report(
+    *,
+    repo_path: str,
+    commit_diff: CommitDiff,
+    file_results: Iterable[FileCRResult],
+) -> str:
+    markdown = render_markdown_report(
+        repo_path=repo_path,
+        commit_diff=commit_diff,
+        file_results=file_results,
+    )
+    return _wrap_markdown_as_html(markdown)
+
+
 def render_ndjson_report(
     *,
     repo_path: str,
@@ -30,6 +45,31 @@ def render_ndjson_report(
     return "\n".join(json.dumps(record, ensure_ascii=False) for record in records)
 
 
+def _wrap_markdown_as_html(markdown: str) -> str:
+    escaped = html.escape(markdown)
+    return "\n".join(
+        [
+            "<!doctype html>",
+            "<html lang=\"en\">",
+            "<head>",
+            "  <meta charset=\"utf-8\">",
+            "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+            "  <title>Code Review Report</title>",
+            "  <style>",
+            "    body { font-family: monospace; margin: 24px; }",
+            "    pre { white-space: pre-wrap; word-wrap: break-word; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "<pre>",
+            escaped,
+            "</pre>",
+            "</body>",
+            "</html>",
+        ]
+    )
+
+
 def write_markdown_report(
     *,
     repo_path: str,
@@ -39,14 +79,30 @@ def write_markdown_report(
     report_text: Optional[str] = None,
     ndjson_text: Optional[str] = None,
     file_name: Optional[str] = None,
+    report_format: str = "md",
 ) -> Tuple[Path, Optional[Path]]:
-    report_md = report_text or render_markdown_report(repo_path=repo_path, commit_diff=commit_diff, file_results=file_results)
+    report_md = report_text or render_markdown_report(
+        repo_path=repo_path,
+        commit_diff=commit_diff,
+        file_results=file_results,
+    )
     target_dir = Path(custom_dir).expanduser().resolve() if custom_dir else Path(repo_path)
     target_dir.mkdir(parents=True, exist_ok=True)
 
+    normalized_format = report_format.strip().lower()
+    if normalized_format not in {"md", "html"}:
+        raise ValueError(f"CR_REPORT_FORMAT must be 'md' or 'html', got '{report_format}'")
+
     base_name = file_name or "code_review_report.md"
-    report_path = target_dir / base_name
-    report_path.write_text(report_md, encoding="utf-8")
+    report_name = (
+        Path(base_name).with_suffix(".html").name if normalized_format == "html" else Path(base_name).with_suffix(".md").name
+    )
+    report_path = target_dir / report_name
+    if normalized_format == "html":
+        report_html = _wrap_markdown_as_html(report_md)
+        report_path.write_text(report_html, encoding="utf-8")
+    else:
+        report_path.write_text(report_md, encoding="utf-8")
 
     ndjson_path: Optional[Path] = None
     if ndjson_text is not None:

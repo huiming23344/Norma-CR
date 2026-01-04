@@ -4,13 +4,23 @@ import argparse
 import asyncio
 import os
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:
+    def load_dotenv(*_args, **_kwargs) -> None:
+        print("[WARN] python-dotenv is not installed; skipping .env loading.")
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, StateGraph
+
+ROOT_DIR = Path(__file__).resolve().parent
+SRC_DIR = ROOT_DIR / "src"
+if SRC_DIR.exists():
+    sys.path.insert(0, str(SRC_DIR))
 
 from cr_agent.config import load_openai_config
 from cr_agent.file_review import AsyncRateLimiter, FileReviewEngine
@@ -178,7 +188,11 @@ def main():
     timestamp = _format_commit_timestamp(commit_diff)
     commit_title = (commit_diff.message or "").strip().splitlines()[0] if commit_diff else ""
     message_slug = _safe_filename_fragment(commit_title)
-    base_name = f"cr_report_{timestamp}_{short_sha}_{message_slug}.md"
+    report_format = os.getenv("CR_REPORT_FORMAT", "md").strip().lower()
+    if report_format not in {"md", "html"}:
+        raise ValueError(f"CR_REPORT_FORMAT must be 'md' or 'html', got '{report_format}'")
+    report_suffix = ".html" if report_format == "html" else ".md"
+    base_name = f"cr_report_{timestamp}_{short_sha}_{message_slug}{report_suffix}"
     report_dir_override = os.getenv("CR_REPORT_DIR")
     report_path, ndjson_path = write_markdown_report(
         repo_path=repo_path,
@@ -188,6 +202,7 @@ def main():
         report_text=report_text,
         ndjson_text=ndjson_text,
         file_name=base_name,
+        report_format=report_format,
     )
 
     summarize_to_cli(commit_diff=commit_diff, file_results=file_results, report_path=report_path)

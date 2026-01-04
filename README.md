@@ -38,13 +38,13 @@ python agent.py \
 ```
 参数优先级：命令行 > 环境变量 > `.env`。`CR_MAX_QPS` 可选，用于限速。
 
-输出：终端概览 + 生成 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.md`（默认写到仓库根目录，或通过 `CR_REPORT_DIR` 覆盖）。
+输出：终端概览 + 生成 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.{md|html}`（默认写到仓库根目录，或通过 `CR_REPORT_DIR` 覆盖）。`CR_REPORT_FORMAT=html` 可输出 HTML。
 
 ## 目录速览
 - `agent.py`：主入口，组装 LangGraph 流程（获取 commit diff -> 文件审查 -> 报告生成）。
-- `cr_agent/file_review.py`：单文件审查引擎（标签打标、标签 agent 调用、结果合并）。
-- `cr_agent/agents/`：Agent 抽象与 React 子类。
-- `cr_agent/rules/`：规则加载、聚合与缓存；`RuleMeta.deprecated` 用于排除废弃规则。
+- `src/cr_agent/file_review.py`：单文件审查引擎（标签打标、标签 agent 调用、结果合并）。
+- `src/cr_agent/agents/`：Agent 抽象与 React 子类。
+- `src/cr_agent/rules/`：规则加载、聚合与缓存；`RuleMeta.deprecated` 用于排除废弃规则。
 - `coding-standards/`：规则注册表与规则文档。
 - `docs/`：产品、规则、使用说明。
 
