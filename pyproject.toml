@@ -9,7 +9,7 @@ name = "cr-agent"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "pydantic-ai-slim>=0.8.1",
     "mcp>=1.0.0",
