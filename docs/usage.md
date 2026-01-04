@@ -18,6 +18,19 @@ Rate limit：`CR_MAX_QPS`（可选，正数/小数）用于限制标签审查的
 
 报告输出：`cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.{md|html}` 写入仓库根目录，或通过 `CR_REPORT_DIR` 覆盖目录。`CR_REPORT_FORMAT=html` 可输出 HTML。`commit_title` 会做文件名安全处理（空格替换、非法字符移除、过长截断）。
 
+## Docker 运行
+```bash
+docker build -t cr-agent:latest .
+docker run --rm -it \
+  -v /path/to/repo:/repo \
+  --env-file .env \
+  -e CR_REPO_PATH=/repo \
+  -e CR_PROFILE_PATH=/app/profiles/default.yaml \
+  cr-agent:latest
+```
+`--env-file .env` 会将本地 `.env` 注入容器；也可以改用 `-e` 逐项传参。
+
+
 ## Profile 示例
 ```yaml
 version: 1
