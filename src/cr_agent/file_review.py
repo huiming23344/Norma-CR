@@ -14,7 +14,7 @@ from langchain_core.tools import tool
 from langgraph.graph import END, START, StateGraph
 from pydantic import ValidationError
 from cr_agent.agents import ReactDomainAgent, StaticPromptBuilder
-from cr_agent.rate_limiter import AsyncRateLimiter, NoopRateLimiter, RateLimiterProtocol
+from cr_agent.rate_limiter import AsyncRateLimiter, NoopRateLimiter, RateLimiterProtocol, RateLimitedLLM
 
 from cr_agent.models import (
     FileCRResult,
@@ -416,12 +416,13 @@ class FileReviewEngine:
 
     async def _review_tag_no_tools(self, tag: Tag, user_message: str, *, reason: str) -> TagCRLLMResult:
         prompt = self._build_tag_agent_prompt_no_tools(tag)
+        llm_for_chain = self.llm._llm if isinstance(self.llm, RateLimitedLLM) else self.llm
         chain = ChatPromptTemplate.from_messages(
             [
                 ("system", prompt),
                 ("human", "{input}"),
             ]
-        ) | self.llm
+        ) | llm_for_chain
         try:
             response = await chain.ainvoke({"input": user_message})
         except Exception:

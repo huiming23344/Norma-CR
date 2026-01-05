@@ -219,6 +219,9 @@ class _MarkdownReportRenderer:
                 }
 
     def _extract_rule_id(self, issue: CRIssue, file_result: FileCRResult) -> Optional[str]:
+        if issue.rule_ids:
+            return ",".join(str(rid) for rid in issue.rule_ids if rid)
+
         extras = getattr(issue, "model_extra", {}) or {}
         if "rule_id" in extras:
             value = extras["rule_id"]

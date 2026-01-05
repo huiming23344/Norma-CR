@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Literal, Optional, TypedDict
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 # ---- Git data structures ----
@@ -75,6 +75,14 @@ Category = Literal[
 ]
 
 
+def _normalize_severity_value(value: Any) -> Any:
+    if isinstance(value, str):
+        text = value.strip().lower()
+        if text in ("warning", "warn"):
+            return "minor"
+    return value
+
+
 class CRIssue(BaseModel):
     severity: Severity
     category: Category
@@ -85,6 +93,11 @@ class CRIssue(BaseModel):
     suggestion: Optional[str] = None
     confidence: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     rule_ids: List[str] = Field(default_factory=list)
+
+    @field_validator("severity", mode="before")
+    @classmethod
+    def _normalize_severity(cls, value):
+        return _normalize_severity_value(value)
 
 
 class FileCRResult(BaseModel):
@@ -129,6 +142,11 @@ class TagCRLLMResult(BaseModel):
     needs_human_review: bool = False
     meta: Dict[str, Any] = Field(default_factory=dict)
 
+    @field_validator("overall_severity", mode="before")
+    @classmethod
+    def _normalize_overall_severity(cls, value):
+        return _normalize_severity_value(value)
+
 
 class TagCRLLMResultFallback(BaseModel):
     """Lenient parsing for tag-specific review output; fills defaults later."""
@@ -139,6 +157,11 @@ class TagCRLLMResultFallback(BaseModel):
     issues: List[CRIssue] = Field(default_factory=list)
     needs_human_review: Optional[bool] = False
     meta: Dict[str, Any] = Field(default_factory=dict)
+
+    @field_validator("overall_severity", mode="before")
+    @classmethod
+    def _normalize_overall_severity(cls, value):
+        return _normalize_severity_value(value)
 
     def to_strict(self) -> TagCRLLMResult:
         summary = (self.summary or "").strip() or "未发现需要专项审查的问题。"

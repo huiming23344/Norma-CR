@@ -13,7 +13,7 @@ from .loader import (
     load_rules_index,
 )
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_REGISTRY_PATH = _REPO_ROOT / "coding-standards" / "registry.yaml"
 
 GLOBAL_RULES_CATALOG: Optional[RulesCatalog]
