@@ -94,9 +94,10 @@ def write_markdown_report(
         raise ValueError(f"CR_REPORT_FORMAT must be 'md' or 'html', got '{report_format}'")
 
     base_name = file_name or "code_review_report.md"
-    report_name = (
-        Path(base_name).with_suffix(".html").name if normalized_format == "html" else Path(base_name).with_suffix(".md").name
-    )
+    if normalized_format == "html":
+        report_name = "cr_report.html"
+    else:
+        report_name = Path(base_name).with_suffix(".md").name
     report_path = target_dir / report_name
     if normalized_format == "html":
         report_html = _wrap_markdown_as_html(report_md)
