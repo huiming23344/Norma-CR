@@ -70,7 +70,7 @@ def _wrap_markdown_as_html(markdown: str) -> str:
 
 
 def _render_markdown_as_html(markdown: str) -> str:
-    md = MarkdownIt("commonmark", {"html": False, "linkify": True})
+    md = MarkdownIt("gfm-like", {"html": False, "linkify": True})
     return md.render(markdown)
 
 

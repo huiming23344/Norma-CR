@@ -27,6 +27,7 @@ dependencies = [
     "ipython>=8.37.0",
     "langchain-experimental>=0.4.1",
     "markdown-it-py>=3.0.0",
+    "linkify-it-py>=2.0.0",
 ]
 
 [[tool.uv.index]]
