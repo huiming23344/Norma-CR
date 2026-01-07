@@ -15,6 +15,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 COPY src ./src
 COPY agent.py ./
+COPY .env ./
 COPY coding-standards ./coding-standards
 COPY profiles ./profiles
 COPY docs ./docs

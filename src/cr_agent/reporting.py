@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import html
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
+
+from markdown_it import MarkdownIt
 
 from cr_agent.models import CRIssue, CommitDiff, FileCRResult
 from cr_agent.rules import get_rules_catalog
@@ -46,7 +47,7 @@ def render_ndjson_report(
 
 
 def _wrap_markdown_as_html(markdown: str) -> str:
-    escaped = html.escape(markdown)
+    rendered = _render_markdown_as_html(markdown)
     return "\n".join(
         [
             "<!doctype html>",
@@ -61,13 +62,16 @@ def _wrap_markdown_as_html(markdown: str) -> str:
             "  </style>",
             "</head>",
             "<body>",
-            "<pre>",
-            escaped,
-            "</pre>",
+            rendered,
             "</body>",
             "</html>",
         ]
     )
+
+
+def _render_markdown_as_html(markdown: str) -> str:
+    md = MarkdownIt("commonmark", {"html": False, "linkify": True})
+    return md.render(markdown)
 
 
 def write_markdown_report(
