@@ -1,25 +1,28 @@
-# GO-STYLE-001 导出符号必须提供注释
+# GO-STYLE-001 函数参数超过4个时必须使用结构体封装传参
 
-## 适用场景
-- 任何新增或修改的 Go 导出类型、函数、方法、常量、变量、接口。
-- 需要强调调用约束、并发行为、返回值含义等。
+## 规则说明
+- 当函数或方法参数数量大于 4 个时，必须使用结构体封装传参（例如 Options/Params/Request）。
+- 允许保留 `context.Context` 作为首参，其余业务参数总数仍不得超过 4 个；如超过则必须封装。
+- 避免为绕开改动而新增无意义参数；应重构为结构体并保证字段命名清晰，可选字段使用指针或明确零值策略，并在注释中说明关键约束与默认行为。
 
-## 审查要点
-1. **注释格式**：注释应以符号名称开头，符合 `golint` 风格（例如 `// FooHandler ...`）。
-2. **信息完整**：至少描述用途、关键输入/输出、异常或并发注意事项。
-3. **同步更新**：修改函数签名或语义时，注释同步更新；避免过时描述。
+## 示例
+正例：
+```go
+type CreateUserParams struct {
+    Name   string
+    Age    int
+    Role   string
+    Active bool
+}
 
-## 常见问题
-- 新导出函数缺少描述性注释，导致 API 文档生成工具无法输出说明。
-- 注释语焉不详，只写 “do something”，没有强调副作用或限制。
-- 复制旧注释但未根据新的业务逻辑更新。
+func CreateUser(ctx context.Context, p CreateUserParams) error {
+    return nil
+}
+```
 
-## 修复建议
-- 为每个导出符号补充一行以上注释，确保首句解释意图，后续句聚焦设计注意事项。
-- 描述并发/性能风险时，明确“线程安全”“需调用 Close”等要求。
-- 代码评审时若大幅重构接口，先更新注释再提交，减少 reviewer mental diff。
-
-## 检查清单
-- [ ] 所有导出符号均有以名称开头的注释。
-- [ ] 注释内容与实现保持一致，并覆盖关键约束。
-- [ ] 删除或废弃的符号同步移除对应注释。
+反例：
+```go
+func CreateUser(ctx context.Context, name string, age int, role string, active bool, region string) error {
+    return nil
+}
+```

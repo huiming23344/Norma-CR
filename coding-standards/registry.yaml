@@ -4,7 +4,7 @@ rules:
     language: go
     severity: warning
     domains: [STYLE]
-    path: #待添加
+    path: "coding-standards/rules/go/GO-STYLE-001.md"
     prompt_hint: >
       检查新增/修改的函数与方法签名：当参数数量大于4个时，必须将参数封装为结构体类型进行传递（可使用 Options/Params/Request 等命名）。
       允许保留 context.Context 作为首参，其余业务参数总数仍不得超过4个；如超过则必须封装。
@@ -16,7 +16,7 @@ rules:
     language: go
     severity: info
     domains: [STYLE]
-    path: #待添加
+    path: "coding-standards/rules/go/GO-STYLE-002.md"
     prompt_hint: >
       检查函数参数和返回值的类型使用方式：
       1）当参数为结构体（struct）时，优先使用指针传递（*T），以避免不必要的值拷贝，
@@ -30,7 +30,7 @@ rules:
     language: go
     severity: warning
     domains: [STYLE]
-    path: #待添加
+    path: "coding-standards/rules/go/GO-STYLE-003.md"
     prompt_hint: >
       检查代码中是否定义或使用了包级全局变量（var 定义在 package 作用域）：
       1）除只读常量（const）和确有必要的不可变配置外，禁止使用可变全局变量；
@@ -41,7 +41,7 @@ rules:
     language: go
     severity: info
     domains: [STYLE]
-    path: 
+    path: "coding-standards/rules/go/GO-STYLE-004.md"
     prompt_hint: >
       检查函数内部定义的匿名函数或闭包（func literal）：
       1）闭包体逻辑应保持高度内聚和简洁，原则上不超过 5 行有效代码
@@ -54,7 +54,7 @@ rules:
     language: go
     severity: info
     domains: [STYLE]
-    path: 
+    path: "coding-standards/rules/go/GO-STYLE-005.md"
     prompt_hint: >
       检查代码中是否出现 map 的指针类型（*map[K]V）作为参数、返回值或结构体字段：
       1）Go 中的 map 本身是引用语义，值传递时仅复制 header，底层数据仍然共享；
@@ -69,7 +69,7 @@ rules:
     language: go
     severity: info
     domains: [STYLE]
-    path: 
+    path: "coding-standards/rules/go/GO-STYLE-006.md"
     prompt_hint: >
       检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名：
       1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名；
