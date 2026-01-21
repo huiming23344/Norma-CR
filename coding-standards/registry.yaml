@@ -127,7 +127,7 @@ rules:
       若发现重复添加同一 Field 的日志写法，应提示使用上下文复用方式进行优化。
 
   - id: GO-STYLE-010
-    deprecated: false
+    deprecated: true
     title: "代码注释中禁止使用中文标点符号"
     language: go
     severity: info

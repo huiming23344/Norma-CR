@@ -13,15 +13,3120 @@
 <h1>Code Review Report</h1>
 <h2>概述</h2>
 <ul>
-<li>变更摘要：feat：更新html输出格式，tag prompt修改</li>
-<li>文件数：5（通过 5，需人工 0）</li>
+<li>变更摘要：COMPUTE-DEV-6742 [计算后端-story] 【bbc重构】变更子网</li>
+<li>文件数：82（通过 58，需人工 13）</li>
 </ul>
 <h3>文件问题分布（含 rule_id）</h3>
-<p><em>无带 rule_id 的问题。</em></p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>Issue 数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>internal/novacontroller/arranger/csoctask/pxe_change_ip.go</td>
+<td>3</td>
+</tr>
+<tr>
+<td>internal/novacontroller/arranger/csoctask/pxe_task_test.go</td>
+<td>3</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/create.go</td>
+<td>3</td>
+</tr>
+<tr>
+<td>internal/client/network/neutron/client_test.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/novacontroller/arranger/snictask/set_vpf.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/inject_data.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr/change_subnet.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bccmgr/cold_migrate.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bccmgr/live_migrate.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/novacontroller/operator/change_subnet_operator.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/novacontroller/resourcemgr/neutron_manager.go</td>
+<td>2</td>
+</tr>
+<tr>
+<td>internal/client/network/neutron/client.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/client/network/neutron/model.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/nova/model/entity/port_spec.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/nova/model/entity/port_spec_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/nova/model/entity/port_status.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/nova/model/entity/qvo_spec.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novaagent/agentresourcemgr/agentqvomgr/sub_type_qvo_mgr.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/arranger/port/arranger.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/arranger/port/change_subnet.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/arranger/snictask/set_vpf_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/datatransformer/converter/action_req2operation_converter.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/datatransformer/converter/action_req2operation_converter_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/datatransformer/executor_for_action_req_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/change_subnet.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/change_vpc.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcnormalmgr/change_subnet.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr/change_subnet_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr/inject_data_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/bccmgr/change_subnet.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/instancemgr/ebbcmgr/change_subnet.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/operator/change_subnet_operator_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/resourcemgr/snic_manager.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novacontroller/resourcemgr/snic_manager_test.go</td>
+<td>1</td>
+</tr>
+<tr>
+<td>internal/novapb/qvo.pb.go</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 <h3>文件问题分布（无 rule_id）</h3>
 <p><em>无未关联 rule 的问题。</em></p>
 <h2>Rule Issues</h2>
-<p><em>无带 rule_id 的问题。</em></p>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：函数 UpdatePortsVnetStatus 只记录了进入日志，但未在正常返回时记录完成日志，也未在错误路径记录失败日志，违反 GO-STYLE-007 规则。</li>
+<li>建议：在函数返回前添加完成日志，例如在 return 语句前记录成功信息；同时，建议在错误处理路径添加失败日志，但当前函数直接返回 error，可能需在调用处或内部处理错误日志。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/client/network/neutron/client.go#hunk-1</li>
+<li>Hunk：@@ -235,6 +235,15 @@ func (nc *Client) BaseUpdatePorts(ctx context.Context, portIDs []string, coldMig</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -235,6 +235,15 @@ func (nc *Client) BaseUpdatePorts(ctx context.Context, portIDs []string, coldMig
+ 	return updatePorts[*ColdMigratePortRequestBody](ctx, nc, portIDs, updateBody, commonhttp.CommonCheckSpec(), isAdmin)
+ }
+ 
++func (nc *Client) UpdatePortsVnetStatus(ctx context.Context, portIDs []string, updateStatusReq *UpdatePortStatusRequest, isAdmin bool) error {
++	nc.logger.Notice(ctx, &quot;start to update neutron ports vnet status&quot;,
++		logit.String(&quot;port_ids&quot;, strings.Join(portIDs, &quot;,&quot;)), logit.String(&quot;target_status&quot;, updateStatusReq.Status))
++	updateBody := &amp;UpdatePortStatusRequestBody{
++		Port: *updateStatusReq,
++	}
++	return updatePorts[*UpdatePortStatusRequestBody](ctx, nc, portIDs, updateBody, commonhttp.CommonCheckSpec(), isAdmin)
++}
++
+ ///////////////////////////////////////////////
+ // ********** Create Primary Port / roce port ********** //
+ ///////////////////////////////////////////////
+
+</code></pre>
+<h3>[GO-STYLE-003] 禁止使用全局变量，避免隐式状态和副作用</h3>
+<ul>
+<li>说明：测试代码中修改了包级全局变量 ral.DefaultRaller，违反禁止使用可变全局变量的规则，可能引入隐式状态和副作用。</li>
+<li>建议：避免直接修改全局变量，改用依赖注入或通过函数参数传递 mock 实例，以消除全局状态影响。</li>
+<li>规则说明：检查代码中是否定义或使用了包级全局变量（var 定义在 package 作用域）： 1）除只读常量（const）和确有必要的不可变配置外，禁止使用可变全局变量；</li>
+<li>位置：internal/client/network/neutron/client_test.go#hunk-1</li>
+<li>Hunk：@@ -842,6 +842,49 @@ func TestNeutronClient_CreatePrimaryPort(t *testing.T) {</li>
+<li>严重级别：minor</li>
+</ul>
+<pre><code>@@ -842,6 +842,49 @@ func TestNeutronClient_CreatePrimaryPort(t *testing.T) {
+ 	}
+ }
+ 
++func TestNeutronClient_UpdatePortsVnetStatus2(t *testing.T) {
++	ctrl := gomock.NewController(t)
++	defer ctrl.Finish()
++
++	mral := mockral.NewMockRaller(ctrl)
++	defaultRal := ral.DefaultRaller
++	ral.DefaultRaller = mral
++	defer func() { ral.DefaultRaller = defaultRal }()
++
++	fakeReqCtx := &amp;novactx.RequestContext{
++		AuthToken: &quot;fake_auth_token&quot;,
++	}
++	ctx := novactx.NewNovaContext(fakeReqCtx)
++	fakeConfig := GetFakeConfig()
++	fakeClient := &amp;Client{
++		ctx:    ctx,
++		config: fakeConfig,
++		logger: fakeConfig.Logger,
++	}
++
++	mral.
++		EXPECT().
++		RAL(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.All()).
++		DoAndReturn(func(ctx context.Context, name any, req ral.Request, resp *ghttp.RalResponse, opts ...ral.ROption) error {
++			httpResp := &amp;http.Response{
++				StatusCode: http.StatusOK,
++				Header:     map[string][]string{},
++				Body:       http.NoBody,
++			}
++			err := resp.HandleResponse(ctx, httpResp)
++			if err != nil {
++				return err
++			}
++			return nil
++		}).
++		Times(1)
++	updatePortStatusRequest := &amp;UpdatePortStatusRequest{}
++	err1 := fakeClient.UpdatePortsVnetStatus(ctx, []string{&quot;fake_port_id&quot;}, updatePortStatusRequest, false)
++	if err1 != nil {
++		t.Fatal(err1)
++	}
++}
++
+ func TestNeutronClient_ShowPort(t *testing.T) {
+ 	ctrl := gomock.NewController(t)
+ 	defer ctrl.Finish()
+
+</code></pre>
+<h3>[GO-STYLE-004] 闭包逻辑应保持简短，函数内定义的 func 不得超过 5 行</h3>
+<ul>
+<li>说明：闭包逻辑超过5行有效代码，违反闭包应保持简短的原则，降低代码可读性和内聚性。</li>
+<li>建议：将闭包抽取为独立的具名函数，例如定义 handleRALResponse 函数，并在 DoAndReturn 中调用。</li>
+<li>规则说明：检查函数内部定义的匿名函数或闭包（func literal）： 1）闭包体逻辑应保持高度内聚和简洁，原则上不超过 5 行有效代码 2）若闭包包含复杂控制流、业务判断或多步处理，应将其抽取为具名函数 若发现函数内定义的 func 逻辑超过 5 行，应提示拆分为独立函数。</li>
+<li>位置：internal/client/network/neutron/client_test.go#hunk-1</li>
+<li>Hunk：@@ -842,6 +842,49 @@ func TestNeutronClient_CreatePrimaryPort(t *testing.T) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -842,6 +842,49 @@ func TestNeutronClient_CreatePrimaryPort(t *testing.T) {
+ 	}
+ }
+ 
++func TestNeutronClient_UpdatePortsVnetStatus2(t *testing.T) {
++	ctrl := gomock.NewController(t)
++	defer ctrl.Finish()
++
++	mral := mockral.NewMockRaller(ctrl)
++	defaultRal := ral.DefaultRaller
++	ral.DefaultRaller = mral
++	defer func() { ral.DefaultRaller = defaultRal }()
++
++	fakeReqCtx := &amp;novactx.RequestContext{
++		AuthToken: &quot;fake_auth_token&quot;,
++	}
++	ctx := novactx.NewNovaContext(fakeReqCtx)
++	fakeConfig := GetFakeConfig()
++	fakeClient := &amp;Client{
++		ctx:    ctx,
++		config: fakeConfig,
++		logger: fakeConfig.Logger,
++	}
++
++	mral.
++		EXPECT().
++		RAL(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.All()).
++		DoAndReturn(func(ctx context.Context, name any, req ral.Request, resp *ghttp.RalResponse, opts ...ral.ROption) error {
++			httpResp := &amp;http.Response{
++				StatusCode: http.StatusOK,
++				Header:     map[string][]string{},
++				Body:       http.NoBody,
++			}
++			err := resp.HandleResponse(ctx, httpResp)
++			if err != nil {
++				return err
++			}
++			return nil
++		}).
++		Times(1)
++	updatePortStatusRequest := &amp;UpdatePortStatusRequest{}
++	err1 := fakeClient.UpdatePortsVnetStatus(ctx, []string{&quot;fake_port_id&quot;}, updatePortStatusRequest, false)
++	if err1 != nil {
++		t.Fatal(err1)
++	}
++}
++
+ func TestNeutronClient_ShowPort(t *testing.T) {
+ 	ctrl := gomock.NewController(t)
+ 	defer ctrl.Finish()
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文标点符号（如全角逗号','和全角句号'.'），违反规范GO-STYLE-010要求使用英文半角标点。</li>
+<li>建议：将注释中的中文标点符号替换为英文半角标点符号，例如将全角逗号','替换为半角逗号','，全角句号'.'替换为半角句号'.'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/client/network/neutron/model.go#hunk-1</li>
+<li>Hunk：@@ -14,7 +14,7 @@ import (</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -14,7 +14,7 @@ import (
+ type UpdatePortBodyType interface {
+ 	*DetachPortRequestBody | *AttachPortRequestBody | *UpdatePortHostRequestBody | *UpdatePortBindingMigInfoRequestBody |
+ 		*UpdatePortSpeedLimitRequestBody | *ColdMigratePortRequestBody | *UpdatePortAdminStateUpRequestBody |
+-		*CreateFireWallsRequestBody | *DeleteFireWallsRequestBody
++		*CreateFireWallsRequestBody | *DeleteFireWallsRequestBody | *UpdatePortStatusRequestBody
+ }
+ 
+ // NTPort 请求neutron返回的port结构体，由于go编码规范不允许使用包名作为前缀，故使用NT代替neutron，下同
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文标点符号，违反GO-STYLE-010规范。</li>
+<li>建议：将注释中的中文标点替换为英文标点，例如修改为'// 将网卡的推断信息(临时信息)清除.'，使用英文括号和句号。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/nova/model/entity/port_spec.go#hunk-3</li>
+<li>Hunk：@@ -164,6 +177,20 @@ func (p *PortSpec) SetDetachedFromInst(instUUID string, opInfo *novapb.PortOpera</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -164,6 +177,20 @@ func (p *PortSpec) SetDetachedFromInst(instUUID string, opInfo *novapb.PortOpera
+ 	return p
+ }
+ 
++func (p *PortSpec) IsCleanDeduceInfoDone() bool {
++	return p.AdminStateUp == nil &amp;&amp; p.GetVnetState() == novapb.PortVnetState_unknown &amp;&amp;
++		p.GetFirewallRuleId() == &quot;&quot; &amp;&amp; p.GetActionStrategy().GetCreateContext() == nil
++}
++
++func (p *PortSpec) CleanDeduceInfo() *PortSpec {
++	// 将网卡的推断信息（临时信息）清除
++	p.CleanAdminStateUp()
++	p.CleanNeutronState()
++	p.CleanFireWallRuleId()
++	p.SetCreateContext(nil)
++	return p
++}
++
+ func (p *PortSpec) SetPortAdminStateUp(adminStateUp bool) *PortSpec {
+ 	p.AdminStateUp = proto.Bool(adminStateUp)
+ 	return p
+
+</code></pre>
+<h3>[GO-STYLE-006] 业务逻辑中禁止使用 o1、value1 等无语义命名</h3>
+<ul>
+<li>说明：在函数 TestPortSpec_IsCleanDeduceInfoDone 中，变量 'ret' 命名无语义，违反命名规范。</li>
+<li>建议：将变量名 'ret' 改为有业务语义的名称，如 'isDone' 或 'cleanDone'。</li>
+<li>规则说明：检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名： 1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名； 2）命名应体现业务含义、角色或来源（如 userID、instanceMeta、diskInfos、targetHost）； 3）在对比、映射、聚合等业务处理中，应区分来源与语义（如 old/new、src/dst、expected/actual）； 4）仅在极短作用域、且语义高度明确的场景下（如 for 循环索引 i、j）可例外。 若在业务逻辑中发现无语义编号式命名，应提示重命名以提升可读性与可维护性。</li>
+<li>位置：internal/nova/model/entity/port_spec_test.go#hunk-2</li>
+<li>Hunk：@@ -85,6 +90,24 @@ func TestPortSpec_SetVnetAvailable(t *testing.T) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -85,6 +90,24 @@ func TestPortSpec_SetVnetAvailable(t *testing.T) {
+ 	assert.Equal(t, spec.GetVnetState(), novapb.PortVnetState_vnet_available)
+ }
+ 
++func TestPortSpec_SetVnetWaiting(t *testing.T) {
++	spec := NewEmptyPortSpec(etcdpo.NewPoFactory(&quot;&quot;))
++	assert.NotEqual(t, spec.GetVnetState(), novapb.PortVnetState_waiting)
++	spec.SetVnetWaiting(&amp;novapb.PortOperationInfo{})
++	assert.Equal(t, spec.GetVnetState(), novapb.PortVnetState_waiting)
++}
++
++func TestPortSpec_IsCleanDeduceInfoDone(t *testing.T) {
++	spec := NewEmptyPortSpec(etcdpo.NewPoFactory(&quot;&quot;))
++	ret := spec.IsCleanDeduceInfoDone()
++	assert.True(t, ret)
++}
++
++func TestPortSpec_CleanDeduceInfo(t *testing.T) {
++	spec := NewEmptyPortSpec(etcdpo.NewPoFactory(&quot;&quot;))
++	spec.CleanDeduceInfo()
++}
++
+ func TestPortSpec_IsAttachedToInst(t *testing.T) {
+ 	spec := NewEmptyPortSpec(etcdpo.NewPoFactory(&quot;&quot;))
+ 	assert.False(t, spec.IsAttachedToInst(&quot;test_inst_uuid&quot;))
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：代码注释中使用了中文标点符号（全角括号），违反规范 GO-STYLE-010。</li>
+<li>建议：将注释中的全角括号改为半角括号，例如：'// 将网卡的推断信息(临时信息)清除'</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/nova/model/entity/port_status.go#hunk-2</li>
+<li>Hunk：@@ -311,6 +319,17 @@ func (port *PortStatus) RemoveAttachInfo() *PortStatus {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -311,6 +319,17 @@ func (port *PortStatus) RemoveAttachInfo() *PortStatus {
+ 	return port
+ }
+ 
++func (port *PortStatus) IsCleanDeduceInfoDone() bool {
++	return port.GetFirewallRuleId() == &quot;&quot; &amp;&amp; port.GetVnetState() == novapb.PortVnetState_unknown
++}
++
++func (port *PortStatus) CleanDeduceInfo() *PortStatus {
++	// 将网卡的推断信息（临时信息）清除
++	port.CleanFireWallRuleId()
++	port.CleanNeutronState()
++	return port
++}
++
+ func (port *PortStatus) CleanFireWallRuleId() *PortStatus {
+ 	port.FirewallRuleId = &quot;&quot;
+ 	return port
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：在常量定义前的注释中使用了中文标点符号'。'，违反GO-STYLE-010规范。</li>
+<li>建议：将注释中的中文标点符号替换为英文标点符号，例如将'。'改为'.'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/nova/model/entity/qvo_spec.go#hunk-1</li>
+<li>Hunk：@@ -14,6 +14,13 @@ import (</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -14,6 +14,13 @@ import (
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
+ )
+ 
++const (
++	// default也是由nova-agent执行
++	ServiceExecutorDefault   = &quot;&quot;
++	ServiceExecutorNovaAgent = &quot;nova-agent&quot;
++	ServiceExecutorSnicAgent = &quot;snic-agent&quot;
++)
++
+ var instanceTypeToQvoTypeMap = map[instancetype.InstanceType]novapb.QvoType_Type{
+ 	instancetype.EbccDpu15: novapb.QvoType_ebcc_dpu15_qvo,
+ 	instancetype.EbccDpu25: novapb.QvoType_ebcc_dpu25_qvo,
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文标点符号（如'，'），违反GO-STYLE-010规则，要求使用英文半角标点。</li>
+<li>建议：将中文标点符号替换为英文半角标点，例如将'，'改为','，并确保注释中所有标点使用英文形式。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novaagent/agentresourcemgr/agentqvomgr/sub_type_qvo_mgr.go#hunk-1</li>
+<li>Hunk：@@ -73,6 +73,12 @@ func (m *subTypeQvoMgr) workerFunc(id string, getOperateType func(qvoSpec *entit</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -73,6 +73,12 @@ func (m *subTypeQvoMgr) workerFunc(id string, getOperateType func(qvoSpec *entit
+ 		return
+ 	}
+ 	qvoSpec := qvoSpecs[0]
++	// BBC针对qvo的删除下游执行方不止有nova-agent，例如set_vpf流程中qvo是由snic-agent删除的 此时nova-agent就应该什么也不做
++	if !qvoSpec.ServiceExecutorIsNovaAgent() {
++		m.logger.Notice(ctx, &quot;skip qvo handler because the service executor is not nova agent&quot;,
++			logit.String(&quot;service_executor&quot;, qvoSpec.GetServiceExecutor()), logit.String(&quot;port_id&quot;, qvoSpec.GetPortUuid()))
++		return
++	}
+ 	qvoStatus := qvoStatusWithLocks[0]
+ 
+ 	// 2. 上锁
+
+</code></pre>
+<h3>[GO-STYLE-001] 函数参数超过4个时必须使用结构体封装传参</h3>
+<ul>
+<li>说明：函数 CompletePxeChangeIp 和 buildChangeIpBody 的参数数量超过4个，违反GO-STYLE-001规范。CompletePxeChangeIp有5个参数，buildChangeIpBody有5个参数。</li>
+<li>建议：将参数封装为结构体，例如定义 PxeChangeIpParams 结构体包含所有业务参数（如 hostname, portUuid, operationType 等），并修改函数签名使用该结构体传递。</li>
+<li>规则说明：检查新增/修改的函数与方法签名：当参数数量大于4个时，必须将参数封装为结构体类型进行传递（可使用 Options/Params/Request 等命名）。 允许保留 context.Context 作为首参，其余业务参数总数仍不得超过4个；如超过则必须封装。 对于仅为避免改动而新增无意义参数的情况，应要求重构为结构体并保证字段命名清晰、可选字段使用指针或零值策略明确，并在注释中说明关键约束与默认行为。</li>
+<li>位置：internal/novacontroller/arranger/csoctask/pxe_change_ip.go#hunk-2</li>
+<li>Hunk：@@ -22,17 +23,36 @@ type ChangeSubnetReqParam struct {</li>
+<li>严重级别：minor</li>
+</ul>
+<pre><code>@@ -22,17 +23,36 @@ type ChangeSubnetReqParam struct {
+ }
+ 
+ func (a *Arranger) CompletePxeChangeIp(opCtx *paramset.OpProcessContext, inst *ao.Instance,
+-	hostname string, portUuid string) (bool, error) {
+-	return a.completeTask(opCtx, inst, hostname, novapb.CsocTask_pxe_change_ip, a.buildChangeIpBody, 0)
++	hostname string, portUuid string, operationType novapb.OperationType_Type) (bool, error) {
++	if operationType == novapb.OperationType_change_vpc {
++		return a.completeTask(opCtx, inst, hostname, novapb.CsocTask_pxe_change_ip, a.buildChangeVpcParams, 0)
++	} else if operationType == novapb.OperationType_change_subnet {
++		return a.completeTask(opCtx, inst, hostname, novapb.CsocTask_pxe_change_ip, a.buildChangeSubnetParams, 0)
++	}
++	return false, fmt.Errorf(&quot;unsupported operation type to call pxe change ip&quot;)
++}
++
++func (a *Arranger) buildChangeSubnetParams(body *novapb.CsocTaskReqBody, host *entity.Host,
++	inst *ao.Instance, op *entity.Operation) error {
++	reqParam, err := getChangeSubnetReqParam(inst, op.GetChangeSubnetContext().GetOldFixedIp(), op.GetChangeSubnetContext().GetNewFixedIp())
++	if err != nil {
++		return err
++	}
++	return a.buildChangeIpBody(reqParam, body, host, inst)
+ }
+ 
+-func (a *Arranger) buildChangeIpBody(body *novapb.CsocTaskReqBody, host *entity.Host,
++func (a *Arranger) buildChangeVpcParams(body *novapb.CsocTaskReqBody, host *entity.Host,
+ 	inst *ao.Instance, op *entity.Operation) error {
+-	newPortId := op.GetChangeVpcContext().GetPortId()
+-	reqParam, err := getChangeSubnetReqParam(inst, newPortId)
++	reqParam, err := getChangeVpcReqParam(inst, op.GetChangeVpcContext().GetPortId())
+ 	if err != nil {
+ 		return err
+ 	}
++	return a.buildChangeIpBody(reqParam, body, host, inst)
++}
++
++func (a *Arranger) buildChangeIpBody(reqParam *ChangeSubnetReqParam, body *novapb.CsocTaskReqBody, host *entity.Host,
++	inst *ao.Instance) error {
++
+ 	if reqParam.newFixedIp == &quot;&quot; {
+ 		return errNewPrimaryFixedIpError
+ 	}
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：hunk 2 中的业务函数（如 CompletePxeChangeIp、buildChangeSubnetParams、buildChangeVpcParams）缺少进入、离开或失败日志记录，违反GO-STYLE-007规范。</li>
+<li>建议：在函数进入时记录入参关键信息（如实例ID、操作类型等），在错误返回时记录失败日志（包含上下文如错误原因和参数），在正常返回时记录完成日志。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/arranger/csoctask/pxe_change_ip.go#hunk-2</li>
+<li>Hunk：@@ -22,17 +23,36 @@ type ChangeSubnetReqParam struct {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -22,17 +23,36 @@ type ChangeSubnetReqParam struct {
+ }
+ 
+ func (a *Arranger) CompletePxeChangeIp(opCtx *paramset.OpProcessContext, inst *ao.Instance,
+-	hostname string, portUuid string) (bool, error) {
+-	return a.completeTask(opCtx, inst, hostname, novapb.CsocTask_pxe_change_ip, a.buildChangeIpBody, 0)
++	hostname string, portUuid string, operationType novapb.OperationType_Type) (bool, error) {
++	if operationType == novapb.OperationType_change_vpc {
++		return a.completeTask(opCtx, inst, hostname, novapb.CsocTask_pxe_change_ip, a.buildChangeVpcParams, 0)
++	} else if operationType == novapb.OperationType_change_subnet {
++		return a.completeTask(opCtx, inst, hostname, novapb.CsocTask_pxe_change_ip, a.buildChangeSubnetParams, 0)
++	}
++	return false, fmt.Errorf(&quot;unsupported operation type to call pxe change ip&quot;)
++}
++
++func (a *Arranger) buildChangeSubnetParams(body *novapb.CsocTaskReqBody, host *entity.Host,
++	inst *ao.Instance, op *entity.Operation) error {
++	reqParam, err := getChangeSubnetReqParam(inst, op.GetChangeSubnetContext().GetOldFixedIp(), op.GetChangeSubnetContext().GetNewFixedIp())
++	if err != nil {
++		return err
++	}
++	return a.buildChangeIpBody(reqParam, body, host, inst)
+ }
+ 
+-func (a *Arranger) buildChangeIpBody(body *novapb.CsocTaskReqBody, host *entity.Host,
++func (a *Arranger) buildChangeVpcParams(body *novapb.CsocTaskReqBody, host *entity.Host,
+ 	inst *ao.Instance, op *entity.Operation) error {
+-	newPortId := op.GetChangeVpcContext().GetPortId()
+-	reqParam, err := getChangeSubnetReqParam(inst, newPortId)
++	reqParam, err := getChangeVpcReqParam(inst, op.GetChangeVpcContext().GetPortId())
+ 	if err != nil {
+ 		return err
+ 	}
++	return a.buildChangeIpBody(reqParam, body, host, inst)
++}
++
++func (a *Arranger) buildChangeIpBody(reqParam *ChangeSubnetReqParam, body *novapb.CsocTaskReqBody, host *entity.Host,
++	inst *ao.Instance) error {
++
+ 	if reqParam.newFixedIp == &quot;&quot; {
+ 		return errNewPrimaryFixedIpError
+ 	}
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：函数 getChangeSubnetReqParam 在错误路径（如CIDR解析失败）未记录失败日志，违反GO-STYLE-007规范。</li>
+<li>建议：在错误返回前添加失败日志记录，包含关键参数（如实例信息、IP地址）和错误信息，便于问题追踪。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/arranger/csoctask/pxe_change_ip.go#hunk-4</li>
+<li>Hunk：@@ -110,3 +130,40 @@ func getChangeSubnetReqParam(inst *ao.Instance, newPortId string) (*ChangeSubnet</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -110,3 +130,40 @@ func getChangeSubnetReqParam(inst *ao.Instance, newPortId string) (*ChangeSubnet
+ 		gateway:    gateway,
+ 	}, nil
+ }
++
++func getChangeSubnetReqParam(inst *ao.Instance, oldFixedIp, newFixedIp string) (*ChangeSubnetReqParam, error) {
++	var mask, gateway, floatingIp, macAddress string
++	for _, port := range inst.PortStatusMap {
++		if !port.IsPrimary() {
++			continue
++		}
++		for _, subnet := range port.GetVpcInfo().GetSubnets() {
++			if subnet.GetVersion() != 4 {
++				continue
++			}
++			for _, ip := range subnet.GetIps() {
++				if !ip.GetPrimary() {
++					continue
++				}
++				_, ipNet, err := net.ParseCIDR(subnet.GetCidr())
++				if err != nil {
++					return nil, errSubnetCidrParseError
++				}
++				newFixedIp = ip.GetIpAddress()
++				mask = net.IP(ipNet.Mask).String()
++				gateway = subnet.GetGatewayIp()
++				floatingIp = ip.GetFloatingIp()
++				macAddress = port.GetMacAddress()
++				break
++			}
++		}
++	}
++	return &amp;ChangeSubnetReqParam{
++		oldFixedIp: oldFixedIp,
++		newFixedIp: newFixedIp,
++		floatingIp: floatingIp,
++		macAddress: macAddress,
++		mask:       mask,
++		gateway:    gateway,
++	}, nil
++}
+
+</code></pre>
+<h3>[GO-STYLE-006] 业务逻辑中禁止使用 o1、value1 等无语义命名</h3>
+<ul>
+<li>说明：在函数TestCompletePxeChangeIp_buildChangeSubnetParams中使用了无语义变量命名port1、port2、port3，违反命名规范。</li>
+<li>建议：将变量重命名为具有业务含义的名称，例如primaryPort、secondaryPort等，以提升代码可读性。</li>
+<li>规则说明：检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名： 1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名； 2）命名应体现业务含义、角色或来源（如 userID、instanceMeta、diskInfos、targetHost）； 3）在对比、映射、聚合等业务处理中，应区分来源与语义（如 old/new、src/dst、expected/actual）； 4）仅在极短作用域、且语义高度明确的场景下（如 for 循环索引 i、j）可例外。 若在业务逻辑中发现无语义编号式命名，应提示重命名以提升可读性与可维护性。</li>
+<li>位置：internal/novacontroller/arranger/csoctask/pxe_task_test.go#hunk-1</li>
+<li>Hunk：@@ -13,7 +13,109 @@ import (</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -13,7 +13,109 @@ import (
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
+ )
+ 
+-func TestCompletePxeChangeIp(t *testing.T) {
++func TestCompletePxeChangeIp_buildChangeSubnetParams(t *testing.T) {
++	a := &amp;Arranger{}
++	op := generateTestOp()
++	opCtx := &amp;paramset.OpProcessContext{
++		Op: op,
++	}
++	port1 := &amp;etcdpo.PortStatus{
++		PortStatus: &amp;novapb.PortStatus{
++			PortUuid: &quot;test_port1&quot;,
++			EniType:  &quot;primary&quot;,
++			VpcInfo: &amp;novapb.VpcInfo{
++				Subnets: []*novapb.SubnetInfo{
++					{
++						Cidr: &quot;192.168.0.0/24&quot;,
++						Ips: []*novapb.IPInfo{
++							{
++								Primary:    true,
++								IpAddress:  &quot;192.168.0.1&quot;,
++								FloatingIp: &quot;192.168.0.2&quot;,
++							},
++						},
++						Version: 4,
++					},
++					{
++						Version: 6,
++					},
++				},
++			},
++		},
++	}
++	port2 := port1
++	port2.PortUuid = &quot;test_port2&quot;
++	port3 := port1
++	port3.PortUuid = &quot;test_port3&quot;
++	port3.EniType = &quot;secondary&quot;
++	instance := &amp;ao.Instance{
++		InstHostResourceMap: map[string]*ao.InstHostResource{
++			&quot;test_host&quot;: {
++				Host: entity.NewHost(&amp;etcdpo.Host{}, nil),
++			},
++		},
++		PortStatusMap: map[string]*entity.PortStatus{
++			&quot;test_port1&quot;: {
++				PortStatus: port1,
++			},
++			&quot;test_port2&quot;: {
++				PortStatus: port2,
++			},
++			&quot;test_port3&quot;: {
++				PortStatus: port3,
++			},
++		},
++		InstSpec: &amp;entity.InstanceSpec{
++			InstanceSpec: &amp;etcdpo.InstanceSpec{
++				InstanceSpec: &amp;novapb.InstanceSpec{
++					Network: &amp;novapb.Network{
++						Hostname: &quot;fake-hostname&quot;,
++					},
++				},
++			},
++		},
++	}
++	opCtx.Inst = instance
++
++	body := &amp;novapb.CsocTaskReqBody{}
++	operation := &amp;entity.Operation{
++		Operation: &amp;etcdpo.Operation{
++			Operation: &amp;novapb.Operation{
++				ChangeSubnetContext: &amp;novapb.ChangeSubnetContext{},
++			},
++		},
++	}
++	// case 1 :没有new fixed ip
++	err := a.buildChangeSubnetParams(body, nil, instance, operation)
++	assert.NotNil(t, err)
++	// case 2 :没有old fixed ip
++	operation.ChangeSubnetContext.NewFixedIp = &quot;new-ip&quot;
++	err = a.buildChangeSubnetParams(body, nil, instance, operation)
++	assert.NotNil(t, err)
++	// case3 : 没有报错
++	operation.ChangeSubnetContext.OldFixedIp = &quot;old-ip&quot;
++	host := &amp;entity.Host{
++		Host: &amp;etcdpo.Host{
++			Host: &amp;novapb.Host{
++				HardwareInfo: &amp;novapb.HostHardwareInfo{
++					Sn: &quot;fake-sn&quot;,
++					NetworkInfo: &amp;novapb.HostNetworkInfo{
++						IloIp: &quot;fakeIp&quot;,
++					},
++				},
++			},
++		},
++	}
++	err = a.buildChangeSubnetParams(body, host, instance, operation)
++	assert.Nil(t, err)
++	// case 4
++	host.Host.Host.Type = novapb.HostType_bbc_normal
++	err = a.buildChangeSubnetParams(body, host, instance, operation)
++	assert.Nil(t, err)
++
++}
++
++func TestCompletePxeChangeIp_changeVpc(t *testing.T) {
+ 	gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;Arranger{}), &quot;completeTask&quot;, func(_ *Arranger, _ interface{}, _ *ao.Instance, _ string, _ novapb.CsocTask_TaskType, _ reqBodyBuildFunc) (bool, error) {
+ 		return true, nil
+ 	})
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文标点符号（如全角冒号），违反注释规范。</li>
+<li>建议：将中文标点替换为英文半角标点，例如使用冒号:代替：，确保注释风格一致。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/arranger/csoctask/pxe_task_test.go#hunk-1</li>
+<li>Hunk：@@ -13,7 +13,109 @@ import (</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -13,7 +13,109 @@ import (
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
+ )
+ 
+-func TestCompletePxeChangeIp(t *testing.T) {
++func TestCompletePxeChangeIp_buildChangeSubnetParams(t *testing.T) {
++	a := &amp;Arranger{}
++	op := generateTestOp()
++	opCtx := &amp;paramset.OpProcessContext{
++		Op: op,
++	}
++	port1 := &amp;etcdpo.PortStatus{
++		PortStatus: &amp;novapb.PortStatus{
++			PortUuid: &quot;test_port1&quot;,
++			EniType:  &quot;primary&quot;,
++			VpcInfo: &amp;novapb.VpcInfo{
++				Subnets: []*novapb.SubnetInfo{
++					{
++						Cidr: &quot;192.168.0.0/24&quot;,
++						Ips: []*novapb.IPInfo{
++							{
++								Primary:    true,
++								IpAddress:  &quot;192.168.0.1&quot;,
++								FloatingIp: &quot;192.168.0.2&quot;,
++							},
++						},
++						Version: 4,
++					},
++					{
++						Version: 6,
++					},
++				},
++			},
++		},
++	}
++	port2 := port1
++	port2.PortUuid = &quot;test_port2&quot;
++	port3 := port1
++	port3.PortUuid = &quot;test_port3&quot;
++	port3.EniType = &quot;secondary&quot;
++	instance := &amp;ao.Instance{
++		InstHostResourceMap: map[string]*ao.InstHostResource{
++			&quot;test_host&quot;: {
++				Host: entity.NewHost(&amp;etcdpo.Host{}, nil),
++			},
++		},
++		PortStatusMap: map[string]*entity.PortStatus{
++			&quot;test_port1&quot;: {
++				PortStatus: port1,
++			},
++			&quot;test_port2&quot;: {
++				PortStatus: port2,
++			},
++			&quot;test_port3&quot;: {
++				PortStatus: port3,
++			},
++		},
++		InstSpec: &amp;entity.InstanceSpec{
++			InstanceSpec: &amp;etcdpo.InstanceSpec{
++				InstanceSpec: &amp;novapb.InstanceSpec{
++					Network: &amp;novapb.Network{
++						Hostname: &quot;fake-hostname&quot;,
++					},
++				},
++			},
++		},
++	}
++	opCtx.Inst = instance
++
++	body := &amp;novapb.CsocTaskReqBody{}
++	operation := &amp;entity.Operation{
++		Operation: &amp;etcdpo.Operation{
++			Operation: &amp;novapb.Operation{
++				ChangeSubnetContext: &amp;novapb.ChangeSubnetContext{},
++			},
++		},
++	}
++	// case 1 :没有new fixed ip
++	err := a.buildChangeSubnetParams(body, nil, instance, operation)
++	assert.NotNil(t, err)
++	// case 2 :没有old fixed ip
++	operation.ChangeSubnetContext.NewFixedIp = &quot;new-ip&quot;
++	err = a.buildChangeSubnetParams(body, nil, instance, operation)
++	assert.NotNil(t, err)
++	// case3 : 没有报错
++	operation.ChangeSubnetContext.OldFixedIp = &quot;old-ip&quot;
++	host := &amp;entity.Host{
++		Host: &amp;etcdpo.Host{
++			Host: &amp;novapb.Host{
++				HardwareInfo: &amp;novapb.HostHardwareInfo{
++					Sn: &quot;fake-sn&quot;,
++					NetworkInfo: &amp;novapb.HostNetworkInfo{
++						IloIp: &quot;fakeIp&quot;,
++					},
++				},
++			},
++		},
++	}
++	err = a.buildChangeSubnetParams(body, host, instance, operation)
++	assert.Nil(t, err)
++	// case 4
++	host.Host.Host.Type = novapb.HostType_bbc_normal
++	err = a.buildChangeSubnetParams(body, host, instance, operation)
++	assert.Nil(t, err)
++
++}
++
++func TestCompletePxeChangeIp_changeVpc(t *testing.T) {
+ 	gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;Arranger{}), &quot;completeTask&quot;, func(_ *Arranger, _ interface{}, _ *ao.Instance, _ string, _ novapb.CsocTask_TaskType, _ reqBodyBuildFunc) (bool, error) {
+ 		return true, nil
+ 	})
+
+</code></pre>
+<h3>[GO-STYLE-006] 业务逻辑中禁止使用 o1、value1 等无语义命名</h3>
+<ul>
+<li>说明：在函数TestCompletePxeChangeIp_changeSubnet中使用了无语义变量命名port1、port2、port3，违反命名规范。</li>
+<li>建议：将变量重命名为具有业务含义的名称，例如mainPort、alternatePort等，以提升代码可维护性。</li>
+<li>规则说明：检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名： 1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名； 2）命名应体现业务含义、角色或来源（如 userID、instanceMeta、diskInfos、targetHost）； 3）在对比、映射、聚合等业务处理中，应区分来源与语义（如 old/new、src/dst、expected/actual）； 4）仅在极短作用域、且语义高度明确的场景下（如 for 循环索引 i、j）可例外。 若在业务逻辑中发现无语义编号式命名，应提示重命名以提升可读性与可维护性。</li>
+<li>位置：internal/novacontroller/arranger/csoctask/pxe_task_test.go#hunk-7</li>
+<li>Hunk：@@ -291,7 +394,69 @@ func TestGetChangeSubnetReqParam(t *testing.T) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -291,7 +394,69 @@ func TestGetChangeSubnetReqParam(t *testing.T) {
+ 				},
+ 			},
+ 		}
+-		_, err := getChangeSubnetReqParam(noPrimaryInstance, &quot;port1&quot;)
++		_, err := getChangeVpcReqParam(noPrimaryInstance, &quot;port1&quot;)
+ 		assert.Nil(t, err)
+ 	})
+ }
++
++func TestCompletePxeChangeIp_changeSubnet(t *testing.T) {
++	gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;Arranger{}), &quot;completeTask&quot;, func(_ *Arranger, _ interface{}, _ *ao.Instance, _ string, _ novapb.CsocTask_TaskType, _ reqBodyBuildFunc) (bool, error) {
++		return true, nil
++	})
++	a := &amp;Arranger{}
++	op := generateTestOp()
++	opCtx := &amp;paramset.OpProcessContext{
++		Op: op,
++	}
++	port1 := &amp;etcdpo.PortStatus{
++		PortStatus: &amp;novapb.PortStatus{
++			PortUuid: &quot;test_port1&quot;,
++			EniType:  &quot;primary&quot;,
++			VpcInfo: &amp;novapb.VpcInfo{
++				Subnets: []*novapb.SubnetInfo{
++					{
++						Cidr: &quot;192.168.0.0/24&quot;,
++						Ips: []*novapb.IPInfo{
++							{
++								Primary:    true,
++								IpAddress:  &quot;192.168.0.1&quot;,
++								FloatingIp: &quot;192.168.0.2&quot;,
++							},
++						},
++						Version: 4,
++					},
++					{
++						Version: 6,
++					},
++				},
++			},
++		},
++	}
++	port2 := port1
++	port2.PortUuid = &quot;test_port2&quot;
++	port3 := port1
++	port3.PortUuid = &quot;test_port3&quot;
++	port3.EniType = &quot;secondary&quot;
++	instance := &amp;ao.Instance{
++		InstHostResourceMap: map[string]*ao.InstHostResource{
++			&quot;test_host&quot;: {
++				Host: entity.NewHost(&amp;etcdpo.Host{}, nil),
++			},
++		},
++		PortStatusMap: map[string]*entity.PortStatus{
++			&quot;test_port1&quot;: {
++				PortStatus: port1,
++			},
++			&quot;test_port2&quot;: {
++				PortStatus: port2,
++			},
++			&quot;test_port3&quot;: {
++				PortStatus: port3,
++			},
++		},
++	}
++	opCtx.Inst = instance
++	operationType := novapb.OperationType_change_subnet
++	_, err := a.CompletePxeChangeIp(opCtx, instance, &quot;test_host&quot;, &quot;test_port&quot;, operationType)
++	assert.Nil(t, err)
++}
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：在函数ResetDeduceInfo的注释中使用了中文标点符号，违反代码规范要求使用英文半角标点。</li>
+<li>建议：将中文标点符号替换为英文半角标点，例如将'，'替换为',', '。'替换为'.'。修改后注释应为：'// 该函数重置port的推断信息,常用于多次操作port导致op类型无法被neutronMgr正确推断.'</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/arranger/port/arranger.go#hunk-1</li>
+<li>Hunk：@@ -36,29 +36,75 @@ func NewArranger(logger logging.Logger, poFactory *etcdpo.PoFactory, retryInfoMg</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -36,29 +36,75 @@ func NewArranger(logger logging.Logger, poFactory *etcdpo.PoFactory, retryInfoMg
+ 	}
+ }
+ 
+-func (a *Arranger) ClearOpInfosAndOpResults(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
++func (a *Arranger) ResetDeduceInfo(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
++	// 该函数重置port的推断信息，常用于多次操作port导致op类型无法被neutronMgr正确推断
+ 	newCtx := logging.CopyContext(opCtx.Ctx, logit.Reflect(&quot;port_uuids&quot;, portUUIDs))
+-	a.logger.Notice(newCtx, &quot;start clear port spec op infos and status op results&quot;)
+-	clearOpInfosDone, err := a.clearPortSpecAndOpInfos(opCtx, portUUIDs)
++	a.logger.Notice(newCtx, &quot;start reset port deduce info&quot;)
++	resetPortSpecDone, err := a.ResetPortSpecDeduceInfo(opCtx, portUUIDs)
+ 	if err != nil {
+-		a.logger.Error(newCtx, &quot;clear port spec op infos failed&quot;, logit.Error(&quot;error&quot;, err))
++		a.logger.Error(newCtx, &quot;reset port spec deduce info failed&quot;, logit.Error(&quot;error&quot;, err))
+ 		return false, err
+ 	}
+-	clearOpResultsDone, err := a.clearPortStatusAndOpResults(opCtx, portUUIDs)
++	resetPortStatusDone, err := a.ResetPortStatusDeduceInfo(opCtx, portUUIDs)
+ 	if err != nil {
+-		a.logger.Error(newCtx, &quot;clear port status op results failed&quot;, logit.Error(&quot;error&quot;, err))
++		a.logger.Error(newCtx, &quot;reset port status deduce info failed&quot;, logit.Error(&quot;error&quot;, err))
+ 		return false, err
+ 	}
+-	a.logger.NoticeIf(newCtx, clearOpInfosDone &amp;&amp; clearOpResultsDone, &quot;all port spec op infos and status op results cleared&quot;)
+-	a.logger.NoticeIf(newCtx, !(clearOpInfosDone &amp;&amp; clearOpResultsDone), &quot;not all port spec op infos and status op results cleared&quot;)
++	a.logger.NoticeIf(newCtx, resetPortSpecDone &amp;&amp; resetPortStatusDone, &quot;all port deduce info has reset done&quot;)
++	a.logger.NoticeIf(newCtx, !(resetPortSpecDone &amp;&amp; resetPortStatusDone), &quot;not all port deduce info has reset done&quot;)
++	return resetPortSpecDone &amp;&amp; resetPortStatusDone, nil
++}
++
++func (a *Arranger) ClearOpInfosAndOpResultsWithReset(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
++	newCtx := logging.CopyContext(opCtx.Ctx, logit.Reflect(&quot;port_uuids&quot;, portUUIDs))
++	a.logger.Notice(newCtx, &quot;start clear port spec op infos and status op results with reset&quot;)
++	clearOpInfosDone, err := a.clearPortSpecAndOpInfosWithReset(opCtx, portUUIDs)
++	if err != nil {
++		a.logger.Error(newCtx, &quot;clear port spec op infos with reset failed&quot;, logit.Error(&quot;error&quot;, err))
++		return false, err
++	}
++	clearOpResultsDone, err := a.clearPortStatusAndOpResultsWithReset(opCtx, portUUIDs)
++	if err != nil {
++		a.logger.Error(newCtx, &quot;clear port status op results with reset failed&quot;, logit.Error(&quot;error&quot;, err))
++		return false, err
++	}
++	a.logger.NoticeIf(newCtx, clearOpInfosDone &amp;&amp; clearOpResultsDone, &quot;all port spec op infos and status op results cleared with reset done&quot;)
++	a.logger.NoticeIf(newCtx, !(clearOpInfosDone &amp;&amp; clearOpResultsDone), &quot;not all port spec op infos and status op results cleared with reset done&quot;)
+ 	return clearOpInfosDone &amp;&amp; clearOpResultsDone, nil
+ }
+ 
++func (a *Arranger) ResetPortSpecDeduceInfo(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
++	newCtx := logging.CopyContext(opCtx.Ctx, logit.Reflect(&quot;port_uuids&quot;, portUUIDs))
++	a.logger.Notice(newCtx, &quot;start to check whether port spec reset deduce info done&quot;)
++	allReset := true
++	for _, portUUID := range portUUIDs {
++		portSpec, ok := opCtx.Inst.PortSpecMap[portUUID]
++		if !ok {
++			a.logger.Warning(newCtx, &quot;port spec not found&quot;, logit.String(&quot;port_uuid&quot;, portUUID))
++			continue
++		}
++		if portSpec.IsCleanDeduceInfoDone() {
++			opCtx.TxnGen.CompareForPos(portSpec)
++			continue
++		}
++
++		allReset = false
++		newPortSpec := portSpec.DeepCopyEntity()
++		newPortSpec.CleanDeduceInfo()
++		opCtx.TxnGen.CompareForPos(portSpec).ThenPutForPos(newPortSpec)
++		a.logger.Notice(newCtx, &quot;port spec need to reset deduce info&quot;)
++	}
++
++	a.logger.NoticeIf(newCtx, !allReset, &quot;not all port spec reset deduce info done&quot;)
++	a.logger.NoticeIf(newCtx, allReset, &quot;all port spec reset deduce info done&quot;)
++	return allReset, nil
++}
++
+ // ClearOpInfos
+ // Op终态时, 清除PortSpec中的涉及到当前OpID的所有操作信息
+-func (a *Arranger) clearPortSpecAndOpInfos(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
++func (a *Arranger) clearPortSpecAndOpInfosWithReset(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
+ 	newCtx := logging.CopyContext(opCtx.Ctx, logit.Reflect(&quot;port_uuids&quot;, portUUIDs))
+-	a.logger.Notice(newCtx, &quot;start to check whether port spec clear operation info done&quot;)
++	a.logger.Notice(newCtx, &quot;start to check whether port spec clear operation info with reset done&quot;)
+ 	allOpInfosCleared := true
+ 	for _, portUUID := range portUUIDs {
+ 		portSpec, ok := opCtx.Inst.PortSpecMap[portUUID]
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文标点符号，如中文逗号和句号</li>
+<li>建议：将中文标点符号替换为英文半角标点，例如中文逗号','改为英文逗号','，中文句号'。'改为英文句号'.'</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/arranger/port/change_subnet.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,89 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,89 @@
++// Package port implements change_subnet
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package port
++
++import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/logging&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/paramset&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/arranger&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++	&quot;icode.baidu.com/baidu/gdp/extension/gerror&quot;
++	&quot;icode.baidu.com/baidu/gdp/logit&quot;
++)
++
++// CompleteSetPortsVnetWaiting
++func (a *Arranger) CompleteSetPortsVnetWaiting(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
++	newCtx := logging.CopyContext(opCtx.Ctx, logit.Reflect(&quot;port_uuids&quot;, portUUIDs))
++	a.logger.Notice(newCtx, &quot;start to check whether set ports waiting done&quot;)
++	isDone, err := a.StartSetPortsVnetWaiting(opCtx, portUUIDs)
++	if !isDone || err != nil {
++		return isDone, err
++	}
++	var errList []error
++	for _, portUUID := range portUUIDs {
++		// 从Ao中获取PortStatus, 不存在则报错
++		portStatus, ok := opCtx.Inst.PortStatusMap[portUUID]
++		if !ok {
++			a.logger.Error(newCtx, &quot;port status not found when complete set ports vnet waiting&quot;)
++			return false, gerror.ToError(&quot;port status not found when complete set ports vnet waiting&quot;)
++		}
++		opCtx.TxnGen.CompareForPos(portStatus)
++		// 检查PortStatus是否已经vnet waiting
++		isDone, err = portStatus.IsPortVnetWaitingDone(opCtx.Inst.InstanceUUID, opCtx.Op.GetId(), opCtx.GetCurrentStepID())
++		if err == nil &amp;&amp; !isDone {
++			a.logger.Notice(newCtx, &quot;one port set vnet waiting not done, wait for result&quot;)
++			return false, nil
++		}
++		// port下游操作有失败，临时记录，最终合并所有失败再返回
++		if err != nil {
++			errList = append(errList, err)
++			a.logger.Error(newCtx, &quot;failed to set port vnet waiting&quot;, logit.Error(&quot;error&quot;, err))
++			continue
++		}
++		a.logger.Notice(newCtx, &quot;one port set vnet waiting done&quot;)
++	}
++
++	arrangeErr := arranger.NewArrangeError(false, errList...)
++	a.logger.NoticeIf(newCtx, arrangeErr == nil, &quot;all ports set vnet waiting done&quot;)
++	a.logger.ErrorIf(newCtx, arrangeErr != nil, &quot;some ports set vnet waiting failed&quot;,
++		logit.Error(&quot;error&quot;, arrangeErr))
++	return true, arrangeErr
++}
++
++// StartSetPortsVnetWaiting
++func (a *Arranger) StartSetPortsVnetWaiting(opCtx *paramset.OpProcessContext, portUUIDs []string) (bool, error) {
++	newCtx := logging.CopyContext(opCtx.Ctx, logit.Reflect(&quot;port_uuids&quot;, portUUIDs))
++	a.logger.Notice(newCtx, &quot;start to check whether ports start to set vnet waiting&quot;)
++	expectedOpInfo := a.initExpectedPortOpInfo(opCtx, novapb.PortOperationType_set_vnet_waiting, arranger.NoRetryStrategy)
++	allDone := true
++	for _, portUUID := range portUUIDs {
++		// 从Ao中获取PortSpec/Status, 不存在则报错
++		portSpec, ok := opCtx.Inst.PortSpecMap[portUUID]
++		if !ok {
++			a.logger.Error(newCtx, &quot;port spec not found when start check ports vnet waiting&quot;)
++			return false, gerror.ToError(&quot;port spec not found when start check ports vnet waiting&quot;)
++		}
++		if _, ok := opCtx.Inst.PortStatusMap[portUUID]; !ok {
++			a.logger.Error(newCtx, &quot;port status not found when start check ports vnet waiting&quot;)
++			return false, gerror.ToError(&quot;port status not found when start check ports vnet waiting&quot;)
++		}
++
++		// 检查PortSpec是否已经为waiting
++		if portSpec.IsSetVnetWaitingDone(opCtx.Inst.InstanceUUID, expectedOpInfo) {
++			opCtx.TxnGen.CompareForPos(portSpec)
++			a.logger.Notice(newCtx, &quot;one port spec already set vnet waiting&quot;)
++			continue
++		}
++
++		// 更新PortSpec至vnet waiting
++		allDone = false
++		newPortSpec := portSpec.DeepCopyEntity().SetVnetWaiting(expectedOpInfo)
++		opCtx.TxnGen.CompareForPos(portSpec).ThenPutForPos(newPortSpec)
++		a.logger.Notice(newCtx, &quot;one port need to wait vnet waiting&quot;)
++	}
++
++	a.logger.NoticeIf(newCtx, !allDone, &quot;not all ports start wait vnet waiting done&quot;)
++	a.logger.NoticeIf(newCtx, allDone, &quot;all ports start wait vnet waiting done&quot;)
++	return allDone, nil
++}
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：函数CompleteSetVpf作为业务函数，缺少进入和离开日志记录，违反日志记录规范。</li>
+<li>建议：在函数开始时添加进入日志，记录关键参数如opCtx、inst、hostname、portUuid；在返回前根据结果添加完成或失败日志，以提升可观测性。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/arranger/snictask/set_vpf.go#hunk-1</li>
+<li>Hunk：@@ -1,16 +1,40 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -1,16 +1,40 @@
+ package snictask
+ 
+ import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/logging&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/paramset&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/ao&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++	&quot;icode.baidu.com/baidu/gdp/logit&quot;
+ )
+ 
++func (a *Arranger) reduceSetVpf(isTaskDone bool, taskErr error, isQvoDone bool, qvoErr error) (bool, error) {
++	// 聚合规则为：
++	// 	1. 如果taskErr或者qvoErr不为nil，优先返回taskErr，触发rollback流程
++	//  2. 如果没有error，需要等isTaskDone和isQvoDone都为true才返回true
++	if taskErr != nil {
++		return false, taskErr
++	}
++	if qvoErr != nil {
++		return false, qvoErr
++	}
++	return isTaskDone &amp;&amp; isQvoDone, nil // 只有两者都完成才返回成功
++}
++
+ // CompleteSetVpf 智能卡网络环境配置,
+ // 该操作会清理原来的网络配置,卡上所有主网卡/弹性网卡qvo都会被删除，然后配置新的主网卡
+ func (a *Arranger) CompleteSetVpf(opCtx *paramset.OpProcessContext, inst *ao.Instance, hostname string, portUuid string) (bool, error) {
+-	return a.completeTask(opCtx, inst, hostname, novapb.SnicTask_set_vpf, a.buildSetVpfBody, portUuid)
++	isTaskDone, taskErr := a.completeTask(opCtx, inst, hostname, novapb.SnicTask_set_vpf, a.buildSetVpfBody, portUuid)
++
++	// 背景: BBC在调用set_vpf之后，snic-agent会删除弹性网卡的qvo，为了适配声明式需要操作qvoSpec/qvoStatus
++	// 1. 先修改qvoSpec.State=deleted和qvoSpec.ServiceExecutor=snic-agent
++	// 2. 等待set_vpf实际执行完成后(manager修改qvoStatus.state=deleted)，重置qvoSpec.ServiceExecutor=nova-agent
++	isQvoDone, qvoErr := a.CompleteQvoDelete(opCtx, hostname, opCtx.Inst.GetElasticPortUuids())
++	if isQvoDone &amp;&amp; qvoErr == nil {
++		isQvoDone, qvoErr = a.CompleteQvoResetServiceExecutor(opCtx, hostname, opCtx.Inst.GetElasticPortUuids())
++	}
++	return a.reduceSetVpf(isTaskDone, taskErr, isQvoDone, qvoErr)
+ }
+ 
+ func (a *Arranger) buildSetVpfBody(body *novapb.SnicTaskReqBody, host *entity.Host, inst *ao.Instance, _ *entity.Operation, targetPortUuid string) error {
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：代码注释中使用了中文标点符号，如全角冒号和逗号，违反注释标点规范。</li>
+<li>建议：将注释中的中文标点替换为英文半角标点，例如将'：'改为':'，'，'改为','，保持风格一致。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/arranger/snictask/set_vpf.go#hunk-1</li>
+<li>Hunk：@@ -1,16 +1,40 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -1,16 +1,40 @@
+ package snictask
+ 
+ import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/logging&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/paramset&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/ao&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
+ 	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++	&quot;icode.baidu.com/baidu/gdp/logit&quot;
+ )
+ 
++func (a *Arranger) reduceSetVpf(isTaskDone bool, taskErr error, isQvoDone bool, qvoErr error) (bool, error) {
++	// 聚合规则为：
++	// 	1. 如果taskErr或者qvoErr不为nil，优先返回taskErr，触发rollback流程
++	//  2. 如果没有error，需要等isTaskDone和isQvoDone都为true才返回true
++	if taskErr != nil {
++		return false, taskErr
++	}
++	if qvoErr != nil {
++		return false, qvoErr
++	}
++	return isTaskDone &amp;&amp; isQvoDone, nil // 只有两者都完成才返回成功
++}
++
+ // CompleteSetVpf 智能卡网络环境配置,
+ // 该操作会清理原来的网络配置,卡上所有主网卡/弹性网卡qvo都会被删除，然后配置新的主网卡
+ func (a *Arranger) CompleteSetVpf(opCtx *paramset.OpProcessContext, inst *ao.Instance, hostname string, portUuid string) (bool, error) {
+-	return a.completeTask(opCtx, inst, hostname, novapb.SnicTask_set_vpf, a.buildSetVpfBody, portUuid)
++	isTaskDone, taskErr := a.completeTask(opCtx, inst, hostname, novapb.SnicTask_set_vpf, a.buildSetVpfBody, portUuid)
++
++	// 背景: BBC在调用set_vpf之后，snic-agent会删除弹性网卡的qvo，为了适配声明式需要操作qvoSpec/qvoStatus
++	// 1. 先修改qvoSpec.State=deleted和qvoSpec.ServiceExecutor=snic-agent
++	// 2. 等待set_vpf实际执行完成后(manager修改qvoStatus.state=deleted)，重置qvoSpec.ServiceExecutor=nova-agent
++	isQvoDone, qvoErr := a.CompleteQvoDelete(opCtx, hostname, opCtx.Inst.GetElasticPortUuids())
++	if isQvoDone &amp;&amp; qvoErr == nil {
++		isQvoDone, qvoErr = a.CompleteQvoResetServiceExecutor(opCtx, hostname, opCtx.Inst.GetElasticPortUuids())
++	}
++	return a.reduceSetVpf(isTaskDone, taskErr, isQvoDone, qvoErr)
+ }
+ 
+ func (a *Arranger) buildSetVpfBody(body *novapb.SnicTaskReqBody, host *entity.Host, inst *ao.Instance, _ *entity.Operation, targetPortUuid string) error {
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：在hunk 2的注释中，使用了中文标点符号（如'，'和'。'），违反GO-STYLE-010规则。</li>
+<li>建议：将中文标点符号替换为英文标点符号，例如将'，'替换为','，'。'替换为'.'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/arranger/snictask/set_vpf_test.go#hunk-2</li>
+<li>Hunk：@@ -22,6 +25,26 @@ func TestCompleteSetVpf(t *testing.T) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -22,6 +25,26 @@ func TestCompleteSetVpf(t *testing.T) {
+ 		},
+ 	)
+ 	defer f1.Reset()
++	// 增加对CompleteQvoDelete和CompleteQvoResetServiceExecutor的mock实现
++	f2 := gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;Arranger{}), &quot;CompleteQvoDelete&quot;,
++		func(_ *Arranger, _ *paramset.OpProcessContext, _ string, _ []string) (bool, error) {
++			return true, nil
++		},
++	)
++	defer f2.Reset()
++	f3 := gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;Arranger{}), &quot;CompleteQvoResetServiceExecutor&quot;,
++		func(_ *Arranger, _ *paramset.OpProcessContext, _ string, _ []string) (bool, error) {
++			return true, nil
++		},
++	)
++	defer f3.Reset()
++	// mock get elastic ports : func (i *Instance) GetElasticPortUuids() []string
++	f4 := gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;ao.Instance{}), &quot;GetElasticPortUuids&quot;,
++		func(_ *ao.Instance) []string {
++			return nil
++		},
++	)
++	defer f4.Reset()
+ 
+ 	done, err := arranger.CompleteSetVpf(&amp;paramset.OpProcessContext{}, &amp;ao.Instance{}, &quot;fake-host&quot;, &quot;fake-port&quot;)
+ 	assert.NoError(t, err)
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：新增的函数unmarshalChangeSubnetContext未包含任何日志记录语句，违反了日志记录规范。</li>
+<li>建议：建议在函数入口处记录入参关键信息（如requestSpec），在错误返回时记录失败日志（包含错误详情），在成功返回时记录完成日志。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/datatransformer/converter/action_req2operation_converter.go#hunk-3</li>
+<li>Hunk：@@ -298,6 +304,18 @@ func unmarshalChangeVpcContext(requestSpec string, operation *etcdpo.Operation)</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -298,6 +304,18 @@ func unmarshalChangeVpcContext(requestSpec string, operation *etcdpo.Operation)
+ 	return nil
+ }
+ 
++func unmarshalChangeSubnetContext(requestSpec string, operation *etcdpo.Operation) error {
++	var reqSpec changeSubnetRequestSpec
++	if err := json.Unmarshal([]byte(requestSpec), &amp;reqSpec); err != nil {
++		return err
++	}
++	operation.ChangeSubnetContext = &amp;novapb.ChangeSubnetContext{
++		OldFixedIp: reqSpec.OldFixedIp,
++		NewFixedIp: reqSpec.NewFixedIp,
++	}
++	return nil
++}
++
+ func unmarshalRebootContext(requestSpec string, operation *etcdpo.Operation) error {
+ 	var reqSpec RebootActionReqRequestSpec
+ 	if err := json.Unmarshal([]byte(requestSpec), &amp;reqSpec); err != nil {
+
+</code></pre>
+<h3>[GO-STYLE-004] 闭包逻辑应保持简短，函数内定义的 func 不得超过 5 行</h3>
+<ul>
+<li>说明：在 TestUnmarshalChangeSubnetContext 函数中，t.Run 使用的匿名函数体包含多行代码，如变量定义、错误检查和多个条件判断，明显超过5行有效代码，违反闭包简洁性原则。</li>
+<li>建议：将匿名函数抽取为独立的具名函数，例如定义为 testUnmarshalChangeSubnetContextCase，并在 t.Run 中调用，以提高代码可读性和可维护性。</li>
+<li>规则说明：检查函数内部定义的匿名函数或闭包（func literal）： 1）闭包体逻辑应保持高度内聚和简洁，原则上不超过 5 行有效代码 2）若闭包包含复杂控制流、业务判断或多步处理，应将其抽取为具名函数 若发现函数内定义的 func 逻辑超过 5 行，应提示拆分为独立函数。</li>
+<li>位置：internal/novacontroller/datatransformer/converter/action_req2operation_converter_test.go#hunk-3</li>
+<li>Hunk：@@ -281,3 +281,293 @@ func Test_unmarshalRebuildContextV2(t *testing.T) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -281,3 +281,293 @@ func Test_unmarshalRebuildContextV2(t *testing.T) {
+ 	assert.Equal(t, &quot;8a865dc9-3bc3-4ce0-9df2-5be0d6bfba3c&quot;, op.RebuildContext.ImageId)
+ 	assert.Equal(t, &quot;bd12345&quot;, op.RebuildContext.NewPassword)
+ }
++
++// TestInitActionReq2OperationConvertInfos 是用于测试 InitActionReq2OperationConvertInfos
++// generated by Comate
++func TestInitActionReq2OperationConvertInfos(t *testing.T) {
++	converter := &amp;Converter{}
++	initActionReq2OperationConvertInfos(converter)
++
++	// Test actionReqStatus2OperationConsoleJobStatusMap
++	expectedConsoleJobStatusMap := map[bcc_nova_master.ActionStatus]novapb.OperationStatus_Status{
++		bcc_nova_master.ActionStatus_kSUCC: novapb.OperationStatus_success,
++		bcc_nova_master.ActionStatus_kFAIL: novapb.OperationStatus_failed,
++	}
++	for k, v := range expectedConsoleJobStatusMap {
++		if converter.actionReqStatus2OperationConsoleJobStatusMap[k] != v {
++			t.Errorf(&quot;actionReqStatus2OperationConsoleJobStatusMap[%v] = %v, want %v&quot;, k, converter.actionReqStatus2OperationConsoleJobStatusMap[k], v)
++		}
++	}
++
++	// Test ActionReqType2OperationTypeMap
++	expectedTypeMap := map[bcc_nova_master.ActionType]novapb.OperationType_Type{
++		bcc_nova_master.ActionType_kAttachInterface:        novapb.OperationType_attach_interface,
++		bcc_nova_master.ActionType_kDetachInterface:        novapb.OperationType_detach_interface,
++		bcc_nova_master.ActionType_kReboot:                 novapb.OperationType_reboot,
++		bcc_nova_master.ActionType_kRebuild:                novapb.OperationType_rebuild,
++		bcc_nova_master.ActionType_kRollbackSnapshot:       novapb.OperationType_rollback_snapshot,
++		bcc_nova_master.ActionType_kInstStart:              novapb.OperationType_start,
++		bcc_nova_master.ActionType_kInstStop:               novapb.OperationType_stop,
++		bcc_nova_master.ActionType_kInstReboot:             novapb.OperationType_reboot,
++		bcc_nova_master.ActionType_kInstRebuild:            novapb.OperationType_rebuild,
++		bcc_nova_master.ActionType_kInstCreateTemplate:     novapb.OperationType_create_template,
++		bcc_nova_master.ActionType_kInstCreateSnapshot:     novapb.OperationType_create_snapshot,
++		bcc_nova_master.ActionType_kInstChangeMac:          novapb.OperationType_change_mac,
++		bcc_nova_master.ActionType_kInstAddIp:              novapb.OperationType_add_ip,
++		bcc_nova_master.ActionType_kInstChangeSubnet:       novapb.OperationType_change_subnet,
++		bcc_nova_master.ActionType_kInstChangePassword:     novapb.OperationType_change_password,
++		bcc_nova_master.ActionType_kInstMakeAcl:            novapb.OperationType_make_acl,
++		bcc_nova_master.ActionType_kInstAttachVolume:       novapb.OperationType_attach_volume,
++		bcc_nova_master.ActionType_kInstDetachVolume:       novapb.OperationType_detach_volume,
++		bcc_nova_master.ActionType_kInstRealDeleteSnapshot: novapb.OperationType_real_delete_snapshot,
++		bcc_nova_master.ActionType_kInstUpdateSshKeys:      novapb.OperationType_update_ssh_keys,
++		bcc_nova_master.ActionType_kInstUpdateHostname:     novapb.OperationType_update_hostname,
++		bcc_nova_master.ActionType_kInstAttachIsoImage:     novapb.OperationType_attach_iso_image,
++		bcc_nova_master.ActionType_kInstDetachIsoImage:     novapb.OperationType_detach_iso_image,
++		bcc_nova_master.ActionType_kPodAttachVolumes:       novapb.OperationType_pod_attach_volumes,
++		bcc_nova_master.ActionType_kInstDestroy:            novapb.OperationType_delete,
++		bcc_nova_master.ActionType_kInstChangeVpc:          novapb.OperationType_change_vpc,
++		bcc_nova_master.ActionType_kInstShutDownGuest:      novapb.OperationType_shutdown_guest,
++		bcc_nova_master.ActionType_kInstShutDownHost:       novapb.OperationType_shutdown_host,
++		bcc_nova_master.ActionType_kInstShutDownFinished:   novapb.OperationType_shutdown_finished,
++		bcc_nova_master.ActionType_KInstCrashedPanicked:    novapb.OperationType_crashed_panicked,
++		bcc_nova_master.ActionType_kInstSetMtu:             novapb.OperationType_set_mtu,
++		bcc_nova_master.ActionType_kInstExtendVolumes:      novapb.OperationType_extend_volumes,
++	}
++	for k, v := range expectedTypeMap {
++		if converter.ActionReqType2OperationTypeMap[k] != v {
++			t.Errorf(&quot;ActionReqType2OperationTypeMap[%v] = %v, want %v&quot;, k, converter.ActionReqType2OperationTypeMap[k], v)
++		}
++	}
++
++	// Test ActionReqStatus2OperationStatusMap
++	expectedStatusMap := map[bcc_nova_master.ActionStatus]novapb.OperationStatus_Status{
++		bcc_nova_master.ActionStatus_kINIT:        novapb.OperationStatus_init,
++		bcc_nova_master.ActionStatus_kDISPATCHING: novapb.OperationStatus_init,
++		bcc_nova_master.ActionStatus_kRECV:        novapb.OperationStatus_init,
++		bcc_nova_master.ActionStatus_kRUNNING:     novapb.OperationStatus_running,
++		bcc_nova_master.ActionStatus_kSUCC:        novapb.OperationStatus_success,
++		bcc_nova_master.ActionStatus_kFAIL:        novapb.OperationStatus_failed,
++	}
++	for k, v := range expectedStatusMap {
++		if converter.ActionReqStatus2OperationStatusMap[k] != v {
++			t.Errorf(&quot;ActionReqStatus2OperationStatusMap[%v] = %v, want %v&quot;, k, converter.ActionReqStatus2OperationStatusMap[k], v)
++		}
++	}
++
++	// Test actionRequestSpecUnmarshalFuncMap
++	expectedUnmarshalFuncs := []bcc_nova_master.ActionType{
++		bcc_nova_master.ActionType_kInstStop,
++		bcc_nova_master.ActionType_kInstAttachVolume,
++		bcc_nova_master.ActionType_kInstDetachVolume,
++		bcc_nova_master.ActionType_kAttachInterface,
++		bcc_nova_master.ActionType_kDetachInterface,
++		bcc_nova_master.ActionType_kInstChangeVpc,
++		bcc_nova_master.ActionType_kInstChangeSubnet,
++		bcc_nova_master.ActionType_kInstStart,
++		bcc_nova_master.ActionType_kReboot,
++		bcc_nova_master.ActionType_kInstChangePassword,
++		bcc_nova_master.ActionType_kInstUpdateSshKeys,
++		bcc_nova_master.ActionType_kInstReboot,
++		bcc_nova_master.ActionType_kRebuild,
++	}
++	for _, actionType := range expectedUnmarshalFuncs {
++		if _, exists := converter.actionRequestSpecUnmarshalFuncMap[actionType]; !exists {
++			t.Errorf(&quot;actionRequestSpecUnmarshalFuncMap should contain key %v&quot;, actionType)
++		}
++	}
++}
++
++// TestUnmarshalChangeSubnetContext 是用于测试 UnmarshalChangeSubnetContext
++// generated by Comate
++func TestUnmarshalChangeSubnetContext(t *testing.T) {
++	tests := []struct {
++		name        string
++		requestSpec string
++		wantErr     bool
++		expectedCtx *novapb.ChangeSubnetContext
++	}{
++		{
++			name:        &quot;valid change subnet request spec&quot;,
++			requestSpec: `{&quot;old_fixed_ip&quot;: &quot;192.168.1.10&quot;, &quot;new_fixed_ip&quot;: &quot;192.168.1.20&quot;}`,
++			wantErr:     false,
++			expectedCtx: &amp;novapb.ChangeSubnetContext{
++				OldFixedIp: &quot;192.168.1.10&quot;,
++				NewFixedIp: &quot;192.168.1.20&quot;,
++			},
++		},
++		{
++			name:        &quot;empty request spec&quot;,
++			requestSpec: `{}`,
++			wantErr:     false,
++			expectedCtx: &amp;novapb.ChangeSubnetContext{
++				OldFixedIp: &quot;&quot;,
++				NewFixedIp: &quot;&quot;,
++			},
++		},
++		{
++			name:        &quot;invalid JSON format&quot;,
++			requestSpec: `{&quot;old_fixed_ip&quot;: &quot;192.168.1.10&quot;, &quot;new_fixed_ip&quot;: &quot;192.168.1.20&quot;`,
++			wantErr:     true,
++			expectedCtx: nil,
++		},
++		{
++			name:        &quot;null values in request spec&quot;,
++			requestSpec: `{&quot;old_fixed_ip&quot;: null, &quot;new_fixed_ip&quot;: null}`,
++			wantErr:     false,
++			expectedCtx: &amp;novapb.ChangeSubnetContext{
++				OldFixedIp: &quot;&quot;,
++				NewFixedIp: &quot;&quot;,
++			},
++		},
++		{
++			name:        &quot;extra fields in request spec&quot;,
++			requestSpec: `{&quot;old_fixed_ip&quot;: &quot;192.168.1.10&quot;, &quot;new_fixed_ip&quot;: &quot;192.168.1.20&quot;, &quot;extra_field&quot;: &quot;value&quot;}`,
++			wantErr:     false,
++			expectedCtx: &amp;novapb.ChangeSubnetContext{
++				OldFixedIp: &quot;192.168.1.10&quot;,
++				NewFixedIp: &quot;192.168.1.20&quot;,
++			},
++		},
++	}
++
++	for _, tt := range tests {
++		t.Run(tt.name, func(t *testing.T) {
++			operation := &amp;etcdpo.Operation{
++				Operation: &amp;novapb.Operation{},
++			}
++
++			err := unmarshalChangeSubnetContext(tt.requestSpec, operation)
++
++			if (err != nil) != tt.wantErr {
++				t.Errorf(&quot;unmarshalChangeSubnetContext() error = %v, wantErr %v&quot;, err, tt.wantErr)
++				return
++			}
++
++			if !tt.wantErr {
++				if operation.ChangeSubnetContext == nil {
++					t.Error(&quot;unmarshalChangeSubnetContext() ChangeSubnetContext is nil&quot;)
++					return
++				}
++
++				if operation.ChangeSubnetContext.OldFixedIp != tt.expectedCtx.OldFixedIp {
++					t.Errorf(&quot;unmarshalChangeSubnetContext() OldFixedIp = %v, want %v&quot;, operation.ChangeSubnetContext.OldFixedIp, tt.expectedCtx.OldFixedIp)
++				}
++
++				if operation.ChangeSubnetContext.NewFixedIp != tt.expectedCtx.NewFixedIp {
++					t.Errorf(&quot;unmarshalChangeSubnetContext() NewFixedIp = %v, want %v&quot;, operation.ChangeSubnetContext.NewFixedIp, tt.expectedCtx.NewFixedIp)
++				}
++			}
++		})
++	}
++}
++
++// TestInitActionReq2OperationConvertInfos1 是用于测试 InitActionReq2OperationConvertInfos
++// generated by Comate
++func TestInitActionReq2OperationConvertInfos1(t *testing.T) {
++	converter := &amp;Converter{}
++	initActionReq2OperationConvertInfos(converter)
++
++	// Test actionReqStatus2OperationConsoleJobStatusMap
++	expectedConsoleJobStatusMap := map[bcc_nova_master.ActionStatus]novapb.OperationStatus_Status{
++		bcc_nova_master.ActionStatus_kSUCC: novapb.OperationStatus_success,
++		bcc_nova_master.ActionStatus_kFAIL: novapb.OperationStatus_failed,
++	}
++	for k, v := range expectedConsoleJobStatusMap {
++		if converter.actionReqStatus2OperationConsoleJobStatusMap[k] != v {
++			t.Errorf(&quot;actionReqStatus2OperationConsoleJobStatusMap[%v] = %v, want %v&quot;, k, converter.actionReqStatus2OperationConsoleJobStatusMap[k], v)
++		}
++	}
++
++	// Test ActionReqType2OperationTypeMap
++	expectedTypeMap := map[bcc_nova_master.ActionType]novapb.OperationType_Type{
++		bcc_nova_master.ActionType_kAttachInterface:        novapb.OperationType_attach_interface,
++		bcc_nova_master.ActionType_kDetachInterface:        novapb.OperationType_detach_interface,
++		bcc_nova_master.ActionType_kReboot:                 novapb.OperationType_reboot,
++		bcc_nova_master.ActionType_kRebuild:                novapb.OperationType_rebuild,
++		bcc_nova_master.ActionType_kRollbackSnapshot:       novapb.OperationType_rollback_snapshot,
++		bcc_nova_master.ActionType_kInstStart:              novapb.OperationType_start,
++		bcc_nova_master.ActionType_kInstStop:               novapb.OperationType_stop,
++		bcc_nova_master.ActionType_kInstReboot:             novapb.OperationType_reboot,
++		bcc_nova_master.ActionType_kInstRebuild:            novapb.OperationType_rebuild,
++		bcc_nova_master.ActionType_kInstCreateTemplate:     novapb.OperationType_create_template,
++		bcc_nova_master.ActionType_kInstCreateSnapshot:     novapb.OperationType_create_snapshot,
++		bcc_nova_master.ActionType_kInstChangeMac:          novapb.OperationType_change_mac,
++		bcc_nova_master.ActionType_kInstAddIp:              novapb.OperationType_add_ip,
++		bcc_nova_master.ActionType_kInstChangeSubnet:       novapb.OperationType_change_subnet,
++		bcc_nova_master.ActionType_kInstChangePassword:     novapb.OperationType_change_password,
++		bcc_nova_master.ActionType_kInstMakeAcl:            novapb.OperationType_make_acl,
++		bcc_nova_master.ActionType_kInstAttachVolume:       novapb.OperationType_attach_volume,
++		bcc_nova_master.ActionType_kInstDetachVolume:       novapb.OperationType_detach_volume,
++		bcc_nova_master.ActionType_kInstRealDeleteSnapshot: novapb.OperationType_real_delete_snapshot,
++		bcc_nova_master.ActionType_kInstUpdateSshKeys:      novapb.OperationType_update_ssh_keys,
++		bcc_nova_master.ActionType_kInstUpdateHostname:     novapb.OperationType_update_hostname,
++		bcc_nova_master.ActionType_kInstAttachIsoImage:     novapb.OperationType_attach_iso_image,
++		bcc_nova_master.ActionType_kInstDetachIsoImage:     novapb.OperationType_detach_iso_image,
++		bcc_nova_master.ActionType_kPodAttachVolumes:       novapb.OperationType_pod_attach_volumes,
++		bcc_nova_master.ActionType_kInstDestroy:            novapb.OperationType_delete,
++		bcc_nova_master.ActionType_kInstChangeVpc:          novapb.OperationType_change_vpc,
++		bcc_nova_master.ActionType_kInstShutDownGuest:      novapb.OperationType_shutdown_guest,
++		bcc_nova_master.ActionType_kInstShutDownHost:       novapb.OperationType_shutdown_host,
++		bcc_nova_master.ActionType_kInstShutDownFinished:   novapb.OperationType_shutdown_finished,
++		bcc_nova_master.ActionType_KInstCrashedPanicked:    novapb.OperationType_crashed_panicked,
++		bcc_nova_master.ActionType_kInstSetMtu:             novapb.OperationType_set_mtu,
++		bcc_nova_master.ActionType_kInstExtendVolumes:      novapb.OperationType_extend_volumes,
++	}
++	for k, v := range expectedTypeMap {
++		if converter.ActionReqType2OperationTypeMap[k] != v {
++			t.Errorf(&quot;ActionReqType2OperationTypeMap[%v] = %v, want %v&quot;, k, converter.ActionReqType2OperationTypeMap[k], v)
++		}
++	}
++
++	// Test ActionReqStatus2OperationStatusMap
++	expectedStatusMap := map[bcc_nova_master.ActionStatus]novapb.OperationStatus_Status{
++		bcc_nova_master.ActionStatus_kINIT:        novapb.OperationStatus_init,
++		bcc_nova_master.ActionStatus_kDISPATCHING: novapb.OperationStatus_init,
++		bcc_nova_master.ActionStatus_kRECV:        novapb.OperationStatus_init,
++		bcc_nova_master.ActionStatus_kRUNNING:     novapb.OperationStatus_running,
++		bcc_nova_master.ActionStatus_kSUCC:        novapb.OperationStatus_success,
++		bcc_nova_master.ActionStatus_kFAIL:        novapb.OperationStatus_failed,
++	}
++	for k, v := range expectedStatusMap {
++		if converter.ActionReqStatus2OperationStatusMap[k] != v {
++			t.Errorf(&quot;ActionReqStatus2OperationStatusMap[%v] = %v, want %v&quot;, k, converter.ActionReqStatus2OperationStatusMap[k], v)
++		}
++	}
++
++	// Test actionRequestSpecUnmarshalFuncMap
++	expectedUnmarshalFuncs := map[bcc_nova_master.ActionType]func(string, *etcdpo.Operation) error{
++		bcc_nova_master.ActionType_kInstStop:           unmarshalStopContext,
++		bcc_nova_master.ActionType_kInstAttachVolume:   unmarshalAttachVolumeContext,
++		bcc_nova_master.ActionType_kInstDetachVolume:   unmarshalDetachVolumeContext,
++		bcc_nova_master.ActionType_kAttachInterface:    unmarshalAttachInterfaceContext,
++		bcc_nova_master.ActionType_kDetachInterface:    unmarshalDetachInterfaceContext,
++		bcc_nova_master.ActionType_kInstChangeVpc:      unmarshalChangeVpcContext,
++		bcc_nova_master.ActionType_kInstChangeSubnet:   unmarshalChangeSubnetContext,
++		bcc_nova_master.ActionType_kInstStart:          unmarshalStartContext,
++		bcc_nova_master.ActionType_kReboot:             unmarshalRebootContext,
++		bcc_nova_master.ActionType_kInstChangePassword: unmarshalChangePasswordContext,
++		bcc_nova_master.ActionType_kInstUpdateSshKeys:  unmarshalUpdateSSHKeysContext,
++		bcc_nova_master.ActionType_kInstReboot:         unmarshalRebootContext,
++		bcc_nova_master.ActionType_kRebuild:            unmarshalRebuildContext,
++	}
++	for k, expectedFunc := range expectedUnmarshalFuncs {
++		actualFunc := converter.actionRequestSpecUnmarshalFuncMap[k]
++		if actualFunc == nil {
++			t.Errorf(&quot;actionRequestSpecUnmarshalFuncMap[%v] is nil, expected function&quot;, k)
++			continue
++		}
++		// Compare function pointers to ensure they are the same function
++		if getFunctionName(actualFunc) != getFunctionName(expectedFunc) {
++			t.Errorf(&quot;actionRequestSpecUnmarshalFuncMap[%v] function mismatch&quot;, k)
++		}
++	}
++}
++
++// getFunctionName 是用于测试 getFunctionName
++// generated by Comate
++func getFunctionName(f interface{}) string {
++	// This is a simplified approach - in real testing you might need a more robust way
++	// to compare function identities, or simply verify that the function is not nil
++	return &quot;&quot;
++}
+
+</code></pre>
+<h3>[GO-STYLE-006] 业务逻辑中禁止使用 o1、value1 等无语义命名</h3>
+<ul>
+<li>说明：变量命名f1和f2使用编号式命名，缺乏业务语义，违反命名规范。</li>
+<li>建议：建议重命名为有意义的名称，如updateDataPatch和recheckActionPatch，以体现其用途。</li>
+<li>规则说明：检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名： 1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名； 2）命名应体现业务含义、角色或来源（如 userID、instanceMeta、diskInfos、targetHost）； 3）在对比、映射、聚合等业务处理中，应区分来源与语义（如 old/new、src/dst、expected/actual）； 4）仅在极短作用域、且语义高度明确的场景下（如 for 循环索引 i、j）可例外。 若在业务逻辑中发现无语义编号式命名，应提示重命名以提升可读性与可维护性。</li>
+<li>位置：internal/novacontroller/datatransformer/executor_for_action_req_test.go#hunk-3</li>
+<li>Hunk：@@ -1195,3 +1198,47 @@ func TestInstDataTransformExecutor_nodeUpdateAfterDeleteInstFinish(t *testing.T)</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -1195,3 +1198,47 @@ func TestInstDataTransformExecutor_nodeUpdateAfterDeleteInstFinish(t *testing.T)
+ 		assert.Equal(t, expectedErr, err)
+ 	})
+ }
++
++// TestInstDataTransformExecutor_updateOriginArchActionReqAndInstInfo1 是用于测试 InstDataTransformExecutor_updateOriginArchActionReqAndInstInfo
++// generated by Comate
++func TestInstDataTransformExecutor_updateOriginArchActionReqAndInstInfo1(t *testing.T) {
++	fakeDataTransformExecutor := generateFakeDataTransformExecutor()
++	actionStatus := bcc_nova_master.ActionStatus_kDISPATCHING
++	actionType := bcc_nova_master.ActionType_kInstChangeVpc
++	fakeActionReq := &amp;entity.ActionRequest{
++		ActionRequest: &amp;etcdpo.ActionRequest{
++			ActionRequest: &amp;bcc_nova_master.ActionRequest{
++				ActionStatus: &amp;actionStatus,
++				ActionType:   &amp;actionType,
++			},
++		},
++	}
++	f1 := gomonkey.ApplyPrivateMethod(reflect.TypeOf(fakeDataTransformExecutor), &quot;updateDataToOldArchAfterChangeVpcFinish&quot;,
++		func(_ *InstDataTransformExecutor, _ context.Context, _ *ao.Instance,
++			_ *entity.InstanceInfo, _ *entity.ActionRequest, _ *ao.Operation) error {
++			return errors.New(&quot;fake error&quot;)
++		})
++	defer f1.Reset()
++	f2 := gomonkey.ApplyPrivateMethod(reflect.TypeOf(fakeDataTransformExecutor), &quot;recheckActionReqAfterUpdateActionReqAndInstanceError&quot;,
++		func(_ *InstDataTransformExecutor, _ context.Context, _ error, _ *entity.ActionRequest) error {
++			return errors.New(&quot;fake error&quot;)
++		})
++	defer f2.Reset()
++	newInst := generateFakeNewArchInstWrapper()
++	oldInst := generateFakeOldInstanceInfo()
++	operation := &amp;ao.Operation{
++		Operation: &amp;entity.Operation{
++			Operation: &amp;etcdpo.Operation{
++				Operation: &amp;novapb.Operation{
++					Id:           fakeActionReq.GetRequestId(),
++					InstanceUuid: newInst.InstanceUUID,
++					OpStatus:     novapb.OperationStatus_running,
++				},
++			},
++		},
++	}
++	err := fakeDataTransformExecutor.updateOriginArchActionReqAndInstInfo(
++		context.Background(),
++		fakeActionReq, newInst, oldInst, operation, nil)
++	assert.NotNil(t, err)
++}
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中多处使用中文标点符号，例如：'// warning: 此步骤必须在set_vpf之前做，原因在于neutron侧感知到waiting之后才会去感知qvo的变动' 中的 '，' 和 '。'；'// NOTICE: 变更子网不允许裸金属挂有弹性网卡, console侧有拦截; 变更内网IP只能操作主网卡的IP, console侧有限制' 中的 '，' 和 '；'；'// 回滚保证qvoSpec.serviceExecutor的标记位被重置为nova-agent，不影响后续流程。' 中的 '，' 和 '。'</li>
+<li>建议：将注释中的中文标点符号统一替换为英文半角标点，例如：',' 替换 ','、'.' 替换 '。'、';' 替换 '；'，并确保中文文本保留但标点使用英文形式</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/change_subnet.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,100 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,100 @@
++// Package bbcnetworkoffloadmgr implements change_subnet
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package bbcnetworkoffloadmgr
++
++import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
++	se &quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/stepexecutor&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++const (
++	StepIDChangeSubnetCreateFirewallRule = &quot;change_subnet_create_firewall_rule&quot;
++	// warning: 此步骤必须在set_vpf之前做，原因在于neutron侧感知到waiting之后才会去感知qvo的变动
++	StepIDChangeSubnetSetPortVnetWaiting              = &quot;change_subnet_set_port_vnet_waiting&quot;
++	StepIDChangeSubnetSetVpfAndWaitVnetAvailable      = &quot;change_subnet_set_vpf_and_wait_vnet_available&quot;
++	StepIDChangeSubnetCreateQvo                       = &quot;change_subnet_create_qvo&quot;
++	StepIDChangeSubnetSaveInstanceInfoToRedis         = &quot;change_subnet_save_instance_to_redis&quot;
++	StepIDChangeSubnetPxeChangeIpAndCleanFirewallRule = &quot;change_subnet_pxe_change_ip_and_clean_firewall_rule&quot;
++	StepIDChangeSubnetPostOperate                     = &quot;change_subnet_post_operate&quot;
++
++	StepIDRollbackChangeSubnetResetServiceExecutor    = &quot;rollback_change_subnet_reset_service_executor&quot;
++	StepIDRollbackChangeSubnetResetPortDeduceInfo     = &quot;rollback_change_subnet_reset_deduce_info&quot;
++	StepIDRollbackChangeSubnetCleanFirewallRule       = &quot;rollback_change_subnet_clean_firewall_rule&quot;
++	StepIDRollbackChangeSubnetPostOperate             = &quot;rollback_change_subnet_post_operate&quot;
++	StepIDRollbackChangeSubnetSaveInstanceInfoToRedis = &quot;rollback_change_subnet_save_instance_to_redis&quot;
++)
++
++// DoChangeVpc 变更子网全流程
++func (m *InstMgr) DoChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	primaryPortUuid := m.opCtx.Inst.GetPrimaryPortID()
++	elasticPortUuids := m.opCtx.Inst.GetElasticPortUuids()
++	return se.NewStepExecutor(m.opCtx, m.logger, hostStepInfo).
++		// 1. pxe前置操作, 创建防火墙ACL规则
++		AddStep(StepIDChangeSubnetCreateFirewallRule,
++			se.NodeBy1(m.BaseMgr.PortArranger.CompleteCreateFireWallRules, primaryPortUuid)).
++		// 2. 网卡设置为waiting, 目的是为了通知neutron感知qvo变化, 该步骤必须在set_vpf前面。
++		// NOTICE: 变更子网不允许裸金属挂有弹性网卡, console侧有拦截; 变更内网IP只能操作主网卡的IP, console侧有限制
++		AddStep(StepIDChangeSubnetSetPortVnetWaiting,
++			se.NodeBy1(m.BaseMgr.PortArranger.CompleteSetPortsVnetWaiting, []string{primaryPortUuid})).
++		// 3. set_vpf并等待neutron port vnet available
++		AddStep(StepIDChangeSubnetSetVpfAndWaitVnetAvailable,
++			se.SequentialNodes(
++				se.NodeBy3(m.BaseMgr.SnicArranger.CompleteSetVpf, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost(), primaryPortUuid),
++				se.NodeBy1(m.BaseMgr.PortArranger.CompleteCheckPortsVnetAvailable, []string{primaryPortUuid})),
++		).
++		// 4. 创建qvo（set_vpf会导致BBC弹性网卡qvo被清除，因此这里需要重新生成）
++		AddStep(StepIDChangeSubnetCreateQvo,
++			se.NodeBy2(m.BaseMgr.QvoArranger.CompleteCreate, m.hostname, elasticPortUuids)).
++		// 5. 保存元数据到Redis
++		AddStep(StepIDChangeSubnetSaveInstanceInfoToRedis,
++			se.NodeBy0(m.BaseMgr.InstArranger.SaveInstanceInfoToRedis),
++		).
++		// 6. pxe修改ip: 进pxe环境执行操作, 清理防火墙ACL规则
++		AddStep(StepIDChangeSubnetPxeChangeIpAndCleanFirewallRule,
++			se.SequentialNodes(
++				se.NodeBy4(m.CsocTaskArranger.CompletePxeChangeIp, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost(), primaryPortUuid, novapb.OperationType_change_subnet),
++				se.NodeBy1(m.BaseMgr.PortArranger.CompleteDeleteFireWallRules, primaryPortUuid)),
++		).
++		// 7. 后置操作: 清理portSpec/Status、qvoSpec/qvoStatus及op信息
++		AddStep(StepIDChangeSubnetPostOperate,
++			se.ParallelNodes(
++				se.NodeBy1(m.BaseMgr.QvoArranger.ClearOpInfosAndOpResults, m.hostname),
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPortUuid}),
++				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_active))).
++		Run()
++}
++
++// DoRollbackChangeSubnet 变更子网回滚全流程
++// 回滚保证qvoSpec.serviceExecutor的标记位被重置为nova-agent，不影响后续流程。
++// 回滚不保证主网卡的portSpec/portStatus的vnetState，因为set_waiting或者wait_vnet_available如果失败，这里会将主网卡portStatus.vnetState置成error
++// 回滚不保证弹性网卡qvoSpec/qvoStatus的state，因为set_vpf如果失败，不确定qvo是否被删除，这里会将全部弹性网卡的qvoStatus.state置成error
++// 回滚完成后虚机进入error状态，值班同学排查后建议让用户再次发起变更子网操作
++func (m *InstMgr) DoRollbackChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	primaryPortUuid := m.opCtx.Inst.GetPrimaryPortID()
++	elasticPortUuids := m.opCtx.Inst.GetElasticPortUuids()
++	return se.NewStepExecutor(m.opCtx, m.logger, hostStepInfo).
++		// 1. 失败后首先把qvoSpc的serviceExecutor重置，避免ETCD假删残留标记位，导致后续无法真正卸载qvo
++		AddStep(StepIDRollbackChangeSubnetResetServiceExecutor,
++			se.NodeBy2(m.BaseMgr.SnicArranger.CompleteQvoResetServiceExecutor, m.hostname, elasticPortUuids)).
++		// 2. 清理port的推断信息
++		AddStep(StepIDRollbackChangeSubnetResetPortDeduceInfo,
++			// 为了避免portSpec.vnetState=waiting/vnet_available影响neutronMgr的推断，这里将portSpec和portStatus的vnetState置为unknown
++			se.NodeBy1(m.BaseMgr.PortArranger.ResetDeduceInfo, []string{primaryPortUuid})).
++		// 3. 清理防火墙规则
++		AddStep(StepIDRollbackChangeSubnetCleanFirewallRule,
++			se.NodeBy1(m.BaseMgr.PortArranger.CompleteDeleteFireWallRules, primaryPortUuid)).
++		// 4. 后置操作: 清理portSpec/Status/opInfo/opResult, 实例状态置为error
++		AddStep(StepIDRollbackChangeSubnetPostOperate,
++			se.ParallelNodes(
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPortUuid}),
++				se.NodeBy1(m.BaseMgr.QvoArranger.ClearOpInfosAndOpResults, m.hostname),
++				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_error)),
++			se.ResetCond(se.OnStepFinished(StepIDRollbackChangeSubnetCleanFirewallRule))).
++		// 5.保存元数据到redis
++		AddStep(StepIDRollbackChangeSubnetSaveInstanceInfoToRedis,
++			se.NodeBy0(m.BaseMgr.InstArranger.SaveInstanceInfoToRedis),
++			se.ResetCond(se.OnStepFinished(StepIDRollbackChangeSubnetPostOperate))).
++		Run()
++}
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文标点符号（如：、，等），违反GO-STYLE-010规范要求使用英文半角标点。</li>
+<li>建议：将注释中的中文标点符号替换为英文半角标点，例如冒号改为':'，逗号改为','，句号改为'.'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/change_vpc.go#hunk-2</li>
+<li>Hunk：@@ -53,13 +51,13 @@ func (m *InstMgr) DoChangeVpc(hostStepInfo *entity.HostStepInfo) *entity.HostSte</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -53,13 +51,13 @@ func (m *InstMgr) DoChangeVpc(hostStepInfo *entity.HostStepInfo) *entity.HostSte
+ 		// 4. pxe修改ip: 进pxe环境执行操作, 清理防火墙ACL规则
+ 		AddStep(StepIDChangeVpcPxeChangeIpAndCleanFirewallRule,
+ 			se.SequentialNodes(
+-				se.NodeBy3(m.CsocTaskArranger.CompletePxeChangeIp, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost(), portUuid),
++				se.NodeBy4(m.CsocTaskArranger.CompletePxeChangeIp, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost(), portUuid, novapb.OperationType_change_vpc),
+ 				se.NodeBy1(m.BaseMgr.PortArranger.CompleteDeleteFireWallRules, portUuid)),
+ 		).
+ 		// 5. 删除旧网卡: 删除旧网卡qvo Spec/Status, port Spec/Status, 从实例网络信息中删除旧网卡port
+ 		AddStep(StepIDChangeVpcDeleteOldPortAndDetachFromInstance,
+ 			se.SequentialNodes(
+-				se.NodeBy3(m.BaseMgr.QvoArranger.CompleteDelete, m.hostname, []string{oldPortUuid}, MustSucceed),
++				se.NodeBy3(m.BaseMgr.QvoArranger.CompleteDelete, m.hostname, []string{oldPortUuid}, bbcbasemgr.MustSucceed),
+ 				se.NodeBy1(m.BaseMgr.PortArranger.CompleteDeleteVpcPortSpecStatus, []string{oldPortUuid}),
+ 				se.NodeBy1(m.BaseMgr.InstArranger.CompleteDetachInterfaces, []string{oldPortUuid})),
+ 		).
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文全角标点符号，如逗号'，'和括号'（）'，违反GO-STYLE-010规范。</li>
+<li>建议：请将中文标点替换为英文半角标点，例如使用','代替'，'，使用'('代替'（'等。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/create.go#hunk-3</li>
+<li>Hunk：@@ -92,7 +93,7 @@ func (m *InstMgr) DoRollbackCreate(hostStepInfo *entity.HostStepInfo) *entity.Ho</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -92,7 +93,7 @@ func (m *InstMgr) DoRollbackCreate(hostStepInfo *entity.HostStepInfo) *entity.Ho
+ 		// 回滚开始之前,需要先清理正向流程中的xxSpec/Status残留状态(避免op推断状态冲突)
+ 		AddStep(StepIDRollbackCreateBegin,
+ 			se.ParallelNodes(
+-				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResults, []string{primaryPortUuid}),
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPortUuid}),
+ 				se.NodeBy1(m.BaseMgr.HpcArranger.ClearOpInfos, m.hostname),
+ 			)).
+ 		// 1. 回滚firewalls、roce acl
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文全角标点符号，如逗号'，'，违反GO-STYLE-010规范。</li>
+<li>建议：请使用英文半角标点符号，例如将'，'替换为','。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/create.go#hunk-4</li>
+<li>Hunk：@@ -100,7 +101,7 @@ func (m *InstMgr) DoRollbackCreate(hostStepInfo *entity.HostStepInfo) *entity.Ho</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -100,7 +101,7 @@ func (m *InstMgr) DoRollbackCreate(hostStepInfo *entity.HostStepInfo) *entity.Ho
+ 			se.SequentialNodes(
+ 				se.ParallelNodes(
+ 					se.NodeBy1(m.BaseMgr.PortArranger.CompleteDeleteFireWallRules, primaryPortUuid),
+-					se.NodeBy2(m.BaseMgr.HpcArranger.CompleteDelete, m.hostname, NotMustSucceed),
++					se.NodeBy2(m.BaseMgr.HpcArranger.CompleteDelete, m.hostname, bbcbasemgr.NotMustSucceed),
+ 				),
+ 			),
+ 			// 正向流程如果没有创建acl资源，此处不需要清理
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文全角标点符号，如逗号'，'，违反GO-STYLE-010规范。</li>
+<li>建议：请使用英文半角标点符号，例如将'，'替换为','。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/create.go#hunk-5</li>
+<li>Hunk：@@ -111,7 +112,7 @@ func (m *InstMgr) DoRollbackCreate(hostStepInfo *entity.HostStepInfo) *entity.Ho</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -111,7 +112,7 @@ func (m *InstMgr) DoRollbackCreate(hostStepInfo *entity.HostStepInfo) *entity.Ho
+ 			se.SequentialNodes(
+ 				se.ParallelNodes(
+ 					se.NodeBy3(m.BaseMgr.SnicArranger.CompleteCleanVpf, m.opCtx.Inst, m.hostname, primaryPortUuid),
+-					se.NodeBy2(m.BaseMgr.PortArranger.CompleteDeleteOrDetach, []string{primaryPortUuid}, NotMustSucceed),
++					se.NodeBy2(m.BaseMgr.PortArranger.CompleteDeleteOrDetach, []string{primaryPortUuid}, bbcbasemgr.NotMustSucceed),
+ 				),
+ 			),
+ 			// 正向流程如果没有创建网络资源，此处不需要清理
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文冒号，违反代码规范。</li>
+<li>建议：将中文冒号'：'替换为英文冒号':'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/inject_data.go#hunk-1</li>
+<li>Hunk：@@ -54,8 +54,9 @@ func (m *InstMgr) DoInjectData(hostStepInfo *entity.HostStepInfo) *entity.HostSt</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -54,8 +54,9 @@ func (m *InstMgr) DoInjectData(hostStepInfo *entity.HostStepInfo) *entity.HostSt
+ 		).
+ 		// 4. 后置操作: 清理port的op信息
+ 		AddStep(StepIDInjectDataPostOperate,
+-			se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResults, []string{primaryPort}),
+-		).
++			se.ParallelNodes(
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPort}),
++				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_active))).
+ 		Run()
+ }
+ 
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文冒号和中文逗号，违反代码规范。</li>
+<li>建议：将中文标点替换为英文标点，如冒号':'和逗号','。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr/inject_data.go#hunk-2</li>
+<li>Hunk：@@ -69,7 +70,7 @@ func (m *InstMgr) DoRollbackInjectData(hostStepInfo *entity.HostStepInfo) *entit</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -69,7 +70,7 @@ func (m *InstMgr) DoRollbackInjectData(hostStepInfo *entity.HostStepInfo) *entit
+ 		// 2. 后置操作: 清理port的op信息，更新instStatus为error
+ 		AddStep(StepIDInjectDataRollbackPostOperate,
+ 			se.ParallelNodes(
+-				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResults, []string{primaryPort}),
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPort}),
+ 				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_error),
+ 			),
+ 			se.ResetCond(se.OnStepFinished(StepIDInjectDataRollbackCreateFireWallRule)),
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：函数 DoChangeSubnet 和 DoRollbackChangeSubnet 缺少进入日志记录，且错误日志未包含关键参数上下文。</li>
+<li>建议：在函数开始处添加进入日志，记录函数名和入参关键信息（如 hostStepInfo 的标识字段）；修改错误日志以包含更多上下文，例如 hostStepInfo 的详细数据。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcnormalmgr/change_subnet.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,23 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,23 @@
++// Package bbcnormalmgr implements change_subnet
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package bbcnormalmgr
++
++import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++// DoChangeSubnet 变更子网全流程
++func (m *InstMgr) DoChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	errMsg := &quot;bbcInstMgr one generation DoChangeSubnet not implement&quot;
++	m.logger.Error(m.opCtx.Ctx, errMsg)
++	return hostStepInfo.DeepCopyEntity().SetStatus(novapb.HostStepStatus_rollbacking).SetFailReason(errMsg)
++}
++
++// DoRollbackChangeSubnet 变更子网回滚全流程
++func (m *InstMgr) DoRollbackChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	errMsg := &quot;bbcInstMgr one generation DoRollbackChangeSubnet not implement&quot;
++	m.logger.Error(m.opCtx.Ctx, errMsg)
++	return hostStepInfo.DeepCopyEntity().SetStatus(novapb.HostStepStatus_failed).SetFailReason(errMsg)
++}
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：函数DoChangeSubnet和DoRollbackChangeSubnet没有记录进入、离开或失败日志，违反日志记录规范</li>
+<li>建议：在函数入口添加日志记录关键参数（如hostStepInfo），在正常返回时记录完成日志，在错误路径记录失败日志（包含错误上下文）</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr/change_subnet.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,79 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,79 @@
++// Package bbcstorageoffloadmgr implements change_subnet
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package bbcstorageoffloadmgr
++
++import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
++	se &quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/stepexecutor&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++const (
++	// warning: 此步骤必须在set_vpf之前做，原因在于neutron侧感知到waiting之后才会去感知qvo的变动
++	StepIDChangeSubnetSetPortVnetWaiting         = &quot;change_subnet_set_port_vnet_waiting&quot;
++	StepIDChangeSubnetSetVpfAndWaitVnetAvailable = &quot;change_subnet_set_vpf_and_wait_vnet_available&quot;
++	StepIDChangeSubnetCreateQvo                  = &quot;change_subnet_create_qvo&quot;
++	StepIDChangeSubnetSaveInstanceInfoToRedis    = &quot;change_subnet_save_instance_to_redis&quot;
++	StepIDChangeSubnetSoftReboot                 = &quot;change_subnet_soft_reboot&quot;
++	StepIDChangeSubnetPostOperate                = &quot;change_subnet_post_operate&quot;
++
++	StepIDRollbackChangeSubnetResetServiceExecutor    = &quot;rollback_change_subnet_clean_reset_service_executor&quot;
++	StepIDRollbackChangeSubnetPostOperate             = &quot;rollback_change_subnet_post_operate&quot;
++	StepIDRollbackChangeSubnetSaveInstanceInfoToRedis = &quot;rollback_change_subnet_save_instance_to_redis&quot;
++)
++
++// DoChangeVpc 变更子网全流程
++func (m *InstMgr) DoChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	primaryPortUuid := m.opCtx.Inst.GetPrimaryPortID()
++	elasticPortUuids := m.opCtx.Inst.GetElasticPortUuids()
++	return se.NewStepExecutor(m.opCtx, m.logger, hostStepInfo).
++		// 1. 修改neutron port的fixed ip并将网卡设置为waiting(bf卡), 目的是为了通知neutron感知qvo变化, 该步骤必须在set_vpf前面
++		// NOTICE: 变更子网不允许裸金属挂有弹性网卡/变更内网IP只能操作主网卡的IP
++		AddStep(StepIDChangeSubnetSetPortVnetWaiting,
++			se.NodeBy1(m.BaseMgr.PortArranger.CompleteSetPortsVnetWaiting, []string{primaryPortUuid})).
++		// 2. set_vpf并等待neutron port vnet available
++		AddStep(StepIDChangeSubnetSetVpfAndWaitVnetAvailable,
++			se.SequentialNodes(
++				se.NodeBy3(m.BaseMgr.SnicArranger.CompleteSetVpf, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost(), primaryPortUuid),
++				se.NodeBy1(m.BaseMgr.PortArranger.CompleteCheckPortsVnetAvailable, []string{primaryPortUuid})),
++		).
++		// 3. 创建qvo（set_vpf会导致BBC弹性网卡qvo被清除，因此这里需要重新生成）
++		AddStep(StepIDChangeSubnetCreateQvo,
++			se.NodeBy2(m.BaseMgr.QvoArranger.CompleteCreate, m.hostname, elasticPortUuids)).
++		// 4. 保存元数据到Redis
++		AddStep(StepIDChangeSubnetSaveInstanceInfoToRedis,
++			se.NodeBy0(m.BaseMgr.InstArranger.SaveInstanceInfoToRedis),
++		).
++		// 5. 软重启机器: 重启实例，触发cloudinit修改ip
++		AddStep(StepIDChangeSubnetSoftReboot,
++			se.NodeBy2(m.BaseMgr.CsocTaskArranger.CompleteSoftReboot, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost())).
++		// 6. 后置操作: 清理portSpec/Status、qvoSpec/qvoStatus及op信息
++		AddStep(StepIDChangeSubnetPostOperate,
++			se.ParallelNodes(
++				se.NodeBy1(m.BaseMgr.QvoArranger.ClearOpInfosAndOpResults, m.hostname),
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPortUuid}),
++				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_active))).
++		Run()
++}
++
++// DoRollbackChangeSubnet 变更子网回滚全流程
++func (m *InstMgr) DoRollbackChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	primaryPortUuid := m.opCtx.Inst.GetPrimaryPortID()
++	elasticPortUuids := m.opCtx.Inst.GetElasticPortUuids()
++	return se.NewStepExecutor(m.opCtx, m.logger, hostStepInfo).
++		// 1. 失败后首先把qvoSpc的标记位去除，避免ETCD假删残留标记位，导致后续无法真正卸载qvo
++		AddStep(StepIDRollbackChangeSubnetResetServiceExecutor,
++			se.NodeBy2(m.BaseMgr.SnicArranger.CompleteQvoResetServiceExecutor, m.hostname, elasticPortUuids)).
++		// 2. 后置操作: 清理portSpec/portStatus/qvoSpec/qvoStatus/opInfo/opResult, 实例状态置为error
++		AddStep(StepIDRollbackChangeSubnetPostOperate,
++			se.ParallelNodes(
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPortUuid}),
++				se.NodeBy1(m.BaseMgr.QvoArranger.ClearOpInfosAndOpResults, m.hostname),
++				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_error))).
++		// 3.保存元数据到redis
++		AddStep(StepIDRollbackChangeSubnetSaveInstanceInfoToRedis,
++			se.NodeBy0(m.BaseMgr.InstArranger.SaveInstanceInfoToRedis),
++			se.ResetCond(se.OnStepFinished(StepIDRollbackChangeSubnetPostOperate))).
++		Run()
++}
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：代码注释中使用了中文标点符号（如句号、逗号），违反注释规范</li>
+<li>建议：将注释中的中文标点替换为英文半角标点，例如使用'.'代替'。'，使用','代替'，'</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr/change_subnet.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,79 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,79 @@
++// Package bbcstorageoffloadmgr implements change_subnet
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package bbcstorageoffloadmgr
++
++import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
++	se &quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/stepexecutor&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++const (
++	// warning: 此步骤必须在set_vpf之前做，原因在于neutron侧感知到waiting之后才会去感知qvo的变动
++	StepIDChangeSubnetSetPortVnetWaiting         = &quot;change_subnet_set_port_vnet_waiting&quot;
++	StepIDChangeSubnetSetVpfAndWaitVnetAvailable = &quot;change_subnet_set_vpf_and_wait_vnet_available&quot;
++	StepIDChangeSubnetCreateQvo                  = &quot;change_subnet_create_qvo&quot;
++	StepIDChangeSubnetSaveInstanceInfoToRedis    = &quot;change_subnet_save_instance_to_redis&quot;
++	StepIDChangeSubnetSoftReboot                 = &quot;change_subnet_soft_reboot&quot;
++	StepIDChangeSubnetPostOperate                = &quot;change_subnet_post_operate&quot;
++
++	StepIDRollbackChangeSubnetResetServiceExecutor    = &quot;rollback_change_subnet_clean_reset_service_executor&quot;
++	StepIDRollbackChangeSubnetPostOperate             = &quot;rollback_change_subnet_post_operate&quot;
++	StepIDRollbackChangeSubnetSaveInstanceInfoToRedis = &quot;rollback_change_subnet_save_instance_to_redis&quot;
++)
++
++// DoChangeVpc 变更子网全流程
++func (m *InstMgr) DoChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	primaryPortUuid := m.opCtx.Inst.GetPrimaryPortID()
++	elasticPortUuids := m.opCtx.Inst.GetElasticPortUuids()
++	return se.NewStepExecutor(m.opCtx, m.logger, hostStepInfo).
++		// 1. 修改neutron port的fixed ip并将网卡设置为waiting(bf卡), 目的是为了通知neutron感知qvo变化, 该步骤必须在set_vpf前面
++		// NOTICE: 变更子网不允许裸金属挂有弹性网卡/变更内网IP只能操作主网卡的IP
++		AddStep(StepIDChangeSubnetSetPortVnetWaiting,
++			se.NodeBy1(m.BaseMgr.PortArranger.CompleteSetPortsVnetWaiting, []string{primaryPortUuid})).
++		// 2. set_vpf并等待neutron port vnet available
++		AddStep(StepIDChangeSubnetSetVpfAndWaitVnetAvailable,
++			se.SequentialNodes(
++				se.NodeBy3(m.BaseMgr.SnicArranger.CompleteSetVpf, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost(), primaryPortUuid),
++				se.NodeBy1(m.BaseMgr.PortArranger.CompleteCheckPortsVnetAvailable, []string{primaryPortUuid})),
++		).
++		// 3. 创建qvo（set_vpf会导致BBC弹性网卡qvo被清除，因此这里需要重新生成）
++		AddStep(StepIDChangeSubnetCreateQvo,
++			se.NodeBy2(m.BaseMgr.QvoArranger.CompleteCreate, m.hostname, elasticPortUuids)).
++		// 4. 保存元数据到Redis
++		AddStep(StepIDChangeSubnetSaveInstanceInfoToRedis,
++			se.NodeBy0(m.BaseMgr.InstArranger.SaveInstanceInfoToRedis),
++		).
++		// 5. 软重启机器: 重启实例，触发cloudinit修改ip
++		AddStep(StepIDChangeSubnetSoftReboot,
++			se.NodeBy2(m.BaseMgr.CsocTaskArranger.CompleteSoftReboot, m.opCtx.Inst, m.opCtx.Inst.GetCurrentHost())).
++		// 6. 后置操作: 清理portSpec/Status、qvoSpec/qvoStatus及op信息
++		AddStep(StepIDChangeSubnetPostOperate,
++			se.ParallelNodes(
++				se.NodeBy1(m.BaseMgr.QvoArranger.ClearOpInfosAndOpResults, m.hostname),
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPortUuid}),
++				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_active))).
++		Run()
++}
++
++// DoRollbackChangeSubnet 变更子网回滚全流程
++func (m *InstMgr) DoRollbackChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	primaryPortUuid := m.opCtx.Inst.GetPrimaryPortID()
++	elasticPortUuids := m.opCtx.Inst.GetElasticPortUuids()
++	return se.NewStepExecutor(m.opCtx, m.logger, hostStepInfo).
++		// 1. 失败后首先把qvoSpc的标记位去除，避免ETCD假删残留标记位，导致后续无法真正卸载qvo
++		AddStep(StepIDRollbackChangeSubnetResetServiceExecutor,
++			se.NodeBy2(m.BaseMgr.SnicArranger.CompleteQvoResetServiceExecutor, m.hostname, elasticPortUuids)).
++		// 2. 后置操作: 清理portSpec/portStatus/qvoSpec/qvoStatus/opInfo/opResult, 实例状态置为error
++		AddStep(StepIDRollbackChangeSubnetPostOperate,
++			se.ParallelNodes(
++				se.NodeBy1(m.BaseMgr.PortArranger.ClearOpInfosAndOpResultsWithReset, []string{primaryPortUuid}),
++				se.NodeBy1(m.BaseMgr.QvoArranger.ClearOpInfosAndOpResults, m.hostname),
++				se.NodeBy1(m.BaseMgr.InstArranger.CompleteUpdateStateAndPopInjectData, novapb.InstanceState_error))).
++		// 3.保存元数据到redis
++		AddStep(StepIDRollbackChangeSubnetSaveInstanceInfoToRedis,
++			se.NodeBy0(m.BaseMgr.InstArranger.SaveInstanceInfoToRedis),
++			se.ResetCond(se.OnStepFinished(StepIDRollbackChangeSubnetPostOperate))).
++		Run()
++}
+
+</code></pre>
+<h3>[GO-STYLE-006] 业务逻辑中禁止使用 o1、value1 等无语义命名</h3>
+<ul>
+<li>说明：变量命名使用数字后缀（如pathes2、pathes3），缺乏业务语义，违反命名规范。</li>
+<li>建议：将变量名重命名为有语义的名称，例如primaryPortPatch和elasticPortPatch，以反映其用途。</li>
+<li>规则说明：检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名： 1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名； 2）命名应体现业务含义、角色或来源（如 userID、instanceMeta、diskInfos、targetHost）； 3）在对比、映射、聚合等业务处理中，应区分来源与语义（如 old/new、src/dst、expected/actual）； 4）仅在极短作用域、且语义高度明确的场景下（如 for 循环索引 i、j）可例外。 若在业务逻辑中发现无语义编号式命名，应提示重命名以提升可读性与可维护性。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr/change_subnet_test.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,68 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,68 @@
++package bbcstorageoffloadmgr
++
++import (
++	&quot;reflect&quot;
++	&quot;testing&quot;
++
++	&quot;github.com/agiledragon/gomonkey/v2&quot;
++	&quot;github.com/stretchr/testify/assert&quot;
++
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/ao&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/stepexecutor&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++func TestInstMgr_DoChangeSubnet(t *testing.T) {
++	instMgr := generateFakeInstMgr()
++	hostStepInfo := generateFakeHostStepInfo()
++	hostStepInfo.Status = novapb.HostStepStatus_success
++	instMgr.opCtx.Inst = &amp;ao.Instance{}
++	patches := gomonkey.ApplyMethod(reflect.TypeOf(&amp;stepexecutor.StepExecutor{}), &quot;Run&quot;,
++		func(_ *stepexecutor.StepExecutor) *entity.HostStepInfo {
++			return nil
++		},
++	)
++	defer patches.Reset()
++
++	// (i *Instance) GetPrimaryPortID() string
++	pathes2 := gomonkey.ApplyMethod(reflect.TypeOf(instMgr.opCtx.Inst), &quot;GetPrimaryPortID&quot;, func(_ *ao.Instance) string {
++		return &quot;fake-primary-port&quot;
++	})
++	defer pathes2.Reset()
++	//  (i *Instance) GetElasticPortUuids() []string
++	pathes3 := gomonkey.ApplyMethod(reflect.TypeOf(instMgr.opCtx.Inst), &quot;GetElasticPortUuids&quot;, func(_ *ao.Instance) []string {
++		return []string{&quot;fake-elastic-port&quot;}
++	})
++	defer pathes3.Reset()
++
++	newhostStepInfo := instMgr.DoChangeSubnet(hostStepInfo)
++	assert.Nil(t, newhostStepInfo)
++}
++
++func TestInstMgr_DoRollbackChangeSubnet(t *testing.T) {
++	instMgr := generateFakeInstMgr()
++	hostStepInfo := generateFakeHostStepInfo()
++	hostStepInfo.Status = novapb.HostStepStatus_success
++	instMgr.opCtx.Inst = &amp;ao.Instance{}
++	patches := gomonkey.ApplyMethod(reflect.TypeOf(&amp;stepexecutor.StepExecutor{}), &quot;Run&quot;,
++		func(_ *stepexecutor.StepExecutor) *entity.HostStepInfo {
++			return nil
++		},
++	)
++
++	defer patches.Reset()
++	// (i *Instance) GetPrimaryPortID() string
++	pathes2 := gomonkey.ApplyMethod(reflect.TypeOf(instMgr.opCtx.Inst), &quot;GetPrimaryPortID&quot;, func(_ *ao.Instance) string {
++		return &quot;fake-primary-port&quot;
++	})
++	defer pathes2.Reset()
++	//  (i *Instance) GetElasticPortUuids() []string
++	pathes3 := gomonkey.ApplyMethod(reflect.TypeOf(instMgr.opCtx.Inst), &quot;GetElasticPortUuids&quot;, func(_ *ao.Instance) []string {
++		return []string{&quot;fake-elastic-port&quot;}
++	})
++	defer pathes3.Reset()
++
++	newhostStepInfo := instMgr.DoRollbackChangeSubnet(hostStepInfo)
++	assert.Nil(t, newhostStepInfo)
++}
+
+</code></pre>
+<h3>[GO-STYLE-006] 业务逻辑中禁止使用 o1、value1 等无语义命名</h3>
+<ul>
+<li>说明：变量命名 'patches1' 和 'patches2' 使用了无语义的编号式命名，违反 GO-STYLE-006 规范，降低了代码可读性。</li>
+<li>建议：将变量重命名为具有业务语义的名称，例如根据补丁对象的用途命名，如 'stepExecutorPatch' 和 'configManagerPatch'，以明确其角色。</li>
+<li>规则说明：检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名： 1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名； 2）命名应体现业务含义、角色或来源（如 userID、instanceMeta、diskInfos、targetHost）； 3）在对比、映射、聚合等业务处理中，应区分来源与语义（如 old/new、src/dst、expected/actual）； 4）仅在极短作用域、且语义高度明确的场景下（如 for 循环索引 i、j）可例外。 若在业务逻辑中发现无语义编号式命名，应提示重命名以提升可读性与可维护性。</li>
+<li>位置：internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr/inject_data_test.go#hunk-2</li>
+<li>Hunk：@@ -70,3 +72,69 @@ func TestInstMgr_DoRollbackInjectData(t *testing.T) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -70,3 +72,69 @@ func TestInstMgr_DoRollbackInjectData(t *testing.T) {
+ 	newHostStepInfo := instMgr.DoRollbackInjectData(hostStepInfo)
+ 	assert.Nil(t, newHostStepInfo)
+ }
++
++// TestInstMgr_DoInjectData1 是用于测试 InstMgr_DoInjectData
++// generated by Comate
++func TestInstMgr_DoInjectData1(t *testing.T) {
++	instMgr := generateFakeInstMgr()
++	inst := &amp;ao.Instance{
++		InstanceUUID: &quot;fake_inst_uuid&quot;,
++		InstSpec:     &amp;entity.InstanceSpec{},
++		ConfMgr:      &amp;hotconf.ConfigManager{},
++	}
++	instMgr.opCtx.Inst = inst
++	instMgr.confMgr = hotconf.NewConfigManager(context.TODO(), &amp;hotconf.Config{TransformerType: &quot;nova-master&quot;,
++		MasterLabel: []string{&quot;nova-api&quot;}}, logging.DefaultLogger, &amp;novamaster.API{})
++	patches1 := gomonkey.ApplyMethod(reflect.TypeOf(&amp;stepexecutor.StepExecutor{}), &quot;Run&quot;,
++		func(_ *stepexecutor.StepExecutor) *entity.HostStepInfo {
++			return nil
++		},
++	)
++	defer patches1.Reset()
++	patches2 := gomonkey.ApplyMethod(reflect.TypeOf(instMgr.confMgr), &quot;GetAdminPasswordExpiredSeconds&quot;,
++		func(_ *hotconf.ConfigManager) int {
++			return 0
++		},
++	)
++	defer patches2.Reset()
++	instMgr.opCtx.Op.OpType = novapb.OperationType_update_ssh_keys
++	hostStepInfo := generateFakeHostStepInfo()
++	newHostStepInfo := instMgr.DoInjectData(hostStepInfo)
++	assert.Nil(t, newHostStepInfo)
++	instMgr.opCtx.Op.OpType = novapb.OperationType_change_password
++	newHostStepInfo = instMgr.DoInjectData(hostStepInfo)
++	assert.Nil(t, newHostStepInfo)
++}
++
++// TestInstMgr_DoInjectData2 是用于测试 InstMgr_DoInjectData
++// generated by Comate
++func TestInstMgr_DoInjectData2(t *testing.T) {
++	instMgr := generateFakeInstMgr()
++	inst := &amp;ao.Instance{
++		InstanceUUID: &quot;fake_inst_uuid&quot;,
++		InstSpec:     &amp;entity.InstanceSpec{},
++		ConfMgr:      &amp;hotconf.ConfigManager{},
++	}
++	instMgr.opCtx.Inst = inst
++	instMgr.confMgr = hotconf.NewConfigManager(context.TODO(), &amp;hotconf.Config{TransformerType: &quot;nova-master&quot;,
++		MasterLabel: []string{&quot;nova-api&quot;}}, logging.DefaultLogger, &amp;novamaster.API{})
++	patches1 := gomonkey.ApplyMethod(reflect.TypeOf(&amp;stepexecutor.StepExecutor{}), &quot;Run&quot;,
++		func(_ *stepexecutor.StepExecutor) *entity.HostStepInfo {
++			return nil
++		},
++	)
++	defer patches1.Reset()
++	patches2 := gomonkey.ApplyMethod(reflect.TypeOf(instMgr.confMgr), &quot;GetAdminPasswordExpiredSeconds&quot;,
++		func(_ *hotconf.ConfigManager) int {
++			return 0
++		},
++	)
++	defer patches2.Reset()
++	instMgr.opCtx.Op.OpType = novapb.OperationType_update_ssh_keys
++	hostStepInfo := generateFakeHostStepInfo()
++	newHostStepInfo := instMgr.DoInjectData(hostStepInfo)
++	assert.Nil(t, newHostStepInfo)
++	instMgr.opCtx.Op.OpType = novapb.OperationType_change_password
++	newHostStepInfo = instMgr.DoInjectData(hostStepInfo)
++	assert.Nil(t, newHostStepInfo)
++}
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：The functions DoChangeSubnet and DoRollbackChangeSubnet do not log entry parameters or completion status, which violates the logging standard for business functions.</li>
+<li>建议：Add log statements at the beginning of each function to record input parameters (e.g., using <a href="http://m.logger.Info">m.logger.Info</a>) and at the end to record completion or normal return. Ensure logs include relevant context for tracing.</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/instancemgr/bccmgr/change_subnet.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,23 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,23 @@
++// Package bccmgr implements change_subnet
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package bccmgr
++
++import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++// DoChangeSubnet 变更子网全流程
++func (m *BccInstMgr) DoChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	errMsg := &quot;bccInstMgr DoChangeSubnet not implement&quot;
++	m.logger.Error(m.opCtx.Ctx, errMsg)
++	return hostStepInfo.DeepCopyEntity().SetStatus(novapb.HostStepStatus_rollbacking).SetFailReason(errMsg)
++}
++
++// DoRollbackChangeSubnet 变更子网回滚全流程
++func (m *BccInstMgr) DoRollbackChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	errMsg := &quot;bccInstMgr DoRollbackChangeSubnet not implement&quot;
++	m.logger.Error(m.opCtx.Ctx, errMsg)
++	return hostStepInfo.DeepCopyEntity().SetStatus(novapb.HostStepStatus_failed).SetFailReason(errMsg)
++}
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文冒号'：'，应使用英文标点。</li>
+<li>建议：将中文冒号'：'替换为英文冒号':'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bccmgr/cold_migrate.go#hunk-2</li>
+<li>Hunk：@@ -176,7 +176,7 @@ func (m *BccInstMgr) DoRollbackDestColdMigrate(hsi *entity.HostStepInfo) *entity</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -176,7 +176,7 @@ func (m *BccInstMgr) DoRollbackDestColdMigrate(hsi *entity.HostStepInfo) *entity
+ 				se.NodeBy1(m.localDisk.ClearOpInfos, m.hostname),
+ 				se.NodeBy1(m.qvo.ClearOpInfosAndOpResults, m.hostname),
+ 				// TODO(anyone)：清理IB Port OpInfos
+-				se.NodeBy1(m.port.ClearOpInfosAndOpResults, m.opCtx.Inst.GetAllPortUUIDs()),
++				se.NodeBy1(m.port.ClearOpInfosAndOpResultsWithReset, m.opCtx.Inst.GetAllPortUUIDs()),
+ 				se.NodeBy1(m.hpcPortACL.ClearOpInfos, m.hostname),
+ 				se.NodeBy1(m.gpu.ClearOpInfos, m.hostname),
+ 				se.NodeBy1(m.domain.ClearStartOpInfos, m.hostname),
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文冒号'：'，应使用英文标点。</li>
+<li>建议：将中文冒号'：'替换为英文冒号':'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bccmgr/cold_migrate.go#hunk-3</li>
+<li>Hunk：@@ -223,7 +223,7 @@ func (m *BccInstMgr) DoRecoverSrcColdMigrate(hsi *entity.HostStepInfo) *entity.H</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -223,7 +223,7 @@ func (m *BccInstMgr) DoRecoverSrcColdMigrate(hsi *entity.HostStepInfo) *entity.H
+ 			se.ParallelNodes(
+ 				// TODO(anyone)：补充其他资源的OpMsg清理逻辑
+ 				se.NodeBy1(m.domain.ClearCommonOpInfos, m.hostname),
+-				se.NodeBy1(m.port.ClearOpInfosAndOpResults, m.opCtx.Inst.GetAllPortUUIDs()),
++				se.NodeBy1(m.port.ClearOpInfosAndOpResultsWithReset, m.opCtx.Inst.GetAllPortUUIDs()),
+ 				se.NodeBy1(m.gpu.ClearOpInfos, m.hostname)),
+ 			se.ResetCond(
+ 				se.OrCond(
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：在hunk 1的注释 '// TODO(anyone)：eBCC' 中使用了中文冒号'：'，违反代码规范 GO-STYLE-010。</li>
+<li>建议：将中文冒号替换为英文冒号，例如修改为 '// TODO(anyone): eBCC'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bccmgr/live_migrate.go#hunk-1</li>
+<li>Hunk：@@ -100,7 +100,7 @@ func (c *MigrateController) DoLiveMigrate(hsi *entity.HostStepInfo) *entity.Host</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -100,7 +100,7 @@ func (c *MigrateController) DoLiveMigrate(hsi *entity.HostStepInfo) *entity.Host
+ 				se.NodeBy1(c.destInstMgr.schedulerResult.SetStateFree, destHost),
+ 				se.NodeBy1(c.destInstMgr.baseResource.ClearOpInfosAndOpResults, destHost),
+ 				se.NodeBy1(c.destInstMgr.qvo.ClearOpInfosAndOpResults, destHost),
+-				se.NodeBy1(c.destInstMgr.port.ClearOpInfosAndOpResults, c.opCtx.Inst.GetAllPortUUIDs()),
++				se.NodeBy1(c.destInstMgr.port.ClearOpInfosAndOpResultsWithReset, c.opCtx.Inst.GetAllPortUUIDs()),
+ 				// TODO(anyone)：eBCC 目的端清理CDS盘挂载点OpInfos
+ 				// TODO(anyone)：eBCC 目的端清理整机限速OpInfos
+ 				se.NodeBy0(c.destInstMgr.inst.CompleteLiveMigrateOrLiveResize)),
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：在hunk 2的注释中同样使用了中文冒号'：'，违反代码规范 GO-STYLE-010。</li>
+<li>建议：将中文冒号替换为英文冒号，确保注释使用英文标点。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/instancemgr/bccmgr/live_migrate.go#hunk-2</li>
+<li>Hunk：@@ -142,7 +142,7 @@ func (c *MigrateController) DoRollbackLiveMigrate(hostStepInfo *entity.HostStepI</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -142,7 +142,7 @@ func (c *MigrateController) DoRollbackLiveMigrate(hostStepInfo *entity.HostStepI
+ 				se.NodeBy1(c.srcInstMgr.domain.ClearLiveMigrateOrResizeOpInfosAndOpResults, srcHost),
+ 				se.NodeBy1(c.destInstMgr.baseResource.ClearOpInfosAndOpResults, destHost),
+ 				se.NodeBy1(c.destInstMgr.qvo.ClearOpInfosAndOpResults, destHost),
+-				se.NodeBy1(c.destInstMgr.port.ClearOpInfosAndOpResults, c.opCtx.Inst.GetAllPortUUIDs())),
++				se.NodeBy1(c.destInstMgr.port.ClearOpInfosAndOpResultsWithReset, c.opCtx.Inst.GetAllPortUUIDs())),
+ 			se.ResetCond(
+ 				se.OnStepFinished(StepIDRollbackLiveMigrateSrcDestClearResources)),
+ 		).
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：业务函数 DoChangeSubnet 和 DoRollbackChangeSubnet 缺失进入时日志记录，违反日志记录规范。</li>
+<li>建议：建议在每个函数开始时添加日志语句，记录 hostStepInfo 的关键字段，例如使用 <a href="http://m.logger.Info">m.logger.Info</a> 记录入参信息。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/instancemgr/ebbcmgr/change_subnet.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,23 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,23 @@
++// Package ebbcmgr implements change_subnet
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package ebbcmgr
++
++import (
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/entity&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++// DoChangeSubnet 变更子网全流程
++func (m *EbbcInstMgr) DoChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	errMsg := &quot;EbbcInstMgr DoChangeSubnet not implement&quot;
++	m.logger.Error(m.opCtx.Ctx, errMsg)
++	return hostStepInfo.DeepCopyEntity().SetStatus(novapb.HostStepStatus_rollbacking).SetFailReason(errMsg)
++}
++
++// DoRollbackChangeSubnet 变更子网回滚全流程
++func (m *EbbcInstMgr) DoRollbackChangeSubnet(hostStepInfo *entity.HostStepInfo) *entity.HostStepInfo {
++	errMsg := &quot;EbbcInstMgr DoRollbackChangeSubnet not implement&quot;
++	m.logger.Error(m.opCtx.Ctx, errMsg)
++	return hostStepInfo.DeepCopyEntity().SetStatus(novapb.HostStepStatus_failed).SetFailReason(errMsg)
++}
+
+</code></pre>
+<h3>[GO-STYLE-002] 结构体参数传递应优先使用指针，其余类型直接值传递</h3>
+<ul>
+<li>说明：函数NewChangeSubnetOperator中，参数initParam使用值传递controllermgr.BaseControllerInitParam</li>
+<li>建议：将参数initParam改为指针类型，如*controllermgr.BaseControllerInitParam</li>
+<li>规则说明：检查函数参数和返回值的类型使用方式： 1）当参数为结构体（struct）时，优先使用指针传递（*T），以避免不必要的值拷贝，
+并确保对结构体字段的修改在调用方可见；
+2）当参数为基础类型（int、string、bool 等）或小型、不可变语义的数据时，
+应直接使用值传递，避免滥用指针增加复杂性；</li>
+<li>位置：internal/novacontroller/operator/change_subnet_operator.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,78 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,78 @@
++// Package operator implements change_subnet_operator
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package operator
++
++import (
++	&quot;context&quot;
++
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/logging&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/paramset&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/po/etcdpo&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/controllermgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/bccmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/ebbcmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/operator/operatorhelper&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++const ChangeSubnetOperatorName string = &quot;ChangeSubnetOperator&quot;
++
++type ChangeSubnetOperator struct {
++	logger logging.Logger
++	helper *operatorhelper.ActionOperationHelper
++}
++
++func NewChangeSubnetOperator(
++	ctx context.Context,
++	instMgrFactory *instancemgr.InstMgrFactory,
++	initParam controllermgr.BaseControllerInitParam) *controllermgr.ControllerMgr {
++	changeSubnetSubOperator := &amp;ChangeSubnetOperator{
++		logger: initParam.Logger,
++		helper: operatorhelper.NewActionOperationHelper(initParam.Logger, ChangeSubnetOperatorName, instMgrFactory),
++	}
++
++	initParam.ListenDataType = []string{
++		etcdpo.TypeOperation,
++		etcdpo.TypeHost,
++		etcdpo.TypeInstanceSpec, etcdpo.TypeInstanceStatus,
++		etcdpo.TypePortSpec, etcdpo.TypePortStatus,
++		etcdpo.TypeQvoSpec, etcdpo.TypeQvoStatus,
++		etcdpo.TypeSnicTask, etcdpo.TypeCsocTask,
++	}
++
++	return NewControllerMgr(ctx, ChangeSubnetOperatorName, changeSubnetSubOperator, &amp;BaseOperatorInitParam{
++		BaseControllerInitParam:   &amp;initParam,
++		NeedProcessOperationTypes: []novapb.OperationType_Type{novapb.OperationType_change_subnet},
++	})
++}
++
++func (s *ChangeSubnetOperator) ProcessOperationInRunning(opCtx *paramset.OpProcessContext) (bool, error) {
++	handler := &amp;operatorhelper.InstMgrHandler{
++		BccEbccMgrHandleFunc:           (*bccmgr.BccInstMgr).DoChangeSubnet,
++		BbcNetworkOffloadMgrHandleFunc: (*bbcnetworkoffloadmgr.InstMgr).DoChangeSubnet,
++		BbcStorageOffloadMgrHandleFunc: (*bbcstorageoffloadmgr.InstMgr).DoChangeSubnet,
++		EbbcMgrHandleFunc:              (*ebbcmgr.EbbcInstMgr).DoChangeSubnet,
++	}
++	return s.helper.HandleRunningOp(opCtx, handler)
++}
++
++func (s *ChangeSubnetOperator) ProcessOperationInRollbacking(opCtx *paramset.OpProcessContext) (bool, error) {
++	handler := &amp;operatorhelper.InstMgrHandler{
++		BccEbccMgrHandleFunc:           (*bccmgr.BccInstMgr).DoRollbackChangeSubnet,
++		BbcNetworkOffloadMgrHandleFunc: (*bbcnetworkoffloadmgr.InstMgr).DoRollbackChangeSubnet,
++		BbcStorageOffloadMgrHandleFunc: (*bbcstorageoffloadmgr.InstMgr).DoRollbackChangeSubnet,
++		EbbcMgrHandleFunc:              (*ebbcmgr.EbbcInstMgr).DoRollbackChangeSubnet,
++	}
++	return s.helper.HandleRollbackingOp(opCtx, handler)
++}
++
++func (s *ChangeSubnetOperator) GetOpStatus2ProcessFuncMap() map[novapb.OperationStatus_Status]ProcessOperationFunc {
++	return map[novapb.OperationStatus_Status]ProcessOperationFunc{
++		novapb.OperationStatus_running:     s.ProcessOperationInRunning,
++		novapb.OperationStatus_rollbacking: s.ProcessOperationInRollbacking,
++	}
++}
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：函数NewChangeSubnetOperator、ProcessOperationInRunning、ProcessOperationInRollbacking中没有记录进入、离开或失败日志</li>
+<li>建议：在函数开始、正常返回和错误处理处添加合适的日志记录，包含关键参数和上下文信息</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/operator/change_subnet_operator.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,78 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,78 @@
++// Package operator implements change_subnet_operator
++// Copyright(C) 2025 Baidu Inc. All Rights Reserved.
++// Author:  weitengfei@baidu.com
++package operator
++
++import (
++	&quot;context&quot;
++
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/logging&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/paramset&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/nova/model/po/etcdpo&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/controllermgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/bbcmgr/bbcnetworkoffloadmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/bbcmgr/bbcstorageoffloadmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/bccmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/instancemgr/ebbcmgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/operator/operatorhelper&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++const ChangeSubnetOperatorName string = &quot;ChangeSubnetOperator&quot;
++
++type ChangeSubnetOperator struct {
++	logger logging.Logger
++	helper *operatorhelper.ActionOperationHelper
++}
++
++func NewChangeSubnetOperator(
++	ctx context.Context,
++	instMgrFactory *instancemgr.InstMgrFactory,
++	initParam controllermgr.BaseControllerInitParam) *controllermgr.ControllerMgr {
++	changeSubnetSubOperator := &amp;ChangeSubnetOperator{
++		logger: initParam.Logger,
++		helper: operatorhelper.NewActionOperationHelper(initParam.Logger, ChangeSubnetOperatorName, instMgrFactory),
++	}
++
++	initParam.ListenDataType = []string{
++		etcdpo.TypeOperation,
++		etcdpo.TypeHost,
++		etcdpo.TypeInstanceSpec, etcdpo.TypeInstanceStatus,
++		etcdpo.TypePortSpec, etcdpo.TypePortStatus,
++		etcdpo.TypeQvoSpec, etcdpo.TypeQvoStatus,
++		etcdpo.TypeSnicTask, etcdpo.TypeCsocTask,
++	}
++
++	return NewControllerMgr(ctx, ChangeSubnetOperatorName, changeSubnetSubOperator, &amp;BaseOperatorInitParam{
++		BaseControllerInitParam:   &amp;initParam,
++		NeedProcessOperationTypes: []novapb.OperationType_Type{novapb.OperationType_change_subnet},
++	})
++}
++
++func (s *ChangeSubnetOperator) ProcessOperationInRunning(opCtx *paramset.OpProcessContext) (bool, error) {
++	handler := &amp;operatorhelper.InstMgrHandler{
++		BccEbccMgrHandleFunc:           (*bccmgr.BccInstMgr).DoChangeSubnet,
++		BbcNetworkOffloadMgrHandleFunc: (*bbcnetworkoffloadmgr.InstMgr).DoChangeSubnet,
++		BbcStorageOffloadMgrHandleFunc: (*bbcstorageoffloadmgr.InstMgr).DoChangeSubnet,
++		EbbcMgrHandleFunc:              (*ebbcmgr.EbbcInstMgr).DoChangeSubnet,
++	}
++	return s.helper.HandleRunningOp(opCtx, handler)
++}
++
++func (s *ChangeSubnetOperator) ProcessOperationInRollbacking(opCtx *paramset.OpProcessContext) (bool, error) {
++	handler := &amp;operatorhelper.InstMgrHandler{
++		BccEbccMgrHandleFunc:           (*bccmgr.BccInstMgr).DoRollbackChangeSubnet,
++		BbcNetworkOffloadMgrHandleFunc: (*bbcnetworkoffloadmgr.InstMgr).DoRollbackChangeSubnet,
++		BbcStorageOffloadMgrHandleFunc: (*bbcstorageoffloadmgr.InstMgr).DoRollbackChangeSubnet,
++		EbbcMgrHandleFunc:              (*ebbcmgr.EbbcInstMgr).DoRollbackChangeSubnet,
++	}
++	return s.helper.HandleRollbackingOp(opCtx, handler)
++}
++
++func (s *ChangeSubnetOperator) GetOpStatus2ProcessFuncMap() map[novapb.OperationStatus_Status]ProcessOperationFunc {
++	return map[novapb.OperationStatus_Status]ProcessOperationFunc{
++		novapb.OperationStatus_running:     s.ProcessOperationInRunning,
++		novapb.OperationStatus_rollbacking: s.ProcessOperationInRollbacking,
++	}
++}
+
+</code></pre>
+<h3>[GO-STYLE-002] 结构体参数传递应优先使用指针，其余类型直接值传递</h3>
+<ul>
+<li>说明：函数 TestNewChangeSubnetOperator 中，参数 initParam 为结构体类型 controllermgr.BaseControllerInitParam，但使用值传递。规范建议结构体参数应优先使用指针传递以避免不必要的值拷贝。</li>
+<li>建议：考虑将 initParam 改为指针类型，即使用 *controllermgr.BaseControllerInitParam，并在调用时传递地址，以符合风格指南。</li>
+<li>规则说明：检查函数参数和返回值的类型使用方式： 1）当参数为结构体（struct）时，优先使用指针传递（*T），以避免不必要的值拷贝，
+并确保对结构体字段的修改在调用方可见；
+2）当参数为基础类型（int、string、bool 等）或小型、不可变语义的数据时，
+应直接使用值传递，避免滥用指针增加复杂性；</li>
+<li>位置：internal/novacontroller/operator/change_subnet_operator_test.go#hunk-1</li>
+<li>Hunk：@@ -0,0 +1,107 @@</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -0,0 +1,107 @@
++// nolint
++package operator
++
++import (
++	&quot;context&quot;
++	&quot;github.com/agiledragon/gomonkey/v2&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/common/paramset&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/controllermgr&quot;
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novacontroller/operator/operatorhelper&quot;
++	&quot;reflect&quot;
++	&quot;testing&quot;
++
++	&quot;icode.baidu.com/baidu/bcc/nova-go/internal/novapb&quot;
++)
++
++func TestNewChangeSubnetOperator(t *testing.T) {
++	var ctx context.Context
++	var initParam controllermgr.BaseControllerInitParam
++	// func NewControllerMgr(ctx context.Context, name string, subOperator SubOperatorInterface, initParam *BaseOperatorInitParam) *controllermgr.ControllerMgr
++	patch1 := gomonkey.ApplyFunc(NewControllerMgr,
++		func(ctx context.Context, name string, subOperator SubOperatorInterface, initParam *BaseOperatorInitParam) *controllermgr.ControllerMgr {
++			return nil
++		})
++	defer patch1.Reset()
++	NewChangeSubnetOperator(ctx, nil, initParam)
++}
++
++func TestProcessOperationInRunning(t *testing.T) {
++	operator := &amp;ChangeSubnetOperator{
++		helper: &amp;operatorhelper.ActionOperationHelper{},
++	}
++	// func (h *ActionOperationHelper) HandleRunningOp(opCtx *paramset.OpProcessContext, handler *InstMgrHandler) (bool, error) {
++	patch1 := gomonkey.ApplyMethod(
++		reflect.TypeOf(operator.helper),
++		&quot;HandleRunningOp&quot;,
++		func(_ *operatorhelper.ActionOperationHelper, opCtx *paramset.OpProcessContext, handler *operatorhelper.InstMgrHandler) (bool, error) {
++			return true, nil
++		})
++	defer patch1.Reset()
++	operator.ProcessOperationInRunning(nil)
++}
++
++func TestProcessOperationInRollbacking(t *testing.T) {
++	operator := &amp;ChangeSubnetOperator{
++		helper: &amp;operatorhelper.ActionOperationHelper{},
++	}
++	// func (h *ActionOperationHelper) HandleRunningOp(opCtx *paramset.OpProcessContext, handler *InstMgrHandler) (bool, error) {
++	patch1 := gomonkey.ApplyMethod(
++		reflect.TypeOf(operator.helper),
++		&quot;HandleRollbackingOp&quot;,
++		func(_ *operatorhelper.ActionOperationHelper, opCtx *paramset.OpProcessContext, handler *operatorhelper.InstMgrHandler) (bool, error) {
++			return true, nil
++		})
++	defer patch1.Reset()
++	operator.ProcessOperationInRollbacking(nil)
++}
++
++// TestChangeSubnetOperator_GetOpStatus2ProcessFuncMap 是用于测试 ChangeSubnetOperator_GetOpStatus2ProcessFuncMap
++// generated by Comate
++func TestChangeSubnetOperator_GetOpStatus2ProcessFuncMap(t *testing.T) {
++	// 创建ChangeSubnetOperator实例
++	operator := &amp;ChangeSubnetOperator{}
++
++	// 调用被测方法
++	result := operator.GetOpStatus2ProcessFuncMap()
++
++	// 验证返回的map不为nil
++	if result == nil {
++		t.Fatal(&quot;Expected non-nil map, got nil&quot;)
++	}
++
++	// 验证map的大小
++	expectedSize := 2
++	if len(result) != expectedSize {
++		t.Errorf(&quot;Expected map size %d, got %d&quot;, expectedSize, len(result))
++	}
++
++	// 验证包含running状态的处理函数
++	runningFunc, exists := result[novapb.OperationStatus_running]
++	if !exists {
++		t.Error(&quot;Expected running status handler not found&quot;)
++	}
++
++	// 验证running状态的处理函数正确指向ProcessOperationInRunning
++	expectedRunningFunc := operator.ProcessOperationInRunning
++	if reflect.ValueOf(runningFunc).Pointer() != reflect.ValueOf(expectedRunningFunc).Pointer() {
++		t.Error(&quot;Running status handler does not point to ProcessOperationInRunning&quot;)
++	}
++
++	// 验证包含rollbacking状态的处理函数
++	rollbackingFunc, exists := result[novapb.OperationStatus_rollbacking]
++	if !exists {
++		t.Error(&quot;Expected rollbacking status handler not found&quot;)
++	}
++
++	// 验证rollbacking状态的处理函数正确指向ProcessOperationInRollbacking
++	expectedRollbackingFunc := operator.ProcessOperationInRollbacking
++	if reflect.ValueOf(rollbackingFunc).Pointer() != reflect.ValueOf(expectedRollbackingFunc).Pointer() {
++		t.Error(&quot;Rollbacking status handler does not point to ProcessOperationInRollbacking&quot;)
++	}
++
++	// 验证不包含其他状态的处理函数
++	unexpectedStatus := novapb.OperationStatus_success
++	if _, exists := result[unexpectedStatus]; exists {
++		t.Errorf(&quot;Unexpected status %v found in map&quot;, unexpectedStatus)
++	}
++}
+
+</code></pre>
+<h3>[GO-STYLE-003] 禁止使用全局变量，避免隐式状态和副作用</h3>
+<ul>
+<li>说明：定义了包级全局变量 portVnetStatusMap，违反禁止使用可变全局变量的规则。</li>
+<li>建议：建议将映射表封装在结构体字段中或使用函数返回，避免全局状态。</li>
+<li>规则说明：检查代码中是否定义或使用了包级全局变量（var 定义在 package 作用域）： 1）除只读常量（const）和确有必要的不可变配置外，禁止使用可变全局变量；</li>
+<li>位置：internal/novacontroller/resourcemgr/neutron_manager.go#hunk-1</li>
+<li>Hunk：@@ -31,6 +31,10 @@ const (</li>
+<li>严重级别：minor</li>
+</ul>
+<pre><code>@@ -31,6 +31,10 @@ const (
+ 	MigStatusActive    string = &quot;active&quot;
+ )
+ 
++var portVnetStatusMap = map[novapb.PortVnetState_State]string{
++	novapb.PortVnetState_waiting: neutron.VnetWaiting,
++}
++
+ type portOperationCtx struct {
+ 	// 带Token上下文
+ 	AdminCtx context.Context
+
+</code></pre>
+<h3>[GO-STYLE-007] 函数默认需记录进入、离开与失败日志，工具类函数可简化日志</h3>
+<ul>
+<li>说明：错误日志未记录错误详情，仅打印消息，缺乏上下文（如错误原因）。</li>
+<li>建议：建议在日志语句中添加错误信息，例如使用 logit.Error(err) 或类似方法包含错误对象。</li>
+<li>规则说明：检查函数中的日志记录策略是否符合规范： 1）默认情况下，业务函数应在进入时记录入参关键信息，在正常返回时记录完成日志，
+在发生错误或异常路径时记录失败日志，便于问题定位与链路追踪；
+2）失败日志应包含足够的上下文（关键参数、错误原因、返回码等），避免仅打印 error； 3）工具类或纯函数（如 UUID 生成、简单格式转换、无副作用计算）可例外，
+仅在需要时记录输出结果或完全不打日志；
+4）避免在高频调用的核心路径中打印冗余日志，应在可观测性与性能之间权衡。 若业务函数缺失关键阶段日志，或工具类函数存在过度日志，应提示调整。</li>
+<li>位置：internal/novacontroller/resourcemgr/neutron_manager.go#hunk-5</li>
+<li>Hunk：@@ -739,6 +756,29 @@ func (m *NeutronManager) delete(opCtx *portOperationCtx, port *ao.Port) error {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -739,6 +756,29 @@ func (m *NeutronManager) delete(opCtx *portOperationCtx, port *ao.Port) error {
+ 	return nil
+ }
+ 
++func (m *NeutronManager) setVnetWaiting(opCtx *portOperationCtx, port *ao.Port) error {
++	newCtx := logging.CopyContext(m.ctx, logit.String(&quot;port_uuid&quot;, port.PortUUID))
++	m.logger.Notice(newCtx, &quot;begin to set port vent status waiting&quot;)
++	portVnetStatus, ok := portVnetStatusMap[port.PortSpec.GetVnetState()]
++	if !ok {
++		m.logger.Error(newCtx, &quot;unexpected port vnet status to call neutron&quot;, logit.Reflect(&quot;target_status&quot;, port.PortSpec.GetVnetState()))
++		return fmt.Errorf(&quot;unexpected port vnet status to call neutron&quot;)
++	}
++	updatePortStatusRequest := &amp;neutron.UpdatePortStatusRequest{
++		Status: portVnetStatus,
++	}
++	reqCtx := novactx.InitContextWithReqID(m.ctx,
++		port.PortSpec.GetOpInfos()[0].GetOperationId())
++	err := m.client.UpdatePortsVnetStatus(reqCtx, []string{port.PortUUID}, updatePortStatusRequest, neutron.DoAdmin)
++	if err != nil {
++		m.logger.Error(newCtx, &quot;failed to update neutron port vnet status&quot;)
++		return fmt.Errorf(&quot;request neutron to update port vnet status error: %w&quot;, err)
++	}
++	m.updatePortStatusWaitingInfo(opCtx)
++	m.logger.Notice(newCtx, &quot;succ to update neutron port vnet status&quot;, logit.String(&quot;target_status&quot;, portVnetStatus))
++	return nil
++}
++
+ func (m *NeutronManager) waitVnetAvailableOnce(opCtx *portOperationCtx, port *ao.Port) (isDone bool, err error) {
+ 	m.logger.Notice(m.ctx, &quot;begin wait vnet available.&quot;, logit.String(&quot;port_uuid&quot;, port.PortUUID))
+ 	defer func() {
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文标点符号，违反代码规范要求使用英文半角标点的规定。</li>
+<li>建议：将中文标点符号替换为英文半角标点，例如将中文逗号'，'替换为英文逗号','，将中文分号'；'替换为英文分号';'。</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novacontroller/resourcemgr/snic_manager.go#hunk-4</li>
+<li>Hunk：@@ -155,6 +169,7 @@ func (m *SnicManager) OnTimeout(procCtx *ProcessInfo[*snicOperationContext]) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -155,6 +169,7 @@ func (m *SnicManager) OnTimeout(procCtx *ProcessInfo[*snicOperationContext]) {
+ func (m *SnicManager) updateStatus(procCtx *ProcessInfo[*snicOperationContext], err error, snicTaskState novapb.SnicTask_TaskState, snicTaskId int64) {
+ 	txnGen, task := procCtx.TxnInfosGenerator, procCtx.opCtx.snicTask
+ 	newTask := task.DeepCopyEntity()
++	// 1. 如果snic_task任务有error，taskState=fail; 否则taskState为running或succ
+ 	if err != nil {
+ 		newTask.TaskState = novapb.SnicTask_fail
+ 		newTask.Message = err.Error()
+
+</code></pre>
+<h3>[GO-STYLE-006] 业务逻辑中禁止使用 o1、value1 等无语义命名</h3>
+<ul>
+<li>说明：变量命名 'f4' 和 'f5' 使用编号式命名，缺乏业务语义，违反命名规范。</li>
+<li>建议：建议重命名为更具描述性的名称，例如 'patchGetElasticPortsNil' 和 'patchGetElasticPortsWithData'，以提升代码可读性。</li>
+<li>规则说明：检查业务逻辑代码（非通用工具函数、非算法/示例代码）中的变量、参数和返回值命名： 1）禁止使用 o1、o2、v1、value1、tmp1 等无明确业务语义的命名； 2）命名应体现业务含义、角色或来源（如 userID、instanceMeta、diskInfos、targetHost）； 3）在对比、映射、聚合等业务处理中，应区分来源与语义（如 old/new、src/dst、expected/actual）； 4）仅在极短作用域、且语义高度明确的场景下（如 for 循环索引 i、j）可例外。 若在业务逻辑中发现无语义编号式命名，应提示重命名以提升可读性与可维护性。</li>
+<li>位置：internal/novacontroller/resourcemgr/snic_manager_test.go#hunk-2</li>
+<li>Hunk：@@ -128,9 +131,189 @@ func TestSnicTaskOperateEventsOnLeader(t *testing.T) {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -128,9 +131,189 @@ func TestSnicTaskOperateEventsOnLeader(t *testing.T) {
+ 	}
+ }
+ 
++func TestSnicManager_updateStatus(t *testing.T) {
++	snicMgr := getFakeSnicManager()
++	resourceView := index.NewThreadSafeStore(&quot;TestSnicWorkerProcessItem&quot;, nil)
++	resourceView.RegisterAssembler(assembler.NewInstanceAoAssembler(nil))
++	task := entity.NewSnicTask(&amp;etcdpo.SnicTask{
++		SnicTask: &amp;novapb.SnicTask{
++			TaskId:       &quot;test&quot;,
++			TaskState:    novapb.SnicTask_fail,
++			TaskType:     novapb.SnicTask_set_vpf,
++			InstanceUuid: &quot;fake_uuid&quot;,
++		},
++	})
++	portSpec := entity.NewPortSpec(&amp;etcdpo.PortSpec{
++		PortSpec: &amp;novapb.PortSpec{
++			PortUuid:  &quot;test&quot;,
++			InstUuid:  &quot;fake_uuid&quot;,
++			NetworkId: &quot;test&quot;,
++		},
++	})
++	portStatus := entity.NewPortStatus(&amp;etcdpo.PortStatus{
++		PortStatus: &amp;novapb.PortStatus{
++			PortUuid: &quot;test&quot;,
++			InstUuid: &quot;fake_uuid&quot;,
++		},
++	})
++	instSpec := entity.NewInstanceSpec(&amp;etcdpo.InstanceSpec{
++		InstanceSpec: &amp;novapb.InstanceSpec{
++			Uuid: &quot;fake_uuid&quot;,
++		},
++	}, nil)
++	instStatus := entity.NewInstanceStatus(&amp;etcdpo.InstanceStatus{
++		InstanceStatus: &amp;novapb.InstanceStatus{
++			Uuid: &quot;fake_uuid&quot;,
++		},
++	})
++
++	resourceView.Update(instSpec.ToEtcdKey(), instSpec)
++	resourceView.Update(instStatus.ToEtcdKey(), instStatus)
++	resourceView.Update(portSpec.ToEtcdKey(), portSpec)
++	resourceView.Update(portStatus.ToEtcdKey(), portStatus)
++	resourceView.Update(&quot;task/test&quot;, task)
++	// case 1
++	ur := resourceView.BeginReadTxn()
++	procInfo := snicMgr.GetProcessInfo(ur, &quot;task/test&quot;)
++	procInfo.TxnInfosGenerator = &amp;apiserverutil.TxnInfosGenerator{}
++	var state novapb.SnicTask_TaskState
++	snicMgr.updateStatus(procInfo, nil, state, 1)
++	snicMgr.updateStatus(procInfo, fmt.Errorf(&quot;fake_err&quot;), state, 1)
++	ur.End()
++}
++
++func TestSnicManager_updateQvoStatusAfterSetVpf(t *testing.T) {
++	snicMgr := getFakeSnicManager()
++	resourceView := index.NewThreadSafeStore(&quot;TestSnicWorkerProcessItem&quot;, nil)
++	resourceView.RegisterAssembler(assembler.NewInstanceAoAssembler(nil))
++
++	task := entity.NewSnicTask(&amp;etcdpo.SnicTask{
++		SnicTask: &amp;novapb.SnicTask{
++			TaskId:       &quot;test&quot;,
++			TaskState:    novapb.SnicTask_running,
++			TaskType:     novapb.SnicTask_set_vpf,
++			InstanceUuid: &quot;fake_uuid&quot;,
++			Hostname:     &quot;fake_hostname&quot;,
++		},
++	})
++	portSpec := entity.NewPortSpec(&amp;etcdpo.PortSpec{
++		PortSpec: &amp;novapb.PortSpec{
++			PortUuid:  &quot;fake_port_uuid&quot;,
++			InstUuid:  &quot;fake_uuid&quot;,
++			NetworkId: &quot;test&quot;,
++		},
++	})
++	instSpec := entity.NewInstanceSpec(&amp;etcdpo.InstanceSpec{
++		InstanceSpec: &amp;novapb.InstanceSpec{
++			Uuid: &quot;fake_uuid&quot;,
++		},
++	}, nil)
++	instStatus := entity.NewInstanceStatus(&amp;etcdpo.InstanceStatus{
++		InstanceStatus: &amp;novapb.InstanceStatus{
++			Uuid: &quot;fake_uuid&quot;,
++		},
++	})
++	portStatus := entity.NewPortStatus(&amp;etcdpo.PortStatus{
++		PortStatus: &amp;novapb.PortStatus{
++			PortUuid: &quot;fake_port_uuid&quot;,
++			InstUuid: &quot;fake_uuid&quot;,
++		},
++	})
++	qvoSpec := entity.NewQvoSpec(&amp;etcdpo.QvoSpec{
++		QvoSpec: &amp;novapb.QvoSpec{
++			PortUuid: &quot;fake_port_uuid&quot;,
++		},
++	},
++	)
++	qvoStatus := entity.NewQvoStatus(&amp;etcdpo.QvoStatus{
++		QvoStatus: &amp;novapb.QvoStatus{
++			PortUuid: &quot;fake_port_uuid&quot;,
++			Hostname: &quot;fake_hostname&quot;,
++		},
++	},
++	)
++	resourceView.Update(instSpec.ToEtcdKey(), instSpec)
++	resourceView.Update(instStatus.ToEtcdKey(), instStatus)
++	resourceView.Update(portSpec.ToEtcdKey(), portSpec)
++	resourceView.Update(portStatus.ToEtcdKey(), portStatus)
++	resourceView.Update(qvoSpec.ToEtcdKey(), qvoSpec)
++	resourceView.Update(qvoStatus.ToEtcdKey(), qvoStatus)
++	resourceView.Update(&quot;task/test&quot;, task)
++
++	ur := resourceView.BeginReadTxn()
++
++	procInfo := snicMgr.GetProcessInfo(ur, &quot;task/test&quot;)
++	ur.End()
++	assert.NotNil(t, procInfo)
++	assert.Equal(t, &quot;test&quot;, procInfo.taskID)
++	assert.NotNil(t, procInfo.opCtx.inst)
++	var qvoState novapb.QvoState_State
++
++	// mock get elastic ports : func (i *Instance) GetElasticPortUuids() []string
++	f4 := gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;ao.Instance{}), &quot;GetElasticPortUuids&quot;,
++		func(_ *ao.Instance) []string {
++			return nil
++		},
++	)
++	defer f4.Reset()
++	snicMgr.updateQvoStatusAfterSetVpf(procInfo, qvoState)
++
++	// mock get elastic ports : func (i *Instance) GetElasticPortUuids() []string
++	f5 := gomonkey.ApplyPrivateMethod(reflect.TypeOf(&amp;ao.Instance{}), &quot;GetElasticPortUuids&quot;,
++		func(_ *ao.Instance) []string {
++			return []string{&quot;fake-elastic-uuid&quot;}
++		},
++	)
++	defer f5.Reset()
++	snicMgr.updateQvoStatusAfterSetVpf(procInfo, qvoState)
++}
++
+ func TestSnicManager_GetProcessInfo(t *testing.T) {
+ 	snicMgr := getFakeSnicManager()
+ 	resourceView := index.NewThreadSafeStore(&quot;TestSnicWorkerProcessItem&quot;, nil)
++	resourceView.RegisterAssembler(assembler.NewInstanceAoAssembler(nil))
++	// case 1
++	ur := resourceView.BeginReadTxn()
++	procInfo := snicMgr.GetProcessInfo(ur, &quot;test&quot;)
++	ur.End()
++	assert.Nil(t, procInfo)
++	// case 2
++	task := entity.NewSnicTask(&amp;etcdpo.SnicTask{
++		SnicTask: &amp;novapb.SnicTask{
++			TaskId:       &quot;test&quot;,
++			TaskState:    novapb.SnicTask_running,
++			TaskType:     novapb.SnicTask_set_vpf,
++			InstanceUuid: &quot;fake_uuid&quot;,
++		},
++	})
++	portSpec := entity.NewPortSpec(&amp;etcdpo.PortSpec{
++		PortSpec: &amp;novapb.PortSpec{
++			PortUuid:  &quot;test&quot;,
++			InstUuid:  &quot;fake_uuid&quot;,
++			NetworkId: &quot;test&quot;,
++		},
++	})
++	instSpec := entity.NewInstanceSpec(&amp;etcdpo.InstanceSpec{
++		InstanceSpec: &amp;novapb.InstanceSpec{
++			Uuid: &quot;fake_uuid&quot;,
++		},
++	}, nil)
++	resourceView.Update(instSpec.ToEtcdKey(), instSpec)
++	resourceView.Update(portSpec.ToEtcdKey(), portSpec)
++	resourceView.Update(&quot;task/test&quot;, task)
++
++	ur = resourceView.BeginReadTxn()
++
++	procInfo = snicMgr.GetProcessInfo(ur, &quot;task/test&quot;)
++	ur.End()
++	assert.NotNil(t, procInfo)
++	assert.Equal(t, &quot;test&quot;, procInfo.taskID)
++
++}
++
++func TestSnicManager_GetProcessInfo_nil(t *testing.T) {
++	snicMgr := getFakeSnicManager()
++	resourceView := index.NewThreadSafeStore(&quot;TestSnicWorkerProcessItem&quot;, nil)
+ 
+ 	ur := resourceView.BeginReadTxn()
+ 	procInfo := snicMgr.GetProcessInfo(ur, &quot;test&quot;)
+
+</code></pre>
+<h3>[GO-STYLE-010] 代码注释中禁止使用中文标点符号</h3>
+<ul>
+<li>说明：注释中使用了中文全角逗号，违反 GO-STYLE-010 规范</li>
+<li>建议：将中文逗号替换为英文半角逗号</li>
+<li>规则说明：检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : &quot; ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。</li>
+<li>位置：internal/novapb/qvo.pb.go#hunk-3</li>
+<li>Hunk：@@ -592,7 +601,7 @@ type QvoStatus struct {</li>
+<li>严重级别：info</li>
+</ul>
+<pre><code>@@ -592,7 +601,7 @@ type QvoStatus struct {
+ 	// ebxc
+ 	DpuResourceInfo *DpuResourceInfo `protobuf:&quot;bytes,16,opt,name=dpu_resource_info,json=dpuResourceInfo,proto3&quot; json:&quot;dpu_resource_info,omitempty&quot;`
+ 	UpdatedAt       int64            `protobuf:&quot;varint,17,opt,name=updated_at,json=updatedAt,proto3&quot; json:&quot;updated_at,omitempty&quot;`
+-	// 是否等待删除成功，避免被gc回收，用于eva后标记源端资源等待服务启动后删除
++	// 是否等待删除成功，用于标记源端资源等待服务删除
+ 	WaitDeleted   bool `protobuf:&quot;varint,18,opt,name=wait_deleted,json=waitDeleted,proto3&quot; json:&quot;wait_deleted,omitempty&quot;`
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+
+</code></pre>
 <h2>General Issues</h2>
 <p><em>无未关联 rule 的问题。</em></p>
 

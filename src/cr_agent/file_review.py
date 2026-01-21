@@ -122,7 +122,7 @@ class FileReviewEngine:
                 (
                     "system",
                     "你是一名代码变更标签分类器。\n"
-                    "请根据输入的单个文件 diff，为其分配 0~多个标签（可多选）：\n"
+                    "请根据输入的单个文件 diff（按 hunk 组织），为其分配 0~多个标签（可多选）：\n"
                     "- STYLE  风格/可读性\n"
                     "- API    接口设计\n"
                     "- TEST   测试\n"
@@ -131,11 +131,12 @@ class FileReviewEngine:
                     "- 只从上述标签中选择，不要输出其它标签。\n"
                     "- 如果 diff 体现了某个方面的变更，就打上对应标签；一个文件可以多个标签。\n"
                     "- 如果无法明确判断，也请尽量给出最相关的标签；有代码变更必须包含 STYLE。\n"
-                    "- 输出必须严格符合 FileTaggingLLMResult 结构化模式；所有说明使用中文。",
+                    "- 输出必须严格符合 FileTaggingLLMResult 结构化模式；所有说明使用中文。\n"
+                    "- 只输出原始 JSON，不要使用 Markdown 代码块，不要添加多余文字。",
                 ),
                 (
                     "human",
-                    "请对以下文件 diff 打标签。\n"
+                    "请对以下文件 diff（hunk 列表）打标签。\n"
                     "输入(JSON)：\n{payload_json}",
                 ),
             ]
@@ -152,7 +153,7 @@ class FileReviewEngine:
             "你的工作模式：**Rule-first** —— 以输入的 standards（规则清单与摘要）为唯一主要依据；仅在必要时通过工具读取对应 Markdown 规则原文来核实细节。\n"
             "\n"
             "审查输入：\n"
-            "- 一个文件的 diff/代码上下文\n"
+            "- 一个文件的 diff/代码上下文（按 hunk 组织）\n"
             "- 一组与该标签相关的 standards（含 rule_id、规则摘要、可能包含 doc_path）\n"
             "\n"
             "可用工具（仅用于查证规则原文或补充必要上下文）：\n"
@@ -171,18 +172,19 @@ class FileReviewEngine:
             "4) **Recall 优先策略**：\n"
             "   - 对任何“疑似违反规则”的点，先倾向于收集证据（必要时读规则原文），不要因为不确定就跳过。\n"
             "   - 但不要编造规则或臆测需求；不确定且无规则支撑时，不输出。\n"
-            "5) **证据驱动**：每条 issue 必须包含可定位的证据（具体代码片段/行号范围/函数名/变更段），并解释为何违反规则。\n"
+            "5) **证据驱动**：每条 issue 必须包含可定位的证据（具体代码片段/函数名/变更段），并明确指出所属 hunk_id。\n"
             "\n"
             "执行步骤（建议遵循，但不必输出你的思考过程）：\n"
             "A. 快速浏览 diff，列出所有可能与[{tag}]相关的风险点（宁可多列候选）。\n"
             "B. 将候选点逐一映射到 standards 的 rule_id；若摘要不足以判断，调用 code_standard_doc(rule_id) 查证。\n"
             "C. 对每个确认问题输出一条结构化 issue：\n"
-            "   - type: \"violation\"（规范违规）或 \"advisory\"（仅限严重/共识问题）\n"
-            "   - rule_ids: [对应规则]；若为 advisory 且无规则支撑，rule_ids 必须是 []\n"
-            "   - severity: 按规范或你的风险判断（advisory 必须说明风险）\n"
-            "   - evidence: 可定位的代码证据\n"
-            "   - explanation: 简洁说明违反点与影响\n"
-            "   - fix: 给出最小化、可执行的修复建议（不要大重构）\n"
+            "   - category: 问题分类（必须从系统定义的分类中选择）\n"
+            "   - message: 问题说明（必须包含可定位证据与影响说明）\n"
+            "   - rule_ids: [对应规则]；若无规则支撑则输出 []\n"
+            "   - severity: 按规范或你的风险判断\n"
+            "   - suggestion: 可执行的修复建议（可选，避免大重构）\n"
+            "   - hunk_id: 指向所属 hunk（整数，从 1 开始，按输入列表顺序）\n"
+            "   - confidence: 0~1 之间的小数（可选）\n"
             "\n"
             "输出要求（必须严格满足）：\n"
             "- 最终只输出一次，且必须符合 TagCRLLMResult 结构化模式。\n"
@@ -190,6 +192,7 @@ class FileReviewEngine:
             "- 即使未发现问题，也必须给出：summary（说明未发现问题）、overall_severity=info、approved=true、issues=[]、needs_human_review=false、meta={}\n"
             "- 所有文字使用中文。\n"
             "- issue.rule_ids 必须准确列出对应 rule_id；若未引用任何规范则输出 []。\n"
+            "- 禁止输出行号，不要使用 line_start/line_end 字段。\n"
             "- 在给出结构化输出前，如需要可多次调用工具收集规则原文信息。\n"
         )
 
@@ -275,7 +278,7 @@ class FileReviewEngine:
                     summary="二进制文件，跳过自动审查，请人工确认。",
                 ),
             }
-        if not (fd.patch or "").strip():
+        if not fd.hunks:
             return {
                 "skip": True,
                 "tags": [],
@@ -328,17 +331,15 @@ class FileReviewEngine:
     # ------------------------------------------------------------------ #
 
     def _prepare_payload(self, file_diff: FileDiff) -> dict:
-        patch = file_diff.patch or ""
-        if len(patch) > self.max_patch_chars:
-            patch = patch[: self.max_patch_chars] + "\n\n...<PATCH TRUNCATED>..."
-
+        hunks_payload = self._serialize_hunks(file_diff)
         return {
             "file_path": self._file_path(file_diff),
             "change_type": file_diff.change_type,
             "is_binary": file_diff.is_binary,
             "added_lines": file_diff.added_lines,
             "deleted_lines": file_diff.deleted_lines,
-            "patch": patch,
+            "hunk_count": len(file_diff.hunks),
+            "hunks": hunks_payload,
             "rename_from": file_diff.rename_from,
             "rename_to": file_diff.rename_to,
         }
@@ -348,7 +349,7 @@ class FileReviewEngine:
             llm_result: FileTaggingLLMResult = await self.tagger_chain.ainvoke(file_diff)
 
         tags = self._normalize_tags(llm_result.tags)
-        if (file_diff.patch or "").strip() and not tags:
+        if file_diff.hunks and not tags:
             tags = ["STYLE"]
         tags = self._filter_enabled_tags(tags)
 
@@ -361,7 +362,7 @@ class FileReviewEngine:
 
         payload_json = json.dumps(self._prepare_payload(file_diff), ensure_ascii=False)
         user_message = (
-            "请针对下列文件 diff 执行专项代码审查，并仅关注本标签相关的问题。\n"
+            "请针对下列文件 diff（hunk 列表）执行专项代码审查，并仅关注本标签相关的问题。\n"
             f"适用代码规范（language={language or 'unknown'}, domain={tag}）：\n{standards_text}\n"
             "需要时可以调用可用工具（若规范提供文档，可用 code_standard_doc(rule_id) 查看细节）。\n"
             "输入(JSON)：\n"
@@ -535,6 +536,38 @@ class FileReviewEngine:
     @staticmethod
     def _file_path(file_diff: FileDiff) -> str:
         return file_diff.b_path or file_diff.a_path or "<unknown>"
+
+    def _serialize_hunks(self, file_diff: FileDiff) -> List[dict]:
+        if not file_diff.hunks:
+            return []
+        max_chars = self.max_patch_chars
+        total = 0
+        payload: List[dict] = []
+        for idx, hunk in enumerate(file_diff.hunks, start=1):
+            remaining = max_chars - total
+            if remaining <= 0:
+                break
+            text = hunk.text
+            truncated = False
+            if len(text) > remaining:
+                text = text[:remaining] + "\n...<HUNK TRUNCATED>..."
+                truncated = True
+            payload.append(
+                {
+                    "hunk_id": idx,
+                    "header": hunk.header,
+                    "old_start": hunk.old_start,
+                    "old_lines": hunk.old_lines,
+                    "new_start": hunk.new_start,
+                    "new_lines": hunk.new_lines,
+                    "text": text,
+                    "truncated": truncated,
+                }
+            )
+            total += len(text)
+            if truncated:
+                break
+        return payload
 
     def _matches_blacklist(self, file_diff: FileDiff) -> bool:
         path = FileReviewEngine._file_path(file_diff)

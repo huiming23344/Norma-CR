@@ -13,7 +13,9 @@ from typing import List, Optional, Tuple
 from git import Repo
 from langchain.tools import tool
 
-from cr_agent.models import AgentState, CommitDiff, FileContentRef, FileDiff
+from unidiff import PatchSet
+
+from cr_agent.models import AgentState, CommitDiff, FileContentRef, FileDiff, FileHunk
 
 # === 按需读取的大小上限：1MB（写死） ===
 MAX_FILE_BYTES = 1_000_000
@@ -58,6 +60,71 @@ def _count_added_deleted_from_patch(patch: str) -> Tuple[int, int]:
         elif line.startswith("-"):
             deleted += 1
     return added, deleted
+
+
+def _build_unidiff_text(
+    *,
+    patch_text: str,
+    a_path: Optional[str],
+    b_path: Optional[str],
+    is_new_file: bool,
+    is_deleted_file: bool,
+) -> str:
+    if patch_text.lstrip().startswith("diff --git"):
+        return patch_text
+
+    left_path = a_path or b_path or "unknown"
+    right_path = b_path or a_path or "unknown"
+
+    if is_new_file:
+        header = f"diff --git a/{left_path} b/{right_path}\n--- /dev/null\n+++ b/{right_path}\n"
+    elif is_deleted_file:
+        header = f"diff --git a/{left_path} b/{right_path}\n--- a/{left_path}\n+++ /dev/null\n"
+    else:
+        header = f"diff --git a/{left_path} b/{right_path}\n--- a/{left_path}\n+++ b/{right_path}\n"
+    return header + patch_text
+
+
+def _extract_hunks_from_patch(
+    *,
+    patch_text: str,
+    a_path: Optional[str],
+    b_path: Optional[str],
+    is_new_file: bool,
+    is_deleted_file: bool,
+    is_binary: bool,
+) -> List[FileHunk]:
+    if not patch_text.strip() or is_binary:
+        return []
+
+    try:
+        unidiff_text = _build_unidiff_text(
+            patch_text=patch_text,
+            a_path=a_path,
+            b_path=b_path,
+            is_new_file=is_new_file,
+            is_deleted_file=is_deleted_file,
+        )
+        patch_set = PatchSet(unidiff_text)
+    except Exception:
+        return []
+
+    hunks: List[FileHunk] = []
+    for patched_file in patch_set:
+        for hunk in patched_file:
+            hunk_text = str(hunk)
+            header = hunk_text.splitlines()[0] if hunk_text else ""
+            hunks.append(
+                FileHunk(
+                    header=header,
+                    text=hunk_text,
+                    old_start=hunk.source_start,
+                    old_lines=hunk.source_length,
+                    new_start=hunk.target_start,
+                    new_lines=hunk.target_length,
+                )
+            )
+    return hunks
 
 
 def _make_ref(repo_path: str, commit_sha: str, path: Optional[str],
@@ -127,6 +194,14 @@ def get_last_commit_diff(state: AgentState):
             is_binary = ("GIT binary patch" in patch_text) or ("Binary files" in patch_text)
             added, deleted = _count_added_deleted_from_patch(patch_text)
 
+            a_path = getattr(change, "a_path", None)
+            b_path = getattr(change, "b_path", None)
+            is_new_file = bool(getattr(change, "new_file", False))
+            is_deleted_file = bool(getattr(change, "deleted_file", False))
+            is_renamed_file = bool(getattr(change, "renamed_file", False))
+            rename_from = getattr(change, "rename_from", None)
+            rename_to = getattr(change, "rename_to", None)
+
             a_blob = getattr(change, "a_blob", None)
             b_blob = getattr(change, "b_blob", None)
 
@@ -144,7 +219,7 @@ def get_last_commit_diff(state: AgentState):
             before_ref = _make_ref(
                 repo_path=repo_path_str,
                 commit_sha=parent.hexsha,
-                path=getattr(change, "a_path", None),
+                path=a_path,
                 blob_sha=a_blob_sha,
                 size=a_size,
                 mode=a_mode,
@@ -152,21 +227,30 @@ def get_last_commit_diff(state: AgentState):
             after_ref = _make_ref(
                 repo_path=repo_path_str,
                 commit_sha=last_commit.hexsha,
-                path=getattr(change, "b_path", None),
+                path=b_path,
                 blob_sha=b_blob_sha,
                 size=b_size,
                 mode=b_mode,
             )
 
+            hunks = _extract_hunks_from_patch(
+                patch_text=patch_text,
+                a_path=a_path,
+                b_path=b_path,
+                is_new_file=is_new_file,
+                is_deleted_file=is_deleted_file,
+                is_binary=is_binary,
+            )
+
             fd = FileDiff(
                 change_type=getattr(change, "change_type", "") or "",
-                a_path=getattr(change, "a_path", None),
-                b_path=getattr(change, "b_path", None),
-                is_new_file=bool(getattr(change, "new_file", False)),
-                is_deleted_file=bool(getattr(change, "deleted_file", False)),
-                is_renamed_file=bool(getattr(change, "renamed_file", False)),
-                rename_from=getattr(change, "rename_from", None),
-                rename_to=getattr(change, "rename_to", None),
+                a_path=a_path,
+                b_path=b_path,
+                is_new_file=is_new_file,
+                is_deleted_file=is_deleted_file,
+                is_renamed_file=is_renamed_file,
+                rename_from=rename_from,
+                rename_to=rename_to,
                 a_blob_sha=a_blob_sha,
                 b_blob_sha=b_blob_sha,
                 a_mode=a_mode,
@@ -177,6 +261,7 @@ def get_last_commit_diff(state: AgentState):
                 deleted_lines=deleted,
                 before_ref=before_ref,
                 after_ref=after_ref,
+                hunks=hunks,
             )
             files.append(fd)
 

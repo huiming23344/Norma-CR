@@ -21,6 +21,16 @@ class FileContentRef:
 
 
 @dataclass(frozen=True)
+class FileHunk:
+    header: str
+    text: str
+    old_start: int
+    old_lines: int
+    new_start: int
+    new_lines: int
+
+
+@dataclass(frozen=True)
 class FileDiff:
     change_type: str
     a_path: Optional[str]
@@ -40,6 +50,7 @@ class FileDiff:
     deleted_lines: int
     before_ref: Optional[FileContentRef]
     after_ref: Optional[FileContentRef]
+    hunks: List[FileHunk] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -88,8 +99,7 @@ class CRIssue(BaseModel):
     category: Category
     message: str = Field(..., min_length=3)
     file_path: Optional[str] = None
-    line_start: Optional[int] = Field(default=None, ge=1)
-    line_end: Optional[int] = Field(default=None, ge=1)
+    hunk_id: Optional[int] = Field(default=None, ge=1)
     suggestion: Optional[str] = None
     confidence: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     rule_ids: List[str] = Field(default_factory=list)

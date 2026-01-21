@@ -7,7 +7,7 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 from markdown_it import MarkdownIt
 
-from cr_agent.models import CRIssue, CommitDiff, FileCRResult
+from cr_agent.models import CRIssue, CommitDiff, FileCRResult, FileDiff, FileHunk
 from cr_agent.rules import get_rules_catalog
 
 
@@ -128,7 +128,16 @@ def summarize_to_cli(*, commit_diff: CommitDiff, file_results: Iterable[FileCRRe
 class _MarkdownReportRenderer:
     repo_path: Path
     commit_diff: CommitDiff
-    _file_cache: Dict[str, Optional[List[str]]] = field(default_factory=dict)
+    _file_index: Dict[str, FileDiff] = field(init=False, default_factory=dict)
+
+    def __post_init__(self) -> None:
+        index: Dict[str, FileDiff] = {}
+        for fd in self.commit_diff.files:
+            if fd.a_path:
+                index[fd.a_path] = fd
+            if fd.b_path:
+                index[fd.b_path] = fd
+        self._file_index = index
 
     def render(self, results: List[FileCRResult]) -> str:
         overview = self._render_overview(results)
@@ -210,16 +219,17 @@ class _MarkdownReportRenderer:
         for fr in results:
             for issue in fr.issues:
                 rule_id = self._extract_rule_id(issue, fr)
-                path_line = self._format_path(issue, fr)
+                location = self._format_location(issue, fr)
+                hunk = self._find_hunk(issue, fr)
                 yield {
                     "rule_id": rule_id,
                     "file": issue.file_path or fr.file_path,
-                    "line_start": issue.line_start,
-                    "line_end": issue.line_end,
+                    "hunk_id": issue.hunk_id,
+                    "hunk_header": hunk.header if hunk else None,
                     "hit": bool(rule_id),
                     "severity": issue.severity,
                     "message": issue.message,
-                    "path_line": path_line,
+                    "location": location,
                     "approved": fr.approved,
                 }
 
@@ -242,10 +252,10 @@ class _MarkdownReportRenderer:
         return None
 
     def _render_issue_block(self, issue: CRIssue, fr: FileCRResult, *, rule_id: Optional[str]) -> str:
-        path_line = self._format_path(issue, fr)
+        location = self._format_location(issue, fr)
         rule_title = self._lookup_rule_title(rule_id)
         rule_hint = self._lookup_rule_hint(rule_id)
-        header = f"### [{rule_id}] {rule_title}" if rule_id else f"### {path_line}"
+        header = f"### [{rule_id}] {rule_title}" if rule_id else f"### {location}"
 
         lines = [header]
         lines.append(f"- 说明：{issue.message}")
@@ -253,8 +263,11 @@ class _MarkdownReportRenderer:
             lines.append(f"- 建议：{issue.suggestion}")
         if rule_id:
             lines.append(f"- 规则说明：{rule_hint}")
-        if path_line:
-            lines.append(f"- 位置：{path_line}")
+        if location:
+            lines.append(f"- 位置：{location}")
+        hunk = self._find_hunk(issue, fr)
+        if hunk:
+            lines.append(f"- Hunk：{hunk.header}")
         lines.append(f"- 严重级别：{issue.severity}")
 
         code_block = self._render_code_context(issue, fr)
@@ -265,42 +278,31 @@ class _MarkdownReportRenderer:
 
         return "\n".join(lines)
 
-    def _format_path(self, issue: CRIssue, fr: FileCRResult) -> str:
+    def _format_location(self, issue: CRIssue, fr: FileCRResult) -> str:
         path = issue.file_path or fr.file_path or "<unknown>"
-        if issue.line_start and issue.line_end:
-            return f"{path}:{issue.line_start}-{issue.line_end}"
-        if issue.line_start:
-            return f"{path}:{issue.line_start}"
+        if issue.hunk_id:
+            return f"{path}#hunk-{issue.hunk_id}"
         return path
 
     def _render_code_context(self, issue: CRIssue, fr: FileCRResult) -> Optional[str]:
+        hunk = self._find_hunk(issue, fr)
+        if hunk:
+            return hunk.text
+        return None
+
+    def _find_hunk(self, issue: CRIssue, fr: FileCRResult) -> Optional[FileHunk]:
+        hunk_id = issue.hunk_id
+        if not hunk_id:
+            return None
         path = issue.file_path or fr.file_path
         if not path:
             return None
-
-        line_start = issue.line_start or 1
-        line_end = issue.line_end or line_start
-
-        lines = self._load_file_lines(path)
-        if lines:
-            start = max(1, line_start - 3)
-            end = min(len(lines), line_end + 3)
-            snippet = lines[start - 1 : end]
-            numbered = [f"{start + idx:>4} {text.rstrip()}" for idx, text in enumerate(snippet)]
-            return "\n".join(numbered)
-
-        return f"{path}:{line_start}-{line_end}"
-
-    def _load_file_lines(self, path: str) -> Optional[List[str]]:
-        if path in self._file_cache:
-            return self._file_cache[path]
-        full_path = self.repo_path / path
-        try:
-            content = full_path.read_text(encoding="utf-8").splitlines()
-        except Exception:
-            content = None
-        self._file_cache[path] = content
-        return content
+        file_diff = self._file_index.get(path)
+        if not file_diff:
+            return None
+        if 1 <= hunk_id <= len(file_diff.hunks):
+            return file_diff.hunks[hunk_id - 1]
+        return None
 
     @staticmethod
     def _lookup_rule_title(rule_id: Optional[str]) -> str:
