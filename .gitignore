@@ -51,3 +51,6 @@ htmlcov/
 
 # 日志
 *.log
+
+# 报告目录
+cr_reports/
