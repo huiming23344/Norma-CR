@@ -1,13 +1,12 @@
 ---
-id: "GO-STYLE-002"
-title: "结构体参数传递应优先使用指针，其余类型直接值传递"
-language: "go"
+id: 'GO-STYLE-002'
+title: '结构体参数传递应优先使用指针，其余类型直接值传递'
+language: 'go'
 domains: [STYLE]
-severity: "info"
+severity: 'info'
 prompt_hint: >
   检查函数参数和返回值的类型使用方式： 1）当参数为结构体（struct）时，优先使用指针传递（*T），以避免不必要的值拷贝， 并确保对结构体字段的修改在调用方可见； 2）当参数为基础类型（int、string、bool 等）或小型、不可变语义的数据时， 应直接使用值传递，避免滥用指针增加复杂性；
 deprecated: false
-path: "coding-standards/rules/go/GO-STYLE-002.md"
 ---
 
 # GO-STYLE-002 结构体参数传递应优先使用指针，其余类型直接值传递

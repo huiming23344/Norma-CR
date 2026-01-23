@@ -1,13 +1,12 @@
 ---
-id: "GO-STYLE-010"
-title: "代码注释中禁止使用中文标点符号"
-language: "go"
+id: 'GO-STYLE-010'
+title: '代码注释中禁止使用中文标点符号'
+language: 'go'
 domains: [STYLE]
-severity: "info"
+severity: 'info'
 prompt_hint: >
   检查代码中的注释内容（行注释、块注释、文档注释）： 1）禁止在注释中使用中文标点符号（如：，。；：“”《》等）； 2）统一使用英文半角标点（, . ; : \" ' ( ) 等），保持风格一致； 3）中文说明文本可以保留，但标点必须使用英文形式； 若发现注释中包含中文标点符号，应提示替换为英文标点。
 deprecated: true
-path: "coding-standards/rules/go/GO-STYLE-010.md"
 ---
 
 # GO-STYLE-010 代码注释中禁止使用中文标点符号
