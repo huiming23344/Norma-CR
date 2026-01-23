@@ -49,5 +49,5 @@ default:
 - `skip_regex`/`skip_basenames` 控制过滤文件。
 
 ## 规则配置提示
-- 在 `coding-standards/registry.yaml` 中新增规则（可选 `prompt_hint`，可选文档 `path`，`deprecated:true` 会被过滤，不进入模型）。
-- 规则文档放在 `coding-standards/rules/<lang>/`，可被 `code_standard_doc(rule_id)` 工具读取并注入审查流程。
+- 规则文档放在 `coding-standards/rules/<lang>/`，并在 Markdown 头部填写 front-matter（`id/title/domains/prompt_hint` 等）。
+- 规则文档可被 `code_standard_doc(rule_id)` 工具读取并注入审查流程。

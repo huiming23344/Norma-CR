@@ -23,6 +23,7 @@ if SRC_DIR.exists():
     sys.path.insert(0, str(SRC_DIR))
 
 from cr_agent.config import load_openai_config
+from cr_agent.context_refiner import ContextRefiner
 from cr_agent.file_review import AsyncRateLimiter, FileReviewEngine
 from cr_agent.models import AgentState, CommitDiff
 from cr_agent.rate_limiter import RateLimitedLLM
@@ -89,11 +90,19 @@ def _safe_filename_fragment(text: str, *, max_len: int = 50) -> str:
     return value
 
 
-def _build_review_agent(file_reviewer: FileReviewEngine):
+def _build_review_agent(file_reviewer: FileReviewEngine, context_refiner: Optional[ContextRefiner]):
     async def review_all_files(state: AgentState):
         commit_diff = state["commit_diff"]
         tasks = [file_reviewer.review_file(fd) for fd in commit_diff.files]
         return {"file_cr_result": await asyncio.gather(*tasks)} if tasks else {"file_cr_result": []}
+
+    async def refine_contexts(state: AgentState):
+        if not context_refiner:
+            return {}
+        commit_diff = state["commit_diff"]
+        file_results = state.get("file_cr_result", [])
+        await context_refiner.refine(commit_diff=commit_diff, file_results=file_results)
+        return {"file_cr_result": file_results}
 
     def render_report(state: AgentState):
         return {
@@ -107,11 +116,13 @@ def _build_review_agent(file_reviewer: FileReviewEngine):
     agent_builder = StateGraph(AgentState)
     agent_builder.add_node("get_last_commit_diff", get_last_commit_diff)
     agent_builder.add_node("review_all_files", review_all_files)
+    agent_builder.add_node("refine_contexts", refine_contexts)
     agent_builder.add_node("render_report", render_report)
 
     agent_builder.add_edge(START, "get_last_commit_diff")
     agent_builder.add_edge("get_last_commit_diff", "review_all_files")
-    agent_builder.add_edge("review_all_files", "render_report")
+    agent_builder.add_edge("review_all_files", "refine_contexts")
+    agent_builder.add_edge("refine_contexts", "render_report")
     agent_builder.add_edge("render_report", END)
     return agent_builder.compile()
 
@@ -164,7 +175,16 @@ def main():
         blacklist_patterns=blacklist_patterns,
         blacklist_basenames=blacklist_basenames,
     )
-    review_agent = _build_review_agent(file_reviewer)
+    refine_enabled = os.getenv("CR_CONTEXT_REFINE", "1").strip().lower() not in {"0", "false", "no"}
+    refine_min_lines_raw = os.getenv("CR_CONTEXT_REFINE_MIN_LINES", "30").strip()
+    try:
+        refine_min_lines = max(1, int(refine_min_lines_raw))
+    except ValueError:
+        raise ValueError(
+            f"CR_CONTEXT_REFINE_MIN_LINES must be an integer, got {refine_min_lines_raw}"
+        )
+    context_refiner = ContextRefiner(llm, min_hunk_lines=refine_min_lines) if refine_enabled else None
+    review_agent = _build_review_agent(file_reviewer, context_refiner)
 
     result = asyncio.run(review_agent.ainvoke({"repo_path": repo_path, "file_cr_result": []}))
 

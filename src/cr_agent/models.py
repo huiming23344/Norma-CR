@@ -101,6 +101,7 @@ class CRIssue(BaseModel):
     file_path: Optional[str] = None
     hunk_id: Optional[int] = Field(default=None, ge=1)
     suggestion: Optional[str] = None
+    context_snippet: Optional[str] = None
     confidence: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     rule_ids: List[str] = Field(default_factory=list)
 

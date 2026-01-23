@@ -39,15 +39,10 @@ class RulesCatalog:
     by_language_domain: Dict[str, Dict[str, List[RuleMeta]]]
 
 
-def load_rules_catalog(*, registry_path: Path) -> RulesCatalog:
-    """Load rule metadata from registry.yaml without profile filtering."""
-    registry_path = Path(registry_path).expanduser().resolve()
-    registry = _load_yaml(registry_path)
-
-    standards_dir = registry_path.parent
-    repo_root = standards_dir.parent
-
-    rules_index = _parse_registry_rules(registry, standards_dir=standards_dir, repo_root=repo_root)
+def load_rules_catalog(*, rules_dir: Path) -> RulesCatalog:
+    """Load rule metadata from Markdown files under rules_dir."""
+    rules_dir = Path(rules_dir).expanduser().resolve()
+    rules_index = _parse_markdown_rules(rules_dir)
 
     by_language = _aggregate_by_language(rules_index)
     by_domain = _aggregate_by_domain(rules_index)
@@ -60,9 +55,9 @@ def load_rules_catalog(*, registry_path: Path) -> RulesCatalog:
     )
 
 
-def load_rules_index(*, registry_path: Path) -> RuleIndex:
-    """Backwards compatible helper returning only the id->RuleMeta mapping."""
-    return load_rules_catalog(registry_path=registry_path).by_id
+def load_rules_index(*, rules_dir: Path) -> RuleIndex:
+    """Return only the id->RuleMeta mapping."""
+    return load_rules_catalog(rules_dir=rules_dir).by_id
 
 
 def _aggregate_by_language(rules_index: RuleIndex) -> Dict[str, List[RuleMeta]]:
@@ -101,55 +96,40 @@ def _aggregate_by_language_domain(rules_index: RuleIndex) -> Dict[str, Dict[str,
     }
 
 
-def _parse_registry_rules(
-    registry: Any,
-    *,
-    standards_dir: Path,
-    repo_root: Path,
-) -> Dict[str, RuleMeta]:
-    if not isinstance(registry, dict):
-        raise RulesConfigError("registry.yaml 必须是 YAML mapping（dict）")
-
-    rules_node = registry.get("rules")
-    if rules_node is None:
-        raise RulesConfigError("registry.yaml 缺少 rules")
-
-    rules: List[Dict[str, Any]] = []
-    if isinstance(rules_node, list):
-        rules = [r for r in rules_node if isinstance(r, dict)]
-    elif isinstance(rules_node, dict):
-        for language, items in rules_node.items():
-            if not isinstance(items, list):
-                continue
-            for item in items:
-                if isinstance(item, dict):
-                    merged = dict(item)
-                    merged.setdefault("language", str(language))
-                    rules.append(merged)
+def _parse_markdown_rules(rules_dir: Path) -> Dict[str, RuleMeta]:
+    if not rules_dir.exists():
+        raise RulesConfigError(f"rules_dir 不存在：{rules_dir}")
+    if not rules_dir.is_dir():
+        raise RulesConfigError(f"rules_dir 不是目录：{rules_dir}")
 
     index: Dict[str, RuleMeta] = {}
-    for item in rules:
-        rule_id = item.get("id") or item.get("rule_id")
-        if not rule_id:
+    md_files = sorted(rules_dir.rglob("*.md"))
+    for md_path in md_files:
+        text = md_path.read_text(encoding="utf-8")
+        front_matter = _extract_front_matter(text)
+        if front_matter is None:
             continue
+        if not isinstance(front_matter, dict):
+            raise RulesConfigError(f"{md_path}: front-matter 必须是 YAML mapping")
+
+        rule_id = front_matter.get("id") or front_matter.get("rule_id")
+        if not rule_id:
+            raise RulesConfigError(f"{md_path}: 缺少规则 id")
         rule_id = str(rule_id)
 
-        language = str(item.get("language") or _infer_language(rule_id) or "")
+        language = str(front_matter.get("language") or _infer_language(rule_id) or "")
         if language and language not in SUPPORTED_LANGUAGES:
             raise RulesConfigError(f"{rule_id}: 不支持的 language='{language}'，允许 {SUPPORTED_LANGUAGES}")
-        title = str(item.get("title") or "")
-        severity = str(item.get("severity")) if item.get("severity") is not None else None
-        domains = _normalize_domains(item.get("domains"), fallback=item.get("domain"))
-        prompt_hint = str(item.get("prompt_hint")) if item.get("prompt_hint") is not None else None
-        deprecated = bool(item.get("deprecated", False))
-
-        doc_path = None
-        path_value = item.get("path") or item.get("doc")
-        if path_value:
-            doc_path = _resolve_rule_path(str(path_value), standards_dir=standards_dir, repo_root=repo_root)
+        title = str(front_matter.get("title") or "")
+        severity = str(front_matter.get("severity")) if front_matter.get("severity") is not None else None
+        domains = _normalize_domains(front_matter.get("domains"), fallback=front_matter.get("domain"))
+        prompt_hint = (
+            str(front_matter.get("prompt_hint")) if front_matter.get("prompt_hint") is not None else None
+        )
+        deprecated = bool(front_matter.get("deprecated", False))
 
         if rule_id in index:
-            raise RulesConfigError(f"registry.yaml 存在重复规则 id: {rule_id}")
+            raise RulesConfigError(f"规则 id 重复: {rule_id}")
 
         index[rule_id] = RuleMeta(
             rule_id=rule_id,
@@ -159,11 +139,30 @@ def _parse_registry_rules(
             domains=domains,
             prompt_hint=prompt_hint,
             deprecated=deprecated,
-            doc_path=doc_path,
-            raw=dict(item),
+            doc_path=md_path,
+            raw=dict(front_matter),
         )
 
     return index
+
+
+def _extract_front_matter(text: str) -> Optional[Any]:
+    if not text.startswith("---"):
+        return None
+    lines = text.splitlines()
+    if not lines or lines[0].strip() != "---":
+        return None
+    end_idx = None
+    for i in range(1, len(lines)):
+        if lines[i].strip() == "---":
+            end_idx = i
+            break
+    if end_idx is None:
+        return None
+    fm_text = "\n".join(lines[1:end_idx])
+    if not fm_text.strip():
+        return {}
+    return _load_yaml_minimal(fm_text, source="front-matter")
 
 
 def _normalize_domains(domains_value: Any, fallback: Any = None) -> Tuple[str, ...]:

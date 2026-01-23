@@ -3,7 +3,7 @@
 
 ## 核心能力
 - **标签化审查**：每个标签（STYLE/ERROR/API/CONC/PERF/SEC/TEST/CONFIG）都有专属 ReAct agent + 工具集，审查结果汇总为结构化 `FileCRResult`。
-- **规则注入**：`coding-standards/registry.yaml` 中的规则按语言+domain 自动注入到 prompt，且可通过工具读取 Markdown 规则文档。
+- **规则注入**：`coding-standards/rules/` 下的规则文档（front-matter）按语言+domain 自动注入到 prompt，且可通过工具读取 Markdown 规则文档。
 - **并行与限速**：使用 asyncio 一个 diff 内的文件审查并行进行；支持通过环境变量配置 QPS 限制。
 - **可配置域/黑名单**：通过 profile YAML 为不同仓库指定 domains、文件黑名单、basename 黑名单，提供默认兜底配置。
 - **报告生成**：LangGraph 末端节点生成 Markdown 报告，并写入 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.md`。
@@ -58,7 +58,7 @@ docker run --rm -it \
 - `src/cr_agent/file_review.py`：单文件审查引擎（标签打标、标签 agent 调用、结果合并）。
 - `src/cr_agent/agents/`：Agent 抽象与 React 子类。
 - `src/cr_agent/rules/`：规则加载、聚合与缓存；`RuleMeta.deprecated` 用于排除废弃规则。
-- `coding-standards/`：规则注册表与规则文档。
+- `coding-standards/`：规则文档（Markdown + front-matter）。
 - `docs/`：产品、规则、使用说明。
 
 ## 审查流程

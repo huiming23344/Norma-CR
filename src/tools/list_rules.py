@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from collections import defaultdict
 import sys
 from pathlib import Path
@@ -16,6 +17,16 @@ def _repo_root() -> Path:
     return ROOT
 
 
+def _rules_dir() -> Path:
+    value = os.getenv("CR_RULES_DIR")
+    if not value:
+        return _repo_root() / "coding-standards" / "rules"
+    path = Path(value).expanduser()
+    if not path.is_absolute():
+        path = (_repo_root() / path).resolve()
+    return path
+
+
 def _print_rules(catalog) -> None:
     print("\n=== 按语言 -> domain 分组 ===")
     for language in sorted(catalog.by_language.keys()):
@@ -29,9 +40,9 @@ def _print_rules(catalog) -> None:
 
 
 def main():
-    registry = _repo_root() / "coding-standards" / "registry.yaml"
-    catalog = load_rules_catalog(registry_path=registry)
-    print(f"Loaded {len(catalog.by_id)} rules from {registry}")
+    rules_dir = _rules_dir()
+    catalog = load_rules_catalog(rules_dir=rules_dir)
+    print(f"Loaded {len(catalog.by_id)} rules from {rules_dir}")
     _print_rules(catalog)
 
 

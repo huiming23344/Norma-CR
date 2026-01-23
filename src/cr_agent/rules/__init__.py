@@ -1,5 +1,6 @@
 """Rule loading/matching utilities for cr-agent."""
 
+import os
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -14,7 +15,7 @@ from .loader import (
 )
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_REGISTRY_PATH = _REPO_ROOT / "coding-standards" / "registry.yaml"
+DEFAULT_RULES_DIR = _REPO_ROOT / "coding-standards" / "rules"
 
 GLOBAL_RULES_CATALOG: Optional[RulesCatalog]
 GLOBAL_RULES_BY_LANGUAGE: Dict[str, List[RuleMeta]]
@@ -26,10 +27,21 @@ def _empty_catalog() -> RulesCatalog:
     return RulesCatalog(by_id={}, by_language={}, by_domain={}, by_language_domain={})
 
 
+def _resolve_rules_dir() -> Path:
+    value = os.getenv("CR_RULES_DIR")
+    if not value:
+        return DEFAULT_RULES_DIR
+    path = Path(value).expanduser()
+    if not path.is_absolute():
+        path = (_REPO_ROOT / path).resolve()
+    return path
+
+
 def _load_default_catalog() -> RulesCatalog:
     try:
-        if DEFAULT_REGISTRY_PATH.exists():
-            return load_rules_catalog(registry_path=DEFAULT_REGISTRY_PATH)
+        rules_dir = _resolve_rules_dir()
+        if rules_dir.exists():
+            return load_rules_catalog(rules_dir=rules_dir)
     except Exception:
         pass
     return _empty_catalog()

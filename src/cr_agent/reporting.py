@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import html
 import json
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
@@ -48,6 +50,7 @@ def render_ndjson_report(
 
 def _wrap_markdown_as_html(markdown: str) -> str:
     rendered = _render_markdown_as_html(markdown)
+    rendered = _highlight_diff_blocks(rendered)
     return "\n".join(
         [
             "<!doctype html>",
@@ -59,6 +62,17 @@ def _wrap_markdown_as_html(markdown: str) -> str:
             "  <style>",
             "    body { font-family: monospace; margin: 24px; }",
             "    pre { white-space: pre-wrap; word-wrap: break-word; }",
+            "    pre code.diff-code {",
+            "      display: block;",
+            "      background: #f7f8fa;",
+            "      padding: 12px;",
+            "      border-radius: 8px;",
+            "      line-height: 1.4;",
+            "    }",
+            "    pre code.diff-code span.diff-line { display: block; }",
+            "    pre code.diff-code span.diff-add { background: #e6ffed; color: #1f6f3b; }",
+            "    pre code.diff-code span.diff-del { background: #ffeef0; color: #86181d; }",
+            "    pre code.diff-code span.diff-hunk { background: #f1f3f5; color: #495057; }",
             "  </style>",
             "</head>",
             "<body>",
@@ -72,6 +86,33 @@ def _wrap_markdown_as_html(markdown: str) -> str:
 def _render_markdown_as_html(markdown: str) -> str:
     md = MarkdownIt("gfm-like", {"html": False, "linkify": True})
     return md.render(markdown)
+
+
+def _highlight_diff_blocks(html_text: str) -> str:
+    pattern = re.compile(r"<pre><code>(.*?)</code></pre>", re.DOTALL)
+
+    def replace(match: re.Match[str]) -> str:
+        code = match.group(1)
+        colored = _colorize_diff_block(code)
+        return f'<pre><code class="diff-code">{colored}</code></pre>'
+
+    return pattern.sub(replace, html_text)
+
+
+def _colorize_diff_block(code: str) -> str:
+    text = html.unescape(code)
+    lines = text.splitlines()
+    rendered: List[str] = []
+    for line in lines:
+        cls = "diff-line"
+        if line.startswith("@@"):
+            cls += " diff-hunk"
+        elif line.startswith("+") and not line.startswith("+++"):
+            cls += " diff-add"
+        elif line.startswith("-") and not line.startswith("---"):
+            cls += " diff-del"
+        rendered.append(f'<span class="{cls}">{html.escape(line)}</span>')
+    return "".join(rendered)
 
 
 def write_markdown_report(
@@ -176,6 +217,8 @@ class _MarkdownReportRenderer:
 
         for fr in results:
             for issue in fr.issues:
+                if not self._should_render_issue(issue):
+                    continue
                 file_path = issue.file_path or fr.file_path or "<unknown>"
                 rule_id = self._extract_rule_id(issue, fr)
                 if rule_id:
@@ -206,6 +249,8 @@ class _MarkdownReportRenderer:
 
         for fr in results:
             for issue in fr.issues:
+                if not self._should_render_issue(issue):
+                    continue
                 rule_id = self._extract_rule_id(issue, fr)
                 block = self._render_issue_block(issue, fr, rule_id=rule_id)
                 if rule_id:
@@ -218,6 +263,8 @@ class _MarkdownReportRenderer:
     def iter_issue_records(self, results: List[FileCRResult]) -> Iterable[Dict[str, object]]:
         for fr in results:
             for issue in fr.issues:
+                if not self._should_render_issue(issue):
+                    continue
                 rule_id = self._extract_rule_id(issue, fr)
                 location = self._format_location(issue, fr)
                 hunk = self._find_hunk(issue, fr)
@@ -254,15 +301,12 @@ class _MarkdownReportRenderer:
     def _render_issue_block(self, issue: CRIssue, fr: FileCRResult, *, rule_id: Optional[str]) -> str:
         location = self._format_location(issue, fr)
         rule_title = self._lookup_rule_title(rule_id)
-        rule_hint = self._lookup_rule_hint(rule_id)
         header = f"### [{rule_id}] {rule_title}" if rule_id else f"### {location}"
 
         lines = [header]
         lines.append(f"- 说明：{issue.message}")
         if issue.suggestion:
             lines.append(f"- 建议：{issue.suggestion}")
-        if rule_id:
-            lines.append(f"- 规则说明：{rule_hint}")
         if location:
             lines.append(f"- 位置：{location}")
         hunk = self._find_hunk(issue, fr)
@@ -280,11 +324,16 @@ class _MarkdownReportRenderer:
 
     def _format_location(self, issue: CRIssue, fr: FileCRResult) -> str:
         path = issue.file_path or fr.file_path or "<unknown>"
-        if issue.hunk_id:
-            return f"{path}#hunk-{issue.hunk_id}"
+        hunk = self._find_hunk(issue, fr)
+        if hunk:
+            line = hunk.new_start if hunk.new_start and hunk.new_start > 0 else hunk.old_start
+            if line and line > 0:
+                return f"{path}:{line}"
         return path
 
     def _render_code_context(self, issue: CRIssue, fr: FileCRResult) -> Optional[str]:
+        if issue.context_snippet:
+            return issue.context_snippet
         hunk = self._find_hunk(issue, fr)
         if hunk:
             return hunk.text
@@ -313,6 +362,13 @@ class _MarkdownReportRenderer:
         except Exception:
             meta = None
         return meta.title if meta and meta.title else rule_id
+
+    @staticmethod
+    def _should_render_issue(issue: CRIssue) -> bool:
+        snippet = issue.context_snippet
+        if snippet is None:
+            return True
+        return bool(str(snippet).strip())
 
     @staticmethod
     def _lookup_rule_hint(rule_id: Optional[str]) -> str:

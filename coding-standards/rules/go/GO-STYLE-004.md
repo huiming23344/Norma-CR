@@ -1,3 +1,15 @@
+---
+id: "GO-STYLE-004"
+title: "闭包逻辑应保持简短，函数内定义的 func 不得超过 5 行"
+language: "go"
+domains: [STYLE]
+severity: "info"
+prompt_hint: >
+  检查函数内部定义的匿名函数或闭包（func literal）： 1）闭包体逻辑应保持高度内聚和简洁，原则上不超过 5 行有效代码 2）若闭包包含复杂控制流、业务判断或多步处理，应将其抽取为具名函数 若发现函数内定义的 func 逻辑超过 5 行，应提示拆分为独立函数。
+deprecated: false
+path: "coding-standards/rules/go/GO-STYLE-004.md"
+---
+
 # GO-STYLE-004 闭包逻辑应保持简短，函数内定义的 func 不得超过 5 行
 
 ## 规则说明
