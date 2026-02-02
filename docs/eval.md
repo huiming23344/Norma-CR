@@ -43,6 +43,14 @@ python tools/eval_rules.py \
 - `--env-file`：传入 API 配置等（同 `agent.py`）。
 - `--out`：汇总结果输出（NDJSON，每行一个 case 结果）。
 
+## CR 上报（可选）
+评测调用 `agent.py` 时同样会触发 CR 结束上报：
+- `CR_METRICS_BASE_URL`：上报地址，默认 `http://localhost:8869`，POST 到 `/v1/metrics/agent-runs`。
+- `MODULE_NAME`：上报 `repo` 字段。
+- `CR_AGENT_VERSION` / `CR_RULESET_VERSION`：上报版本号。
+- `CHANGE_URL`：作为 `code_change_id`。
+- 如需关闭上报，设置 `CR_METRICS_BASE_URL=0`。
+
 ## NDJSON 输出（测试模式）
 评测运行时 `CR_EVAL_MODE=1`，`agent.py` 会在生成 Markdown 报告的同时输出 NDJSON（文件名形如 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.ndjson`），示例行：
 ```json

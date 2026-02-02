@@ -18,6 +18,8 @@ Rate limit：`CR_MAX_QPS`（可选，正数/小数）用于限制标签审查的
 
 报告输出：Markdown 格式为 `cr_report_<YYYYMMDD_HHMMSS>_<short_sha>_<commit_title>.md`，HTML 格式固定为 `cr_report.html`，写入仓库根目录，或通过 `CR_REPORT_DIR` 覆盖目录。`CR_REPORT_FORMAT=html` 可输出 HTML。`commit_title` 会做文件名安全处理（空格替换、非法字符移除、过长截断）。
 
+规则文件后缀：默认只加载 `.md`，可通过 `CR_RULE_EXTENSIONS` 自定义（逗号或分号分隔）。例如 `CR_RULE_EXTENSIONS=.mdr` 或 `CR_RULE_EXTENSIONS=.md,.mdr`。
+
 ## Docker 运行
 ```bash
 docker build -t cr-agent:latest .

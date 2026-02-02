@@ -35,9 +35,10 @@ class ContextRefiner:
                     "输入是一个 diff hunk 以及若干 issue，你需要从 hunk 中为每个 issue 提取最小且有效的上下文片段。\n"
                     "要求：\n"
                     "1) 每个 issue 输出 5~10 行左右的片段，尽量短但要能支撑 issue 的定位；\n"
-                    "2) 必须来自原始 hunk，保留 diff 标记（+/-/空格），不要编造新行；\n"
-                    "3) 只返回片段本身，不要添加额外说明；\n"
-                    "4) 如果找不到明确对应片段，输出空字符串。\n"
+                    "2) 片段必须逐行出自原始 hunk，保留 diff 标记（+/-/空格），不要编造或改写；\n"
+                    "3) 只返回代码原文片段本身，禁止输出任何总结、说明、建议或自然语言；\n"
+                    "4) 片段中必须包含至少一行非 @@ 的代码行；\n"
+                    "5) 如果找不到明确对应片段，输出空字符串。\n"
                     "输出必须符合结构化 JSON 模式。",
                 ),
                 (
@@ -88,7 +89,7 @@ class ContextRefiner:
         if not isinstance(result, _ContextRefineResult):
             return
         for item in result.items:
-            _apply_context_snippet(fr, item, self.max_snippet_lines)
+            _apply_context_snippet(fr, item, hunk, self.max_snippet_lines)
 
 
 def _build_file_index(files: Sequence[FileDiff]) -> Dict[str, FileDiff]:
@@ -151,13 +152,41 @@ def _build_issues_payload(fr: FileCRResult, issue_indices: List[int]) -> List[Di
     return payload
 
 
-def _apply_context_snippet(fr: FileCRResult, item: _ContextRefineItem, max_lines: int) -> None:
+def _apply_context_snippet(
+    fr: FileCRResult,
+    item: _ContextRefineItem,
+    hunk: FileHunk,
+    max_lines: int,
+) -> None:
     if item.issue_index < 0 or item.issue_index >= len(fr.issues):
         return
     snippet = (item.context_snippet or "").strip()
     if not snippet:
         return
+    if not _snippet_from_hunk(snippet, hunk):
+        return
     lines = snippet.splitlines()
     if len(lines) > max_lines:
         snippet = "\n".join(lines[:max_lines]).rstrip()
     fr.issues[item.issue_index].context_snippet = snippet
+
+
+def _snippet_from_hunk(snippet: str, hunk: FileHunk) -> bool:
+    snippet_lines = [line.rstrip() for line in snippet.splitlines() if line.strip()]
+    if not snippet_lines:
+        return False
+    if not any(line and not line.startswith("@@") for line in snippet_lines):
+        return False
+    hunk_lines = [line.rstrip() for line in hunk.text.splitlines()]
+    i = 0
+    for s_line in snippet_lines:
+        found = False
+        while i < len(hunk_lines):
+            if hunk_lines[i] == s_line:
+                found = True
+                i += 1
+                break
+            i += 1
+        if not found:
+            return False
+    return True

@@ -25,6 +25,7 @@ if SRC_DIR.exists():
 from cr_agent.config import load_openai_config
 from cr_agent.context_refiner import ContextRefiner
 from cr_agent.file_review import AsyncRateLimiter, FileReviewEngine
+from cr_agent.metrics import build_metrics_payload, send_metrics_report
 from cr_agent.models import AgentState, CommitDiff
 from cr_agent.rate_limiter import RateLimitedLLM
 from cr_agent.reporting import render_markdown_report, render_ndjson_report, summarize_to_cli, write_markdown_report
@@ -228,6 +229,15 @@ def main():
     summarize_to_cli(commit_diff=commit_diff, file_results=file_results, report_path=report_path)
     if ndjson_path:
         print(f"[CR] NDJSON: {ndjson_path}")
+
+    metrics_base_url = os.getenv("CR_METRICS_BASE_URL", "http://localhost:8869").strip()
+    if metrics_base_url and metrics_base_url.lower() not in {"0", "false", "no"}:
+        payload = build_metrics_payload(
+            repo_path=repo_path,
+            commit_diff=commit_diff,
+            file_results=file_results,
+        )
+        send_metrics_report(payload, base_url=metrics_base_url)
     return result
 
 

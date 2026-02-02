@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import fnmatch
 import json
+import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -39,10 +40,10 @@ class RulesCatalog:
     by_language_domain: Dict[str, Dict[str, List[RuleMeta]]]
 
 
-def load_rules_catalog(*, rules_dir: Path) -> RulesCatalog:
+def load_rules_catalog(*, rules_dir: Path, extensions: Optional[Iterable[str]] = None) -> RulesCatalog:
     """Load rule metadata from Markdown files under rules_dir."""
     rules_dir = Path(rules_dir).expanduser().resolve()
-    rules_index = _parse_markdown_rules(rules_dir)
+    rules_index = _parse_markdown_rules(rules_dir, extensions=extensions)
 
     by_language = _aggregate_by_language(rules_index)
     by_domain = _aggregate_by_domain(rules_index)
@@ -55,9 +56,9 @@ def load_rules_catalog(*, rules_dir: Path) -> RulesCatalog:
     )
 
 
-def load_rules_index(*, rules_dir: Path) -> RuleIndex:
+def load_rules_index(*, rules_dir: Path, extensions: Optional[Iterable[str]] = None) -> RuleIndex:
     """Return only the id->RuleMeta mapping."""
-    return load_rules_catalog(rules_dir=rules_dir).by_id
+    return load_rules_catalog(rules_dir=rules_dir, extensions=extensions).by_id
 
 
 def _aggregate_by_language(rules_index: RuleIndex) -> Dict[str, List[RuleMeta]]:
@@ -96,14 +97,18 @@ def _aggregate_by_language_domain(rules_index: RuleIndex) -> Dict[str, Dict[str,
     }
 
 
-def _parse_markdown_rules(rules_dir: Path) -> Dict[str, RuleMeta]:
+def _parse_markdown_rules(rules_dir: Path, *, extensions: Optional[Iterable[str]] = None) -> Dict[str, RuleMeta]:
     if not rules_dir.exists():
         raise RulesConfigError(f"rules_dir 不存在：{rules_dir}")
     if not rules_dir.is_dir():
         raise RulesConfigError(f"rules_dir 不是目录：{rules_dir}")
 
     index: Dict[str, RuleMeta] = {}
-    md_files = sorted(rules_dir.rglob("*.md"))
+    exts = _resolve_rule_extensions(extensions)
+    md_files: List[Path] = []
+    for ext in exts:
+        md_files.extend(rules_dir.rglob(f"*{ext}"))
+    md_files = sorted(set(md_files))
     for md_path in md_files:
         text = md_path.read_text(encoding="utf-8")
         front_matter = _extract_front_matter(text)
@@ -144,6 +149,25 @@ def _parse_markdown_rules(rules_dir: Path) -> Dict[str, RuleMeta]:
         )
 
     return index
+
+
+def _resolve_rule_extensions(extensions: Optional[Iterable[str]] = None) -> Tuple[str, ...]:
+    if extensions is None:
+        env_value = os.getenv("CR_RULE_EXTENSIONS")
+        if env_value:
+            extensions = [item.strip() for item in env_value.replace(";", ",").split(",") if item.strip()]
+    if not extensions:
+        return (".md",)
+    normalized: List[str] = []
+    for value in extensions:
+        text = str(value).strip()
+        if not text:
+            continue
+        if not text.startswith("."):
+            text = f".{text}"
+        if text not in normalized:
+            normalized.append(text)
+    return tuple(normalized)
 
 
 def _extract_front_matter(text: str) -> Optional[Any]:
